@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>PuneScreens — Watch it right.</title>
+<title>PuneScreens · Watch it right.</title>
 <meta name="description" content="The best movies, theaters and seats in Pune. Tap any seat to see the view.">
 <meta name="theme-color" content="#0d0f14">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,6 +71,18 @@ h1{font-size:1.7rem;line-height:1.15;margin:22px 0 6px}
 .gpill{background:rgba(34,192,122,.13);color:var(--s5);border:0;border-radius:10px;padding:10px 15px;font-weight:700;font-size:.9rem;font-family:inherit;cursor:pointer}
 .gpill:active{transform:scale(.93)}
 .sofanote{margin-top:10px;text-align:center;color:#e08fb2;font-size:.85rem}
+.rmode{display:flex;gap:8px;margin-bottom:14px}
+.rbtn{flex:1;background:var(--card);border:1px solid var(--line);color:var(--mut);border-radius:12px;padding:10px;font-family:inherit;font-size:.85rem;cursor:pointer}
+.rbtn.on{background:rgba(245,185,66,.12);border-color:var(--acc);color:var(--acc);font-weight:700}
+.medal{font-size:1.5rem;width:32px;flex:none;text-align:center}
+.whychips{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.wchip{background:var(--card2);border-radius:6px;padding:2px 8px;font-size:.7rem;color:#b8c0d2}
+.lgword{display:flex;gap:2px}
+.lt{width:15px;height:15px;border-radius:3px;font-size:8.5px;font-weight:800;display:flex;align-items:center;justify-content:center;color:#10131a}
+.meth .mrow{display:flex;gap:14px;padding:13px 8px;align-items:flex-start;border-bottom:1px solid var(--line)}
+.meth .mrow:last-child{border-bottom:0}
+.mpct{font-weight:800;font-size:1.15rem;min-width:54px;flex:none}
+.meth span{color:var(--mut);font-size:.85rem}
 /* bottom sheet — big seats */
 #sheet{position:fixed;left:0;right:0;bottom:0;z-index:55;background:var(--card);border-radius:22px 22px 0 0;border:1px solid var(--line);border-bottom:0;transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.25,1);max-height:78vh;display:flex;flex-direction:column}
 #sheet.open{transform:none}
@@ -125,7 +137,7 @@ footer{max-width:520px;margin:26px auto 0;padding:16px;color:#4a5468;font-size:.
 </div></div>
 
 <div class="wrap" id="app"></div>
-<footer>PuneScreens · Pune today — Mumbai &amp; Chennai next</footer>
+<footer>PuneScreens · Pune today, Mumbai &amp; Chennai next</footer>
 
 <div id="shade" onclick="closeSheet()"></div>
 <div id="sheet">
@@ -146,7 +158,7 @@ footer{max-width:520px;margin:26px auto 0;padding:16px;color:#4a5468;font-size:.
 </div>
 
 <div id="login"><div class="lbox">
- <h2>Hey there 👋</h2><p>Your name — we'll remember your seats.</p>
+ <h2>Hey there 👋</h2><p>Your name, so we can remember your seats.</p>
  <input id="lname" placeholder="Your name" maxlength="30">
  <input id="lkey" placeholder="TMDB API key (optional)" maxlength="60">
  <button class="go" onclick="doLogin()">Let's go</button>
@@ -199,24 +211,25 @@ function gradeHall(hall){
    rowSeats.push({row:r[0],n:idx,x,d,ri,sc,cls:g[1]});}});
   graded.push(rowSeats);});
  return graded;}
-const tier=s=>s>=82?5:s>=68?4:s>=52?3:s>=38?2:1;
+const tier=s=>s>=80?5:s>=62?4:s>=45?3:1; /* 4 clear tiers, no confusion */
 const TCOL={5:'#22c07a',4:'#8fce5f',3:'#e3c14f',2:'#e0854a',1:'#d84f4f'};
-const TNAME={5:'Best',4:'Good',3:'Okay',2:'Meh',1:'Avoid'};
+const TNAME={5:'Best',4:'Good',3:'Okay',1:'Avoid'};
+const noDash=s=>String(s||'').replace(/\s*—\s*/g,' · ');
 /* ---------- movies: curated fallback + TMDB live ---------- */
 const CURATED=[
- {t:'The Odyssey',e:'🌊',g:'Epic · Nolan · IMAX film',halls:[['wakad_imax','Shot on IMAX cameras — the screen it was made for'],['westend_imax','Second IMAX option — older projection'],['pxl','Wall-to-wall canvas for the scale'],['ice','Comfort + LED side panels']]},
- {t:'Spider-Man: Brand New Day',e:'🕷️',g:'Superhero · 3D',halls:[['wakad_imax','IMAX 3D on dual laser — the brightest, biggest 3D in Pune'],['dolby','Dolby 3D + HFR — the sharpest alternative'],['epiq','First Hollywood film mastered for EPIQ'],['ice','The LED panels sell the web-swings']]},
+ {t:'The Odyssey',e:'🌊',g:'Epic · Nolan · IMAX film',halls:[['wakad_imax','Shot on IMAX cameras, the screen it was made for'],['westend_imax','Second IMAX option, older projection'],['pxl','Wall-to-wall canvas for the scale'],['ice','Comfort + LED side panels']]},
+ {t:'Spider-Man: Brand New Day',e:'🕷️',g:'Superhero · 3D',halls:[['wakad_imax','IMAX 3D on dual laser, the brightest and biggest 3D in Pune'],['dolby','Dolby 3D + HFR, the sharpest alternative'],['epiq','First Hollywood film mastered for EPIQ'],['ice','The LED panels sell the web-swings']]},
  {t:'Dhamaal 4',e:'😂',g:'Comedy · Hindi',halls:[['insignia','Comedy + recliners + food service = correct'],['kothrud1','Gold class, full-house laughter'],['pxl','Big hall energy']]},
  {t:'Evil Dead Burn',e:'🔥',g:'Horror',halls:[['icon','Late show, big dark hall'],['ice','Panels make the dread wraparound']]},
- {t:'Cocktail 2',e:'🍸',g:'Romance · Drama',halls:[['insignia','Dialogue film — buy comfort, not canvas'],['kothrud1','Classic date-movie hall']]}];
+ {t:'Cocktail 2',e:'🍸',g:'Romance · Drama',halls:[['insignia','Dialogue film, buy comfort not canvas'],['kothrud1','Classic date-movie hall']]}];
 let MOVIES=CURATED.map(m=>({...m}));
 /* genre → hall algorithm (TMDB genre ids) */
 function rankHallsFor(genres){
  const has=g=>genres.includes(g);
- if(has(878)||has(12)||has(14)||has(10752)||has(36))return[['wakad_imax','Spectacle pick — Pune\'s biggest, sharpest screen'],['epiq','Wall-to-wall premium canvas'],['pxl','Big flat screen, big scale'],['dolby','Reference picture quality']];
+ if(has(878)||has(12)||has(14)||has(10752)||has(36))return[['wakad_imax','Spectacle pick, Pune\'s biggest and sharpest screen'],['epiq','Wall-to-wall premium canvas'],['pxl','Big flat screen, big scale'],['dolby','Reference picture quality']];
  if(has(28)||has(53)||has(80))return[['dolby','Best picture + sound in the city'],['epiq','64-channel Atmos hits hard'],['wakad_imax','Scale pick'],['icon','Reliable premium hall']];
- if(has(27))return[['icon','Big dark hall — dread loves company'],['ice','Wraparound LED panels'],['dolby','Blackest blacks in Pune']];
- if(has(35)||has(10749)||has(18)||has(10751))return[['insignia','Recliners + food service — comfort pick'],['kothrud1','Full-house energy, Gold class'],['ice','Premium comfort']];
+ if(has(27))return[['icon','Big dark hall, dread loves company'],['ice','Wraparound LED panels'],['dolby','Blackest blacks in Pune']];
+ if(has(35)||has(10749)||has(18)||has(10751))return[['insignia','Recliners + food service, the comfort pick'],['kothrud1','Full-house energy, Gold class'],['ice','Premium comfort']];
  if(has(16))return[['dolby','Colour pops hardest here'],['epiq','Laser-sharp for animation'],['insignia','Kid-friendly comfort']];
  return[['wakad_imax','The default best in Pune'],['dolby','Picture-quality pick'],['epiq','Sound pick']];}
 const TMDB_DEFAULT='4e6788eb06df8ac6f1ac391206bc1e06';
@@ -236,7 +249,7 @@ async function loadMovies(){
   if(view.p==='movies'||view.p==='movie')render();
  }catch(e){}}
 const byId=id=>T.find(t=>t.id===id);
-const dn=h=>(h.audi?h.audi+' · ':'')+h.s; /* display name incl. real audi number */
+const dn=h=>((h.audi?h.audi+' · ':'')+h.s).replace(/\s*—\s*/g,' · '); /* display name incl. real audi number */
 /* ---------- LIVE DATABASE: the Google Sheet is the single source of truth ---------- */
 const SHEET='https://docs.google.com/spreadsheets/d/1e4yZ9z-2S4vrnUQX9Ke2mmoBAxtzXt4hbwbgy6cNz20/gviz/tq?tqx=out:csv';
 function pcsv(line){const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const c=line[i];
@@ -256,7 +269,26 @@ function computeDeltas(){if(window._deltaDone)return;window._deltaDone=1;
  HALLS.forEach(h=>{const k=norm(h.v)+'|'+norm(h.s);cur[k]=shown(h);
   if(prev[k]!=null&&prev[k]!==cur[k])window._delta[k]=cur[k]-prev[k];});
  localStorage.setItem('ps_scores',JSON.stringify(cur));}
-function showMeth(){alert('How the score works\\n\\n75% engineering — measured screen size, projection tech, sound system, format class.\\n25% public buzz — Reddit chatter + review sentiment for each venue, refreshed every 24 hours.\\n\\nRankings move when the buzz moves — arrows show what changed since your last visit.');}
+function showMeth(){
+ document.getElementById('sht').textContent='How the ranking works';
+ document.getElementById('shd').textContent='Simple and honest, updated daily';
+ document.getElementById('shb').innerHTML=`<div class="meth">
+  <div class="mrow"><span class="mpct" style="color:var(--s5)">75%</span><div><b>Engineering</b><br><span>Measured screen size, projection tech, sound system, format class.</span></div></div>
+  <div class="mrow"><span class="mpct" style="color:var(--acc)">25%</span><div><b>Public buzz</b><br><span>Reddit chatter and review sentiment for each venue, refreshed every 24 hours.</span></div></div>
+  <div class="mrow"><span class="mpct">▲▼</span><div><b>Movement</b><br><span>Arrows show what changed since your last visit. Use the toggle above the list to see pure engineering rankings.</span></div></div></div>`;
+ document.getElementById('sheet').classList.add('open');
+ document.getElementById('shade').classList.add('open');}
+function setRank(m){localStorage.setItem('ps_rankmode',m);render();}
+function whyTags(h){const t=[];const tech=(h.tech||'').toLowerCase();
+ if(h.w>=55)t.push('📐 Biggest screens');else if(h.w>=45)t.push('📐 Big screen');
+ if(/dolby vision|dual christie/.test(tech))t.push('🎯 Sharpest picture');
+ const lay=h.lay||[];
+ if(lay.some(r=>r[1].some(g=>g[1]==='sf')))t.push('💑 Couples pick');
+ if(lay.some(r=>r[1].some(g=>g[1]==='ry'||g[1]==='rc'))&&t.length<2)t.push('🛋️ Recliners + food service');
+ if(h.fx==='motion')t.push('🎢 Seats move');
+ if(h.fx==='panels')t.push('💡 LED panels');
+ if(t.length<2&&/64-ch|atmos/.test(tech))t.push('🔊 Atmos sound');
+ return t.slice(0,2);}
 async function loadSheet(){try{
  const t=await fetch(SHEET+'&_='+Date.now(),{cache:'no-store'}).then(r=>r.text());
  const lines=t.trim().split('\n').map(pcsv);
@@ -279,12 +311,12 @@ function render(){
  const u=localStorage.getItem('ps_name');
  if(view.p==='home')app.innerHTML=`
   <h1>${u?`Hey ${u} 👋`:'Watch it right.'}</h1>
-  <p class="sub">The right movie, the right hall, the right seat — in two taps.</p>
+  <p class="sub">The right movie, the right hall, the right seat. Two taps.</p>
   <button class="bigbtn" onclick="go('movies')"><span class="e">🎬</span><span class="t">Movies in Pune</span><div class="d">What's playing & where it hits hardest</div></button>
   <button class="bigbtn" onclick="go('theaters')"><span class="e">🏆</span><span class="t">Best theaters in Pune</span><div class="d">Every hall ranked · see the view from any seat</div></button>`;
  if(view.p==='movies')app.innerHTML=`
   <button class="back" onclick="go('home')">← Home</button>
-  <h1>Movies in Pune</h1><p class="sub">Now playing — best hall for each comes first.</p>
+  <h1>Movies in Pune</h1><p class="sub">Now playing. Best hall for each comes first.</p>
   ${MOVIES.map((m,i)=>`<div class="card" onclick="go('movie',${i})"><div class="row1">
    ${posterEl(m)}<div class="ct"><div class="t">${m.t}</div><div class="d">${m.g}</div></div><div class="chev">›</div></div></div>`).join('')}`;
  if(view.p==='movie'){const m=MOVIES[view.a];app.innerHTML=`
@@ -296,17 +328,25 @@ function render(){
    <div class="rankn">${i+1}</div>
    <div class="ct"><div class="t">${t.v}</div><div class="d">${dn(t)} · ${t.area}</div></div>
    <div class="badge b${tier(s)}">${s}</div><div class="chev">›</div></div>
-   <div class="whybox"><b>Why:</b> ${hp[1]}</div></div>`}).join('')}`;}
+   <div class="whybox"><b>Why:</b> ${noDash(hp[1])}</div></div>`}).join('')}`;}
  if(view.p==='theaters'){computeDeltas();
-  const ranked=[...HALLS].sort((a,b)=>shown(b)-shown(a));
+  const rmode=localStorage.getItem('ps_rankmode')||'live';
+  const val=h=>rmode==='tech'?Math.round(h.score||60):shown(h);
+  const ranked=[...HALLS].sort((a,b)=>val(b)-val(a));
+  const MEDAL=['🥇','🥈','🥉'];
   app.innerHTML=`
   <button class="back" onclick="go('home')">← Home</button>
   <h1>Best theaters in Pune</h1>
-  <p class="sub">Live ranking: engineering + public buzz, refreshed every 24h. <span style="color:var(--acc);cursor:pointer" onclick="showMeth()">How it works ⓘ</span></p>
-  ${ranked.slice(0,25).map((h,i)=>{const s=shown(h),d=seatDelta(h);
+  <p class="sub">Refreshed every 24 hours. <span style="color:var(--acc);cursor:pointer" onclick="showMeth()">How it works</span></p>
+  <div class="rmode">
+   <button class="rbtn ${rmode==='live'?'on':''}" onclick="setRank('live')">⚡ Live ranking</button>
+   <button class="rbtn ${rmode==='tech'?'on':''}" onclick="setRank('tech')">🔧 Engineering only</button>
+  </div>
+  ${ranked.slice(0,25).map((h,i)=>{const s=val(h),d=rmode==='live'?seatDelta(h):0;
    return `<div class="card" onclick="go('hall',${HALLS.indexOf(h)})"><div class="row1">
-   <div class="rankn">${i+1}</div>
-   <div class="ct"><div class="t">${h.v}</div><div class="d">${dn(h)} · ${h.area} · ${h.seats} seats</div></div>
+   ${i<3?`<div class="medal">${MEDAL[i]}</div>`:`<div class="rankn">${i+1}</div>`}
+   <div class="ct"><div class="t">${h.v}</div><div class="d">${dn(h)} · ${h.area} · ${h.seats} seats</div>
+   <div class="whychips">${whyTags(h).map(w=>`<span class="wchip">${w}</span>`).join('')}</div></div>
    <div style="text-align:center"><div class="badge b${tier(s)}">${s}</div>${d?`<div style="font-size:.68rem;font-weight:700;color:${d>0?'var(--s5)':'var(--s1)'}">${d>0?'▲':'▼'}${Math.abs(d)}</div>`:''}</div>
    <div class="chev">›</div></div></div>`}).join('')}`;}
  if(view.p==='hall')renderHall(HALLS[view.a]);
@@ -339,21 +379,21 @@ function renderHall(h){
    <div class="screenbar" style="width:${Math.min(92,Math.round(h.w/62*100))}%"></div>
    <div class="screenlbl">SCREEN</div>
    ${curGrade.map(r=>`<div class="srow">${r.map(st=>`<span class="dot" style="width:${dw}px;height:${dw}px;background:${TCOL[tier(st.sc)]}"></span>`).join('')}</div>`).join('')}
-   <div class="maplegend">${[5,4,3,2,1].map(t=>`<span class="lg"><span class="sw" style="background:${TCOL[t]}"></span>${TNAME[t]}</span>`).join('')}</div>
+   <div class="maplegend">${[[5,'BEST'],[4,'GOOD'],[3,'OKAY'],[1,'AVOID']].map(([t,w])=>`<span class="lgword">${[...w].map(ch=>`<span class="lt" style="background:${TCOL[t]}">${ch}</span>`).join('')}</span>`).join('')}</div>
   </div>
   <div class="party">Going as
    ${[1,2,3,4].map(n=>`<button class="pbtn ${party===n?'on':''}" onclick="setParty(${n})">${n===1?'Just me':n===2?'Couple':n}</button>`).join('')}
   </div>
   <button class="cta" onclick="openBest()">⭐ ${party===1?'Take me to the best seat':party===2?'Show us the best pair':'Best '+party+' seats together'}</button>
   <div class="pillrow">${bestList.slice(0,5).map((g,i)=>`<button class="gpill" onclick="openGroup(${i})">${g.label}</button>`).join('')}</div>
-  ${party===2&&hasSofa?'<div class="sofanote">💑 This hall has sofa loveseats in the back row — literally made for two.</div>':''}
-  <div class="zlbl">…or pick your area — big buttons, easy thumbs 👇</div>
+  ${party===2&&hasSofa?'<div class="sofanote">💑 This hall has sofa loveseats in the back row, literally made for two.</div>':''}
+  <div class="zlbl">…or pick your area. Big buttons, easy thumbs 👇</div>
   <div class="zones">
    ${zones.map((z,i)=>{const avg=z.n?Math.round(z.sum/z.n):0;const t=tier(avg);
     return `<button class="zone" style="background:${TCOL[t]}" onclick="openZone(${i})" ${z.n?'':'disabled'}>
-    <div class="zn">${ZN[Math.floor(i/3)][i%3]}</div><div class="zs">${z.n?avg+'/100':'—'}</div></button>`}).join('')}
+    <div class="zn">${ZN[Math.floor(i/3)][i%3]}</div><div class="zs">${z.n?avg+'/100':'·'}</div></button>`}).join('')}
   </div>
-  ${h.best&&h.best.label?`<div class="card" style="cursor:default;margin-top:14px"><div class="whybox" style="border:0;padding:0;margin:0">💡 <b>Local intel:</b> ${h.best.label}${h.avoid?'<br>⚠ '+h.avoid:''}</div></div>`:''}`;
+  ${h.best&&h.best.label?`<div class="card" style="cursor:default;margin-top:14px"><div class="whybox" style="border:0;padding:0;margin:0">💡 <b>Local intel:</b> ${noDash(h.best.label)}${h.avoid?'<br>⚠ '+noDash(h.avoid):''}</div></div>`:''}`;
 }
 function setParty(n){localStorage.setItem('ps_party',n);render();}
 function bestGroups(n){
@@ -394,8 +434,8 @@ function seatDims(c){if(c==='sf')return[3.1,2.4];if(c==='rc'||c==='ry')return[2.
 function openSeat(ri,n,glabel){
  const h=curHall,st=curGrade[ri].find(s=>s.n===n);if(!st)return;
  if(!glabel)window._grp=[st];
- document.getElementById('vt').textContent=h.v+' — '+dn(h);
- const fxl=h.fx==='motion'?' · 🎢 Motion seats — the room moves like this':h.fx==='panels'?' · 💡 LED panels wrap the walls':'';
+ document.getElementById('vt').textContent=h.v+' · '+dn(h);
+ const fxl=h.fx==='motion'?' · 🎢 Motion seats, the room moves like this':h.fx==='panels'?' · 💡 LED panels wrap the walls':'';
  document.getElementById('vd').textContent=(glabel?'Seats '+glabel:'Seat '+st.row+st.n)+(curMovie?' · Now showing: '+curMovie.t:'')+fxl;
  const t=tier(st.sc);
  const vs=document.getElementById('vscore');vs.textContent=(glabel||st.row+st.n)+' · '+st.sc+'/100';
@@ -463,6 +503,7 @@ function buildScene(o,st){
    p.rotation.y=sg<0?Math.PI/2:-Math.PI/2;
    scene.add(p);window._panels.push(pm);}});}
  const sl=new THREE.PointLight(0x9aa4e8,1.2,260);sl.position.set(0,scrBase+H/2,18);scene.add(sl);
+ window._scrLight=sl; /* flickers naturally like a real projection */
  scene.add(new THREE.AmbientLight(0x9090b0,.4));
  const frameM=new THREE.MeshBasicMaterial({color:0x030308});
  const fb=new THREE.Mesh(TG(new THREE.BoxGeometry(W+4,2,1)),frameM);fb.position.set(0,scrBase-1,0);scene.add(fb);
@@ -556,6 +597,7 @@ function animate(){raf=requestAnimationFrame(animate);
  if(vc.width!==w*R3.getPixelRatio()||vc.height!==hh*R3.getPixelRatio()){R3.setSize(w,hh,false);camera.aspect=w/hh;camera.updateProjectionMatrix();}
  const tnow=performance.now()/1000;
  if(window._panels&&window._panels.length)window._panels.forEach((pm,i)=>pm.opacity=.4+.35*Math.sin(tnow*2.2+i*1.3));
+ if(window._scrLight)window._scrLight.intensity=1.15+0.14*Math.sin(tnow*1.3)+0.07*Math.sin(tnow*7.7)+0.04*Math.sin(tnow*13.1);
  if(mode==='seat'){
   camera.position.copy(seatPos);
   /* 4DX / MX4D: the seat moves — heave, surge, sway */
@@ -601,6 +643,6 @@ window.openLogin=openLogin;window.doLogin=doLogin;window.cityMenu=cityMenu;
 window.openZone=openZone;window.closeSheet=closeSheet;window.fromSheet=fromSheet;
 window.openBest=openBest;window.cycleSeat=cycleSeat;window.HALLS=HALLS;window.byId=byId;
 window.setParty=setParty;window.openGroup=openGroup;
-window.showMeth=showMeth;
+window.showMeth=showMeth;window.setRank=setRank;
 render();loadMovies();loadSheet();loadBuzz();
 </script></body></html>
