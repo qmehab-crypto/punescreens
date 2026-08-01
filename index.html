@@ -169,11 +169,12 @@ if(innerWidth>=900&&!localStorage.getItem('ps_desktop'))document.getElementById(
 const CCOL={cl:'#3d3f52',cp:'#4a4e6a',pr:'#5a2c33','p+':'#7a3b45',pp:'#7a6cff',xl:'#3f6b5a',el:'#2e8c6a',rc:'#d9a441',ry:'#d9a441',sf:'#c47b3e',gd:'#a8823a',sv:'#4b4a42'};
 function procLayout(s){const lay=[];const L='ABCDEFGHJKLMNPQRSTUV';
  for(let r=0;r<s.rows;r++)lay.push([L[r]||('R'+r),[[s.pr,'pr']]]);return lay;}
+const norm=s=>(s||'').toLowerCase().replace(/nexus|mall/g,'').replace(/[^a-z0-9]/g,'').slice(0,16);
 T.forEach(t=>t.isTop=true);
 const HALLS=[...T];
-D.forEach((s,i)=>{const match=T.find(t=>t.v.split(',')[0].toLowerCase().includes(s.v.split(' (')[0].toLowerCase().slice(0,12))&&t.s===s.s);
+D.forEach((s,i)=>{const match=T.find(t=>norm(t.v)===norm(s.v)&&norm(t.s)===norm(s.s));
  if(!match)HALLS.push({v:s.v,s:s.s,area:s.area,tech:s.proj+' · '+s.snd,w:s.w,h:s.h,seats:s.seats,lay:procLayout(s),score:s.score,di:i});});
-T.forEach(t=>{const d=D.find(x=>t.v.toLowerCase().includes(x.v.split(' (')[0].toLowerCase().slice(0,12))&&x.s===t.s);t.score=d?d.score:90;});
+T.forEach(t=>{const d=D.find(x=>norm(t.v)===norm(x.v)&&norm(t.s)===norm(x.s));t.score=d?d.score:90;});
 HALLS.sort((a,b)=>(b.score||0)-(a.score||0));
 /* per-hall experience effects */
 HALLS.forEach(h=>{const nm=((h.s||'')+' '+(h.tech||'')).toLowerCase();
@@ -234,6 +235,24 @@ async function loadMovies(){
  }catch(e){}}
 const byId=id=>T.find(t=>t.id===id);
 const dn=h=>(h.audi?h.audi+' · ':'')+h.s; /* display name incl. real audi number */
+/* ---------- LIVE DATABASE: the Google Sheet is the single source of truth ---------- */
+const SHEET='https://docs.google.com/spreadsheets/d/1e4yZ9z-2S4vrnUQX9Ke2mmoBAxtzXt4hbwbgy6cNz20/gviz/tq?tqx=out:csv';
+function pcsv(line){const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const c=line[i];
+ if(q){if(c==='"'){if(line[i+1]==='"'){cur+='"';i++;}else q=false;}else cur+=c;}
+ else if(c==='"')q=true;else if(c===','){out.push(cur);cur='';}else cur+=c;}out.push(cur);return out;}
+async function loadSheet(){try{
+ const t=await fetch(SHEET+'&_='+Date.now(),{cache:'no-store'}).then(r=>r.text());
+ const lines=t.trim().split('\n').map(pcsv);
+ const hd=lines[0].map(x=>x.trim());const ix=n=>hd.indexOf(n);
+ const map={};HALLS.forEach(h=>{map[norm(h.v)+'|'+norm(h.s)]=h;});
+ let hits=0;
+ lines.slice(1).forEach(r=>{
+  const h=map[norm(r[ix('venue')])+'|'+norm(r[ix('screen')])];if(!h)return;hits++;
+  const w=+r[ix('width_ft')],ht=+r[ix('height_ft')],st=+r[ix('seats')];
+  if(w>5)h.w=w;if(ht>3)h.h=ht;if(st>10&&!h.isTop)h.seats=st;
+  const an=ix('audi_name');if(an>=0&&r[an])h.audi=r[an];});
+ if(hits&&(view.p==='hall'||view.p==='theaters'))render();
+}catch(e){}}
 /* ---------- router ---------- */
 const app=document.getElementById('app');
 let view={p:'home'};
@@ -360,8 +379,13 @@ function openSeat(ri,n,glabel){
  const vs=document.getElementById('vscore');vs.textContent=(glabel||st.row+st.n)+' · '+st.sc+'/100';
  vs.style.background='rgba(255,255,255,.08)';vs.style.color=TCOL[t];
  viewer.classList.add('open');
- if(!R3){R3=new THREE.WebGLRenderer({canvas:vc,antialias:true});R3.setPixelRatio(Math.min(devicePixelRatio,2));}
+ if(!R3){R3=new THREE.WebGLRenderer({canvas:vc,antialias:true,powerPreference:'high-performance'});
+  R3.setPixelRatio(Math.min(devicePixelRatio,1.75));
+  cv.addEventListener('webglcontextlost',e=>{e.preventDefault();R3=null;},{once:true});}
  buildScene(h,st);setMode(mode==='hall'?'hall':'seat');animate();}
+/* shared geometry + material caches — stops GPU memory leaks (the black-screen bug) */
+const _geo={},G3=(w,h,d)=>{const k='b'+w.toFixed(2)+'_'+h.toFixed(2)+'_'+d.toFixed(2);return _geo[k]||(_geo[k]=new THREE.BoxGeometry(w,h,d));};
+const _mat={},M3=(key,opts)=>_mat[key]||(_mat[key]=new THREE.MeshStandardMaterial(opts));
 function setMode(m){mode=m;
  document.getElementById('bSeat').classList.toggle('on',m==='seat');
  document.getElementById('bHall').classList.toggle('on',m==='hall');
@@ -370,6 +394,10 @@ function closeViewer(){viewer.classList.remove('open');if(raf)cancelAnimationFra
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeViewer();closeSheet();}});
 function buildScene(o,st){
  if(raf)cancelAnimationFrame(raf);
+ (window._tmpGeos||[]).forEach(g=>g.dispose());window._tmpGeos=[];
+ const TG=g=>{window._tmpGeos.push(g);return g;};
+ if(window._movTex){window._movTex.dispose();window._movTex=null;}
+ if(window._cnvTex){window._cnvTex.dispose();window._cnvTex=null;}
  scene=new THREE.Scene();scene.background=new THREE.Color(0x05060a);scene.fog=new THREE.Fog(0x05060a,160,420);
  const W=o.w,H=o.h,firstD=0.42*W,scrBase=3.2,rowRise=1.05;
  const pitchOf=c=>(c==='rc'||c==='ry'||c==='sf')?4.6:3.7;
@@ -378,21 +406,21 @@ function buildScene(o,st){
  const hallW=Math.max(W+10,maxRow*1.9+12);
  target3=new THREE.Vector3(0,H*0.35,depth*0.45);radius=Math.max(depth*1.15,W*1.4);
  camera=new THREE.PerspectiveCamera(70,1,0.1,1500);
- const floor=new THREE.Mesh(new THREE.PlaneGeometry(hallW,depth+24),new THREE.MeshStandardMaterial({color:0x12141c,roughness:.95}));
+ const floor=new THREE.Mesh(TG(new THREE.PlaneGeometry(hallW,depth+24)),M3('floor',{color:0x171019,roughness:.95}));
  floor.rotation.x=-Math.PI/2;floor.position.z=depth/2;scene.add(floor);
- const ceil=new THREE.Mesh(new THREE.PlaneGeometry(hallW,depth+24),new THREE.MeshStandardMaterial({color:0x0a0b11,roughness:1}));
+ const ceil=new THREE.Mesh(TG(new THREE.PlaneGeometry(hallW,depth+24)),M3('ceil',{color:0x0a0b11,roughness:1}));
  ceil.rotation.x=Math.PI/2;ceil.position.set(0,H+16,depth/2);scene.add(ceil);
- const wallM=new THREE.MeshStandardMaterial({color:0x0e1016,roughness:1});
- [-1,1].forEach(sg=>{const wl=new THREE.Mesh(new THREE.PlaneGeometry(depth+24,H+24),wallM);
+ const wallM=M3('wall',{color:0x0e1016,roughness:1});
+ [-1,1].forEach(sg=>{const wl=new THREE.Mesh(TG(new THREE.PlaneGeometry(depth+24,H+24)),wallM);
   wl.rotation.y=sg<0?Math.PI/2:-Math.PI/2;wl.position.set(sg*hallW/2,(H+24)/2,depth/2);scene.add(wl);});
- const back=new THREE.Mesh(new THREE.PlaneGeometry(hallW,H+24),wallM);back.position.set(0,(H+24)/2,depth+12);back.rotation.y=Math.PI;scene.add(back);
+ const back=new THREE.Mesh(TG(new THREE.PlaneGeometry(hallW,H+24)),wallM);back.position.set(0,(H+24)/2,depth+12);back.rotation.y=Math.PI;scene.add(back);
  const cnv=document.createElement('canvas');cnv.width=512;cnv.height=Math.max(2,Math.round(512*H/W));
  const g=cnv.getContext('2d');const gr=g.createLinearGradient(0,0,512,cnv.height);
  gr.addColorStop(0,'#2b3f74');gr.addColorStop(.45,'#c8d4ff');gr.addColorStop(.55,'#e8b96a');gr.addColorStop(1,'#1c2440');
  g.fillStyle=gr;g.fillRect(0,0,512,cnv.height);
- const tex=new THREE.CanvasTexture(cnv);
+ const tex=new THREE.CanvasTexture(cnv);window._cnvTex=tex;
  const scrMat=new THREE.MeshBasicMaterial({map:tex});
- const scr=new THREE.Mesh(new THREE.PlaneGeometry(W,H),scrMat);
+ const scr=new THREE.Mesh(TG(new THREE.PlaneGeometry(W,H)),scrMat);
  scr.position.set(0,scrBase+H/2,0);scene.add(scr);
  /* the movie you came from plays on this hall's real-size screen, cover-cropped */
  if(curMovie&&curMovie.backdrop){
@@ -401,7 +429,7 @@ function buildScene(o,st){
    mt.wrapS=mt.wrapT=THREE.ClampToEdgeWrapping;
    if(ia>sa){mt.repeat.set(sa/ia,1);mt.offset.set((1-sa/ia)/2,0);}
    else{mt.repeat.set(1,ia/sa);mt.offset.set(0,(1-ia/sa)/2);}
-   scrMat.map=mt;scrMat.needsUpdate=true;});}
+   window._movTex=mt;scrMat.map=mt;scrMat.needsUpdate=true;});}
  /* ICE: animated LED panels flanking the screen */
  window._panels=[];
  if(o.fx==='panels'){
@@ -415,40 +443,61 @@ function buildScene(o,st){
  const sl=new THREE.PointLight(0x9aa4e8,1.2,260);sl.position.set(0,scrBase+H/2,18);scene.add(sl);
  scene.add(new THREE.AmbientLight(0x9090b0,.4));
  const frameM=new THREE.MeshBasicMaterial({color:0x030308});
- const fb=new THREE.Mesh(new THREE.BoxGeometry(W+4,2,1),frameM);fb.position.set(0,scrBase-1,0);scene.add(fb);
+ const fb=new THREE.Mesh(TG(new THREE.BoxGeometry(W+4,2,1)),frameM);fb.position.set(0,scrBase-1,0);scene.add(fb);
  const ft=fb.clone();ft.position.y=scrBase+H+1;scene.add(ft);
+ /* atmosphere: projector beam, screen-light wash, exit signs */
+ const from=new THREE.Vector3(0,H+9,depth+6),to=new THREE.Vector3(0,scrBase+H/2,0.5);
+ const dirV=new THREE.Vector3().subVectors(to,from),blen=dirV.length();
+ const beam=new THREE.Mesh(TG(new THREE.CylinderGeometry(W*0.44,0.8,blen,16,1,true)),
+  new THREE.MeshBasicMaterial({color:0x9fb0ff,transparent:true,opacity:0.05,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,depthWrite:false}));
+ beam.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),dirV.clone().normalize());
+ beam.position.copy(from).addScaledVector(dirV,0.5);scene.add(beam);
+ const wash=new THREE.SpotLight(0xaeb8ea,0.65,depth*1.7,0.95,0.55,1);
+ wash.position.set(0,scrBase+H/2,1);wash.target.position.set(0,4,depth*0.7);
+ scene.add(wash);scene.add(wash.target);
+ const exitM=M3('exit',{color:0x0c2a12,emissive:0x2fae4f,emissiveIntensity:1.4});
+ [[-hallW/2+2.2,5.5,3],[hallW/2-2.2,5.5,3],[-hallW/2+2.2,10,depth-2],[hallW/2-2.2,10,depth-2]].forEach(p=>{
+  const ex=new THREE.Mesh(G3(2.2,1,0.3),exitM);ex.position.set(p[0],p[1],p[2]);scene.add(ex);});
  /* realistic seats: near-black fabric, plush leather recliners, wide sofas */
  const FABRIC={cl:0x1b1c23,cp:0x222431,pr:0x2a1216,'p+':0x33161d,pp:0x272243,xl:0x1c2a24,el:0x1c2a24,gd:0x2c2315,sv:0x1d1e25,rc:0xb59a72,ry:0xc2a67c,sf:0x6e352a};
- const armM=new THREE.MeshStandardMaterial({color:0x0f1014,roughness:.9});
+ const armM=M3('arm',{color:0x0f1014,roughness:.9});
  const lux=c=>c==='rc'||c==='ry'||c==='sf';
  const bigHall=(o.seats||0)>380;
- const mkSeat=(x,y,z,cw,cd,cls,mOv)=>{
-  const m=mOv||new THREE.MeshStandardMaterial({color:FABRIC[cls]||0x2a1216,roughness:lux(cls)?.45:.92,metalness:lux(cls)?.06:0});
-  const cush=new THREE.Mesh(new THREE.BoxGeometry(cw*0.82,0.85,cd*0.8),m);cush.position.set(x,y+1.05,z);scene.add(cush);
-  const bk=new THREE.Mesh(new THREE.BoxGeometry(cw*0.82,2.3,0.4),m);bk.position.set(x,y+2.25,z+cd*0.42);bk.rotation.x=-0.12;scene.add(bk);
+ const mkSeat=(x,y,z,cw,cd,cls,mOv,rot)=>{
+  const m=mOv||M3('f_'+cls,{color:FABRIC[cls]||0x2a1216,roughness:lux(cls)?.45:.92,metalness:lux(cls)?.06:0});
+  const cush=new THREE.Mesh(G3(cw*0.82,0.85,cd*0.8),m);cush.position.set(x,y+1.05,z);cush.rotation.y=rot||0;scene.add(cush);
+  const bk=new THREE.Mesh(G3(cw*0.82,2.3,0.4),m);bk.position.set(x,y+2.25,z+cd*0.42);bk.rotation.set(-0.12,rot||0,0);scene.add(bk);
   if(lux(cls)){
-   const hr=new THREE.Mesh(new THREE.BoxGeometry(cw*0.55,0.55,0.42),m);hr.position.set(x,y+3.55,z+cd*0.55);scene.add(hr);
-   const lr=new THREE.Mesh(new THREE.BoxGeometry(cw*0.7,0.3,0.9),m);lr.position.set(x,y+0.95,z-cd*0.62);scene.add(lr);
-   [-1,1].forEach(sg=>{const ar=new THREE.Mesh(new THREE.BoxGeometry(0.28,0.95,cd*0.85),armM);ar.position.set(x+sg*cw*0.47,y+1.55,z);scene.add(ar);});
+   const hr=new THREE.Mesh(G3(cw*0.55,0.55,0.42),m);hr.position.set(x,y+3.55,z+cd*0.55);scene.add(hr);
+   const lr=new THREE.Mesh(G3(cw*0.7,0.3,0.9),m);lr.position.set(x,y+0.95,z-cd*0.62);scene.add(lr);
+   [-1,1].forEach(sg=>{const ar=new THREE.Mesh(G3(0.28,0.95,cd*0.85),armM);ar.position.set(x+sg*cw*0.47,y+1.55,z);scene.add(ar);});
   }else if(!bigHall&&(cls==='pp'||cls==='p+'||cls==='xl'||cls==='el'||cls==='gd')){
-   [-1,1].forEach(sg=>{const ar=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.8,cd*0.8),armM);ar.position.set(x+sg*cw*0.45,y+1.45,z);scene.add(ar);});
+   [-1,1].forEach(sg=>{const ar=new THREE.Mesh(G3(0.2,0.8,cd*0.8),armM);ar.position.set(x+sg*cw*0.45,y+1.45,z);scene.add(ar);});
   }};
  const gset=new Set((window._grp&&window._grp.length?window._grp:[st]).map(s=>s.ri+'-'+s.n));
  let z=firstD,y=0;seatPos=null;
  o.lay.forEach((r,ri)=>{
   const cls0=r[1][0][1],pitch=pitchOf(cls0);
   const aisle=3,fullW=r[1].reduce((a,g)=>a+g[0]*seatDims(g[1])[0],0)+(r[1].length-1)*aisle;
-  const ris=new THREE.Mesh(new THREE.BoxGeometry(Math.min(hallW-2,fullW+3),Math.max(0.2,y),pitch),new THREE.MeshStandardMaterial({color:0x161822,roughness:1}));
+  const ris=new THREE.Mesh(new THREE.BoxGeometry(Math.min(hallW-2,fullW+3),Math.max(0.2,y),pitch),M3('riser',{color:0x141520,roughness:1}));
   ris.position.set(0,Math.max(0.1,y/2),z);scene.add(ris);
   let x=-fullW/2,idx=0;
-  r[1].forEach(gp=>{const [gw,gd]=seatDims(gp[1]);
+  r[1].forEach((gp,gi)=>{const [gw,gd]=seatDims(gp[1]);
    for(let k=0;k<gp[0];k++){idx++;const cx=x+gw/2;
+    const zc=z+(cx*cx)/(2*(z+34)); /* rows curve toward the screen, like real halls */
+    const rot=-Math.atan2(cx,zc+20)*0.55;
     const inG=gset.has(ri+'-'+idx),isRep=(ri===st.ri&&idx===st.n);
-    const mOv=inG?new THREE.MeshStandardMaterial({color:0xf5b942,emissive:isRep?0x664411:0x2e1f05,roughness:.4}):null;
-    mkSeat(cx,y,z,gw,gd,gp[1],mOv);
-    if(isRep){seatPos=new THREE.Vector3(cx,y+3.8,z);
-     const gl=new THREE.PointLight(0xf5b942,1,12);gl.position.set(cx,y+5,z);scene.add(gl);}
+    const mOv=inG?(isRep?M3('goldRep',{color:0xf5b942,emissive:0x664411,roughness:.4}):M3('goldGrp',{color:0xf5b942,emissive:0x2e1f05,roughness:.4})):null;
+    mkSeat(cx,y,zc,gw,gd,gp[1],mOv,rot);
+    if(!inG&&((idx*7+ri*13)%6===0)){ /* scattered moviegoers */
+     const hd=new THREE.Mesh(_geo.hd||(_geo.hd=new THREE.SphereGeometry(0.55,8,6)),M3('head',{color:0x0b0b0f,roughness:1}));
+     hd.position.set(cx,y+3.35,zc+gd*0.28);scene.add(hd);}
+    if(isRep){seatPos=new THREE.Vector3(cx,y+3.8,zc);
+     const gl=new THREE.PointLight(0xf5b942,1,12);gl.position.set(cx,y+5,zc);scene.add(gl);}
     x+=gw;}
+   if(gi<r[1].length-1){ /* amber step-lights along the aisles */
+    const sl2=new THREE.Mesh(G3(0.5,0.12,0.5),M3('step',{color:0x3a2a08,emissive:0xd9a441,emissiveIntensity:1.1}));
+    sl2.position.set(x+aisle/2,Math.max(0.16,y+0.06),z+1);scene.add(sl2);}
    x+=aisle;});
   z+=pitch;y+=rowRise*((cls0==='rc'||cls0==='ry'||cls0==='sf')?1.25:1);});
  if(!seatPos)seatPos=new THREE.Vector3(0,4,depth*0.6);
@@ -504,5 +553,5 @@ window.openLogin=openLogin;window.doLogin=doLogin;window.cityMenu=cityMenu;
 window.openZone=openZone;window.closeSheet=closeSheet;window.fromSheet=fromSheet;
 window.openBest=openBest;window.cycleSeat=cycleSeat;window.HALLS=HALLS;window.byId=byId;
 window.setParty=setParty;window.openGroup=openGroup;
-render();loadMovies();
+render();loadMovies();loadSheet();
 </script></body></html>
