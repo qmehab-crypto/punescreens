@@ -168,7 +168,9 @@ if(innerWidth>=900&&!localStorage.getItem('ps_desktop'))document.getElementById(
 /* ---------- data prep ---------- */
 const CCOL={cl:'#3d3f52',cp:'#4a4e6a',pr:'#5a2c33','p+':'#7a3b45',pp:'#7a6cff',xl:'#3f6b5a',el:'#2e8c6a',rc:'#d9a441',ry:'#d9a441',sf:'#c47b3e',gd:'#a8823a',sv:'#4b4a42'};
 function procLayout(s){const lay=[];const L='ABCDEFGHJKLMNPQRSTUV';
- for(let r=0;r<s.rows;r++)lay.push([L[r]||('R'+r),[[s.pr,'pr']]]);return lay;}
+ /* luxury halls (Director's Cut, Insignia, Gold, VIP…) are ALL recliners */
+ const sc=s.cls==='luxury'?'ry':s.cls==='single'?'cl':'pr';
+ for(let r=0;r<s.rows;r++)lay.push([L[r]||('R'+r),[[s.pr,sc]]]);return lay;}
 const norm=s=>(s||'').toLowerCase().replace(/nexus|mall/g,'').replace(/[^a-z0-9]/g,'').slice(0,16);
 T.forEach(t=>t.isTop=true);
 const HALLS=[...T];
@@ -240,6 +242,21 @@ const SHEET='https://docs.google.com/spreadsheets/d/1e4yZ9z-2S4vrnUQX9Ke2mmoBAxt
 function pcsv(line){const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const c=line[i];
  if(q){if(c==='"'){if(line[i+1]==='"'){cur+='"';i++;}else q=false;}else cur+=c;}
  else if(c==='"')q=true;else if(c===','){out.push(cur);cur='';}else cur+=c;}out.push(cur);return out;}
+/* ---------- BUZZ: public sentiment, refreshed every 24h ---------- */
+let BUZZ=null;
+async function loadBuzz(){try{
+ BUZZ=await fetch('/.netlify/functions/buzz',{cache:'no-store'}).then(r=>r.json());
+ if(view.p==='theaters'||view.p==='hall'||view.p==='movie')render();
+}catch(e){}}
+const buzzOf=h=>{if(!BUZZ||!BUZZ.halls)return null;const b=BUZZ.halls[norm(h.v)];return b?b.buzz:null;};
+const shown=h=>{const b=buzzOf(h);return Math.round(b==null?(h.score||60):0.75*(h.score||60)+0.25*b);};
+function seatDelta(h){const k=norm(h.v)+'|'+norm(h.s);return (window._delta||{})[k]||0;}
+function computeDeltas(){if(window._deltaDone)return;window._deltaDone=1;
+ const prev=JSON.parse(localStorage.getItem('ps_scores')||'{}');const cur={};window._delta={};
+ HALLS.forEach(h=>{const k=norm(h.v)+'|'+norm(h.s);cur[k]=shown(h);
+  if(prev[k]!=null&&prev[k]!==cur[k])window._delta[k]=cur[k]-prev[k];});
+ localStorage.setItem('ps_scores',JSON.stringify(cur));}
+function showMeth(){alert('How the score works\\n\\n75% engineering — measured screen size, projection tech, sound system, format class.\\n25% public buzz — Reddit chatter + review sentiment for each venue, refreshed every 24 hours.\\n\\nRankings move when the buzz moves — arrows show what changed since your last visit.');}
 async function loadSheet(){try{
  const t=await fetch(SHEET+'&_='+Date.now(),{cache:'no-store'}).then(r=>r.text());
  const lines=t.trim().split('\n').map(pcsv);
@@ -280,13 +297,18 @@ function render(){
    <div class="ct"><div class="t">${t.v}</div><div class="d">${dn(t)} · ${t.area}</div></div>
    <div class="badge b${tier(s)}">${s}</div><div class="chev">›</div></div>
    <div class="whybox"><b>Why:</b> ${hp[1]}</div></div>`}).join('')}`;}
- if(view.p==='theaters')app.innerHTML=`
+ if(view.p==='theaters'){computeDeltas();
+  const ranked=[...HALLS].sort((a,b)=>shown(b)-shown(a));
+  app.innerHTML=`
   <button class="back" onclick="go('home')">← Home</button>
-  <h1>Best theaters in Pune</h1><p class="sub">Ranked by screen, projection & sound.</p>
-  ${HALLS.slice(0,25).map((h,i)=>`<div class="card" onclick="go('hall',${i})"><div class="row1">
+  <h1>Best theaters in Pune</h1>
+  <p class="sub">Live ranking: engineering + public buzz, refreshed every 24h. <span style="color:var(--acc);cursor:pointer" onclick="showMeth()">How it works ⓘ</span></p>
+  ${ranked.slice(0,25).map((h,i)=>{const s=shown(h),d=seatDelta(h);
+   return `<div class="card" onclick="go('hall',${HALLS.indexOf(h)})"><div class="row1">
    <div class="rankn">${i+1}</div>
    <div class="ct"><div class="t">${h.v}</div><div class="d">${dn(h)} · ${h.area} · ${h.seats} seats</div></div>
-   <div class="badge b${tier(Math.round(h.score||60))}">${Math.round(h.score||60)}</div><div class="chev">›</div></div></div>`).join('')}`;
+   <div style="text-align:center"><div class="badge b${tier(s)}">${s}</div>${d?`<div style="font-size:.68rem;font-weight:700;color:${d>0?'var(--s5)':'var(--s1)'}">${d>0?'▲':'▼'}${Math.abs(d)}</div>`:''}</div>
+   <div class="chev">›</div></div></div>`}).join('')}`;}
  if(view.p==='hall')renderHall(HALLS[view.a]);
 }
 /* ---------- hall page: overview map + zone picker ---------- */
@@ -312,7 +334,7 @@ function renderHall(h){
   <button class="back" onclick="go('theaters')">← Back</button>
   <h1 style="font-size:1.35rem">${h.v}</h1>
   <p class="sub" style="margin-bottom:8px">${dn(h)} · ${h.area}${h.tech?' · '+h.tech:''}</p>
-  <div class="chips">${h.isTop?'<span class="chip gold">✓ real seat layout</span>':''}<span class="chip">${h.seats} seats</span><span class="chip">${h.lay.length} rows</span></div>
+  <div class="chips">${h.isTop?'<span class="chip gold">✓ real seat layout</span>':''}<span class="chip">${h.seats} seats</span><span class="chip">${h.lay.length} rows</span>${buzzOf(h)!=null?`<span class="chip" style="color:#e8a2b8" onclick="showMeth()">🔥 Buzz ${buzzOf(h)}/100 · 24h</span>`:''}</div>
   <div class="mapcard">
    <div class="screenbar" style="width:${Math.min(92,Math.round(h.w/62*100))}%"></div>
    <div class="screenlbl">SCREEN</div>
@@ -455,9 +477,15 @@ function buildScene(o,st){
  const wash=new THREE.SpotLight(0xaeb8ea,0.65,depth*1.7,0.95,0.55,1);
  wash.position.set(0,scrBase+H/2,1);wash.target.position.set(0,4,depth*0.7);
  scene.add(wash);scene.add(wash.target);
- const exitM=M3('exit',{color:0x0c2a12,emissive:0x2fae4f,emissiveIntensity:1.4});
- [[-hallW/2+2.2,5.5,3],[hallW/2-2.2,5.5,3],[-hallW/2+2.2,10,depth-2],[hallW/2-2.2,10,depth-2]].forEach(p=>{
-  const ex=new THREE.Mesh(G3(2.2,1,0.3),exitM);ex.position.set(p[0],p[1],p[2]);scene.add(ex);});
+ /* real EXIT signs — glowing green text boxes, like actual theaters */
+ if(!_mat.exitSign){const c2=document.createElement('canvas');c2.width=128;c2.height=64;
+  const g2=c2.getContext('2d');g2.fillStyle='#02120a';g2.fillRect(0,0,128,64);
+  g2.strokeStyle='#2fae4f';g2.lineWidth=5;g2.strokeRect(5,5,118,54);
+  g2.fillStyle='#3fe97a';g2.font='bold 34px Arial';g2.textAlign='center';g2.textBaseline='middle';g2.fillText('EXIT',64,35);
+  _mat.exitSign=new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c2)});}
+ [[-1,4],[1,4],[-1,depth-3],[1,depth-3]].forEach(([sg,zz])=>{
+  const ex=new THREE.Mesh(TG(new THREE.PlaneGeometry(3.4,1.7)),_mat.exitSign);
+  ex.position.set(sg*(hallW/2-0.4),7,zz);ex.rotation.y=sg<0?Math.PI/2:-Math.PI/2;scene.add(ex);});
  /* realistic seats: near-black fabric, plush leather recliners, wide sofas */
  const FABRIC={cl:0x1b1c23,cp:0x222431,pr:0x2a1216,'p+':0x33161d,pp:0x272243,xl:0x1c2a24,el:0x1c2a24,gd:0x2c2315,sv:0x1d1e25,rc:0xb59a72,ry:0xc2a67c,sf:0x6e352a};
  const armM=M3('arm',{color:0x0f1014,roughness:.9});
@@ -553,5 +581,6 @@ window.openLogin=openLogin;window.doLogin=doLogin;window.cityMenu=cityMenu;
 window.openZone=openZone;window.closeSheet=closeSheet;window.fromSheet=fromSheet;
 window.openBest=openBest;window.cycleSeat=cycleSeat;window.HALLS=HALLS;window.byId=byId;
 window.setParty=setParty;window.openGroup=openGroup;
-render();loadMovies();loadSheet();
+window.showMeth=showMeth;
+render();loadMovies();loadSheet();loadBuzz();
 </script></body></html>
