@@ -530,6 +530,26 @@ function buildScene(o,st){
   z+=pitch;y+=rowRise*((cls0==='rc'||cls0==='ry'||cls0==='sf')?1.25:1);});
  if(!seatPos)seatPos=new THREE.Vector3(0,4,depth*0.6);
  window._scrCenter=new THREE.Vector3(0,scrBase+H/2,0);
+ /* your popcorn & drink — right there in your lap 🍿🥤 */
+ {const fwd=new THREE.Vector3().subVectors(window._scrCenter,seatPos);fwd.y=0;fwd.normalize();
+  const right=new THREE.Vector3(-fwd.z,0,fwd.x);
+  const base=seatPos.clone().addScaledVector(fwd,1.05);base.y=seatPos.y-1.15;
+  if(!_mat.bucket){const c3=document.createElement('canvas');c3.width=64;c3.height=32;const g3=c3.getContext('2d');
+   for(let i=0;i<8;i++){g3.fillStyle=i%2?'#d92f2f':'#f5f0e8';g3.fillRect(i*8,0,8,32);}
+   _mat.bucket=new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(c3),roughness:.7});}
+  const bpos=base.clone().addScaledVector(right,-0.85);
+  const bucket=new THREE.Mesh(TG(new THREE.CylinderGeometry(0.42,0.3,0.75,12)),_mat.bucket);
+  bucket.position.copy(bpos);scene.add(bucket);
+  const cornM=M3('corn',{color:0xf7e8b0,roughness:.95});
+  for(let i=0;i<9;i++){const kc=new THREE.Mesh(_geo.corn||(_geo.corn=new THREE.SphereGeometry(0.11,6,5)),cornM);
+   kc.position.set(bpos.x+Math.sin(i*2.3)*0.22,bpos.y+0.44+((i*13)%3)*0.07,bpos.z+Math.cos(i*1.7)*0.22);scene.add(kc);}
+  const cpos=base.clone().addScaledVector(right,0.85);
+  const cup=new THREE.Mesh(TG(new THREE.CylinderGeometry(0.26,0.2,0.62,12)),M3('cup',{color:0xc02c36,roughness:.5}));
+  cup.position.copy(cpos);scene.add(cup);
+  const lid=new THREE.Mesh(TG(new THREE.CylinderGeometry(0.28,0.28,0.06,12)),M3('lid',{color:0xeeeeee,roughness:.4}));
+  lid.position.set(cpos.x,cpos.y+0.34,cpos.z);scene.add(lid);
+  const straw=new THREE.Mesh(TG(new THREE.CylinderGeometry(0.035,0.035,0.6,6)),M3('straw',{color:0xffffff,roughness:.6}));
+  straw.position.set(cpos.x+0.09,cpos.y+0.6,cpos.z);straw.rotation.z=0.2;scene.add(straw);}
 }
 function animate(){raf=requestAnimationFrame(animate);
  const w=vc.clientWidth,hh=vc.clientHeight;
