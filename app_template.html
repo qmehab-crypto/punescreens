@@ -204,8 +204,9 @@ function rankHallsFor(genres){
  if(has(35)||has(10749)||has(18)||has(10751))return[['insignia','Recliners + food service — comfort pick'],['kothrud1','Full-house energy, Gold class'],['ice','Premium comfort']];
  if(has(16))return[['dolby','Colour pops hardest here'],['epiq','Laser-sharp for animation'],['insignia','Kid-friendly comfort']];
  return[['wakad_imax','The default best in Pune'],['dolby','Picture-quality pick'],['epiq','Sound pick']];}
+const TMDB_DEFAULT='4e6788eb06df8ac6f1ac391206bc1e06';
 async function loadMovies(){
- const key=localStorage.getItem('ps_tmdb');if(!key)return;
+ const key=localStorage.getItem('ps_tmdb')||TMDB_DEFAULT;if(!key)return;
  try{
   const r=await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${key}&region=IN&page=1`);
   const j=await r.json();if(!j.results)return;
@@ -233,7 +234,7 @@ function render(){
   <button class="bigbtn" onclick="go('theaters')"><span class="e">🏆</span><span class="t">Best theaters in Pune</span><div class="d">Every hall ranked · see the view from any seat</div></button>`;
  if(view.p==='movies')app.innerHTML=`
   <button class="back" onclick="go('home')">← Home</button>
-  <h1>Movies in Pune</h1><p class="sub">Tap a movie — best hall for it comes first.${localStorage.getItem('ps_tmdb')?'':' <span style="color:var(--acc)">Add a TMDB key (👤) for live listings & posters.</span>'}</p>
+  <h1>Movies in Pune</h1><p class="sub">Now playing — best hall for each comes first.</p>
   ${MOVIES.map((m,i)=>`<div class="card" onclick="go('movie',${i})"><div class="row1">
    ${posterEl(m)}<div class="ct"><div class="t">${m.t}</div><div class="d">${m.g}</div></div><div class="chev">›</div></div></div>`).join('')}`;
  if(view.p==='movie'){const m=MOVIES[view.a];app.innerHTML=`
