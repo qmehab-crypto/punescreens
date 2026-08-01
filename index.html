@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>PuneScreens — Watch it right.</title>
 <meta name="description" content="The best movies, theaters and seats in Pune. Tap any seat to see the view.">
+<meta name="theme-color" content="#0d0f14">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -10,87 +11,104 @@
 --s5:#22c07a;--s4:#8fce5f;--s3:#e3c14f;--s2:#e0854a;--s1:#d84f4f}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--ink);font:16px/1.5 'Space Grotesk',system-ui,sans-serif}
-.wrap{max-width:640px;margin:0 auto;padding:0 18px 90px}
+.wrap{max-width:520px;margin:0 auto;padding:0 16px 110px}
 /* top bar */
 #bar{position:sticky;top:0;z-index:20;background:rgba(13,15,20,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-#bar .in{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:14px 18px}
-.logo{font-weight:700;font-size:1.15rem;cursor:pointer}
+#bar .in{max-width:520px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:13px 16px}
+.logo{font-weight:700;font-size:1.1rem;cursor:pointer}
 .logo span{color:var(--acc)}
-.city{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-size:.82rem;cursor:pointer;color:var(--ink)}
+.city{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:7px 13px;font-size:.8rem;cursor:pointer;color:var(--ink)}
 .city b{color:var(--acc)}
-#userbtn{margin-left:auto;background:var(--card);border:1px solid var(--line);border-radius:99px;width:38px;height:38px;font-size:1rem;cursor:pointer;color:var(--ink)}
-/* generic */
-h1{font-size:1.9rem;line-height:1.15;margin:26px 0 6px}
-.sub{color:var(--mut);font-size:.95rem;margin-bottom:22px}
-.back{display:inline-flex;align-items:center;gap:6px;color:var(--mut);font-size:.88rem;cursor:pointer;margin:18px 0 4px;border:0;background:none}
-.back:hover{color:var(--acc)}
-/* home */
-.bigbtn{display:block;width:100%;text-align:left;background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:20px;padding:26px 22px;margin-bottom:14px;cursor:pointer;color:var(--ink);transition:.2s}
-.bigbtn:active{transform:scale(.98)}
-.bigbtn:hover{border-color:var(--acc)}
-.bigbtn .e{font-size:1.9rem;display:block;margin-bottom:8px}
-.bigbtn .t{font-size:1.25rem;font-weight:700}
-.bigbtn .d{color:var(--mut);font-size:.88rem;margin-top:3px}
-/* cards / lists */
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:12px;cursor:pointer;transition:.15s}
-.card:hover{border-color:#3a4356}.card:active{transform:scale(.985)}
+#userbtn{margin-left:auto;background:var(--card);border:1px solid var(--line);border-radius:99px;width:40px;height:40px;font-size:1rem;cursor:pointer;color:var(--ink)}
+h1{font-size:1.7rem;line-height:1.15;margin:22px 0 6px}
+.sub{color:var(--mut);font-size:.92rem;margin-bottom:18px}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--mut);font-size:.88rem;cursor:pointer;margin:16px 0 2px;border:0;background:none;padding:6px 0}
+.bigbtn{display:block;width:100%;text-align:left;background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:20px;padding:24px 20px;margin-bottom:14px;cursor:pointer;color:var(--ink);transition:.15s}
+.bigbtn:active{transform:scale(.97)}
+.bigbtn .e{font-size:1.8rem;display:block;margin-bottom:8px}
+.bigbtn .t{font-size:1.2rem;font-weight:700}
+.bigbtn .d{color:var(--mut);font-size:.86rem;margin-top:3px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:11px;cursor:pointer;transition:.12s}
+.card:active{transform:scale(.98)}
 .row1{display:flex;align-items:center;gap:12px}
-.poster{width:52px;height:52px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+.poster{width:56px;height:76px;border-radius:10px;flex:none;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:var(--card2);overflow:hidden}
+.poster img{width:100%;height:100%;object-fit:cover;display:block}
+.poster.sq{height:56px;font-size:1.4rem}
 .ct{flex:1;min-width:0}
-.ct .t{font-weight:700;font-size:1.02rem}
-.ct .d{color:var(--mut);font-size:.82rem;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.badge{flex:none;font-weight:700;font-size:1.05rem;min-width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.ct .t{font-weight:700;font-size:1rem}
+.ct .d{color:var(--mut);font-size:.8rem;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.badge{flex:none;font-weight:700;font-size:1rem;min-width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center}
 .b5{background:rgba(34,192,122,.14);color:var(--s5)}.b4{background:rgba(143,206,95,.14);color:var(--s4)}
 .b3{background:rgba(227,193,79,.12);color:var(--s3)}.b2{background:rgba(224,133,74,.12);color:var(--s2)}.b1{background:rgba(216,79,79,.12);color:var(--s1)}
 .chev{color:#4a5468;flex:none}
-.whybox{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:var(--mut);font-size:.84rem}
+.whybox{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);color:var(--mut);font-size:.83rem}
 .whybox b{color:var(--s5)}
-.rankn{color:var(--mut);font-weight:700;width:24px;flex:none;text-align:center}
+.rankn{color:var(--mut);font-weight:700;width:22px;flex:none;text-align:center}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .chip{background:var(--card2);border-radius:7px;padding:3px 9px;font-size:.72rem;color:#b8c0d2}
 .chip.gold{color:var(--acc);background:rgba(245,185,66,.1)}
-/* seat map */
-.mapcard{background:#10131a;border:1px solid var(--line);border-radius:18px;padding:20px 10px 14px;margin:14px 0}
-.screenbar{height:6px;border-radius:3px;background:linear-gradient(90deg,#3b4a7a,#aebef5,#3b4a7a);margin:0 auto 4px;box-shadow:0 6px 24px rgba(160,175,255,.35)}
-.screenlbl{text-align:center;color:#5a647a;font-size:.68rem;letter-spacing:.25em;margin-bottom:14px}
-.srow{display:flex;justify-content:center;gap:3px;margin-bottom:3.5px;align-items:center}
-.srl{width:14px;font-size:9px;color:#4a5468;text-align:right;margin-right:3px;flex:none}
-.seat{border-radius:3px;cursor:pointer;flex:none;transition:transform .1s}
-.seat:hover{transform:scale(1.35);z-index:2}
-.gap{flex:none}
-.maplegend{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px;font-size:.72rem;color:var(--mut)}
-.lg{display:flex;align-items:center;gap:5px}.sw{width:10px;height:10px;border-radius:3px}
-.hint{text-align:center;color:var(--acc);font-size:.82rem;margin-top:10px}
-.seatlists{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
-.slbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
-.slbox h3{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
-.slbox.best h3{color:var(--s5)}.slbox.worst h3{color:var(--s1)}
-.slbox .seats{display:flex;flex-wrap:wrap;gap:6px}
-.pillseat{border-radius:7px;padding:3px 9px;font-size:.8rem;font-weight:700;cursor:pointer}
-.pillseat.g{background:rgba(34,192,122,.15);color:var(--s5)}.pillseat.r{background:rgba(216,79,79,.13);color:var(--s1)}
+/* overview map (visual) */
+.mapcard{background:#10131a;border:1px solid var(--line);border-radius:18px;padding:16px 8px 12px;margin:12px 0 4px}
+.screenbar{height:5px;border-radius:3px;background:linear-gradient(90deg,#3b4a7a,#aebef5,#3b4a7a);margin:0 auto 3px;box-shadow:0 5px 20px rgba(160,175,255,.35)}
+.screenlbl{text-align:center;color:#5a647a;font-size:.64rem;letter-spacing:.25em;margin-bottom:10px}
+.srow{display:flex;justify-content:center;gap:2.5px;margin-bottom:3px;align-items:center}
+.dot{border-radius:2.5px;flex:none}
+.maplegend{display:flex;gap:11px;justify-content:center;flex-wrap:wrap;margin-top:12px;font-size:.7rem;color:var(--mut)}
+.lg{display:flex;align-items:center;gap:5px}.sw{width:9px;height:9px;border-radius:3px}
+/* best-seat CTA + zones */
+.cta{display:block;width:100%;background:var(--acc);color:#141414;border:0;border-radius:16px;padding:16px;font-weight:700;font-size:1.02rem;margin:14px 0 8px;cursor:pointer;font-family:inherit}
+.cta:active{transform:scale(.98)}
+.zlbl{color:var(--mut);font-size:.85rem;margin:14px 0 8px;text-align:center}
+.zones{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.zone{border:0;border-radius:14px;padding:16px 6px 13px;cursor:pointer;font-family:inherit;color:#0e1210;transition:.12s}
+.zone:active{transform:scale(.95)}
+.zone .zn{font-weight:700;font-size:.86rem}
+.zone .zs{font-size:.72rem;opacity:.75;margin-top:1px}
+/* bottom sheet — big seats */
+#sheet{position:fixed;left:0;right:0;bottom:0;z-index:55;background:var(--card);border-radius:22px 22px 0 0;border:1px solid var(--line);border-bottom:0;transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.25,1);max-height:78vh;display:flex;flex-direction:column}
+#sheet.open{transform:none}
+#shade{position:fixed;inset:0;background:rgba(5,6,10,.6);z-index:54;opacity:0;pointer-events:none;transition:.25s}
+#shade.open{opacity:1;pointer-events:auto}
+.shead{padding:14px 20px 8px;display:flex;align-items:center;gap:10px}
+.shead .grip{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:44px;height:4px;border-radius:2px;background:#333c4e}
+.shead .t{font-weight:700}
+.shead .d{color:var(--mut);font-size:.8rem}
+.sbody{overflow-y:auto;padding:6px 14px 26px}
+.bsrow{display:flex;justify-content:center;gap:7px;margin-bottom:8px;align-items:center;flex-wrap:nowrap}
+.bsrl{width:16px;font-size:11px;color:#5a647a;text-align:right;margin-right:2px;flex:none}
+.bseat{min-width:42px;height:42px;border-radius:10px;border:0;font-family:inherit;font-weight:700;font-size:.78rem;color:#0e1210;cursor:pointer;flex:none}
+.bseat:active{transform:scale(.9)}
 /* 3D viewer */
 #viewer{position:fixed;inset:0;background:#05060a;z-index:60;display:none;flex-direction:column}
 #viewer.open{display:flex}
-#vtop{display:flex;align-items:center;gap:12px;padding:14px 18px;z-index:2}
-#vtop .t{font-weight:700}
-#vtop .d{color:var(--mut);font-size:.8rem}
-#vclose{margin-left:auto;background:rgba(255,255,255,.08);border:0;color:#fff;border-radius:99px;width:40px;height:40px;font-size:1.05rem;cursor:pointer}
+#vtop{display:flex;align-items:center;gap:12px;padding:14px 16px;z-index:2}
+#vtop .t{font-weight:700;font-size:.95rem}
+#vtop .d{color:var(--mut);font-size:.78rem}
+#vclose{margin-left:auto;background:rgba(255,255,255,.08);border:0;color:#fff;border-radius:99px;width:42px;height:42px;font-size:1.05rem;cursor:pointer;flex:none}
 #vc{flex:1;touch-action:none;cursor:grab}
-#vbot{display:flex;gap:10px;align-items:center;justify-content:center;padding:12px;flex-wrap:wrap}
-.vscore{font-weight:700;padding:6px 14px;border-radius:99px;font-size:.9rem}
-#vbot .m{color:var(--mut);font-size:.78rem}
-.vbtn{background:rgba(255,255,255,.08);border:0;color:#fff;border-radius:99px;padding:8px 16px;font-size:.82rem;cursor:pointer}
+#vbot{display:flex;gap:8px;align-items:center;justify-content:center;padding:10px 12px calc(14px + env(safe-area-inset-bottom));flex-wrap:wrap}
+.vscore{font-weight:700;padding:7px 14px;border-radius:99px;font-size:.85rem}
+.vbtn{background:rgba(255,255,255,.09);border:0;color:#fff;border-radius:99px;padding:10px 15px;font-size:.82rem;cursor:pointer;font-family:inherit}
 .vbtn.on{background:var(--acc);color:#111}
-/* login modal */
+.vnav{width:44px;height:44px;border-radius:99px;background:rgba(255,255,255,.09);border:0;color:#fff;font-size:1.05rem;cursor:pointer}
+/* login */
 #login{position:fixed;inset:0;background:rgba(5,6,10,.8);z-index:70;display:none;align-items:center;justify-content:center;padding:20px}
 #login.open{display:flex}
-.lbox{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;max-width:340px;width:100%}
-.lbox h2{margin-bottom:6px}.lbox p{color:var(--mut);font-size:.88rem;margin-bottom:16px}
-.lbox input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:var(--ink);font-size:1rem;margin-bottom:12px}
-.lbox button{width:100%;background:var(--acc);border:0;border-radius:12px;padding:13px;font-weight:700;font-size:1rem;cursor:pointer}
-.soon{opacity:.45;pointer-events:none}
-footer{max-width:640px;margin:30px auto 0;padding:20px 18px;color:#4a5468;font-size:.75rem;text-align:center}
-@media(max-width:420px){.seatlists{grid-template-columns:1fr}}
+.lbox{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;max-width:340px;width:100%}
+.lbox h2{margin-bottom:6px}.lbox p{color:var(--mut);font-size:.86rem;margin-bottom:14px}
+.lbox input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:13px 14px;color:var(--ink);font-size:1rem;margin-bottom:10px;font-family:inherit}
+.lbox .go{width:100%;background:var(--acc);border:0;border-radius:12px;padding:14px;font-weight:700;font-size:1rem;cursor:pointer;font-family:inherit}
+.lbox .note{font-size:.72rem;color:#5a647a;margin-top:10px}
+.lbox .note a{color:var(--acc);text-decoration:none}
+/* desktop gate */
+#dgate{position:fixed;inset:0;background:var(--bg);z-index:90;display:none;align-items:center;justify-content:center;text-align:center;padding:30px}
+#dgate.show{display:flex}
+#dgate .box{max-width:380px}
+#dgate img{border-radius:16px;border:6px solid #fff;margin:22px 0}
+#dgate h2{font-size:1.6rem;margin-bottom:8px}
+#dgate p{color:var(--mut)}
+#dgate a{color:var(--acc);cursor:pointer;display:inline-block;margin-top:18px;font-size:.85rem}
+footer{max-width:520px;margin:26px auto 0;padding:16px;color:#4a5468;font-size:.72rem;text-align:center}
 </style></head><body>
 
 <div id="bar"><div class="in">
@@ -102,45 +120,58 @@ footer{max-width:640px;margin:30px auto 0;padding:20px 18px;color:#4a5468;font-s
 <div class="wrap" id="app"></div>
 <footer>PuneScreens · Pune today — Mumbai &amp; Chennai next</footer>
 
+<div id="shade" onclick="closeSheet()"></div>
+<div id="sheet">
+ <div class="shead"><div class="grip"></div><div><div class="t" id="sht"></div><div class="d" id="shd"></div></div></div>
+ <div class="sbody" id="shb"></div>
+</div>
+
 <div id="viewer">
  <div id="vtop"><div><div class="t" id="vt"></div><div class="d" id="vd"></div></div><button id="vclose" onclick="closeViewer()">✕</button></div>
  <canvas id="vc"></canvas>
  <div id="vbot">
+  <button class="vnav" onclick="cycleSeat(-1)">◀</button>
   <span class="vscore" id="vscore"></span>
-  <button class="vbtn on" id="bSeat" onclick="setMode('seat')">👁 From this seat</button>
-  <button class="vbtn" id="bHall" onclick="setMode('hall')">🏛 Whole hall</button>
-  <span class="m">drag to look around · scroll to zoom</span>
+  <button class="vnav" onclick="cycleSeat(1)">▶</button>
+  <button class="vbtn on" id="bSeat" onclick="setMode('seat')">👁 Seat</button>
+  <button class="vbtn" id="bHall" onclick="setMode('hall')">🏛 Hall</button>
  </div>
 </div>
 
 <div id="login"><div class="lbox">
- <h2>Hey there 👋</h2><p>Tell us your name — we'll remember your seats.</p>
+ <h2>Hey there 👋</h2><p>Your name — we'll remember your seats.</p>
  <input id="lname" placeholder="Your name" maxlength="30">
- <button onclick="doLogin()">Let's go</button>
+ <input id="lkey" placeholder="TMDB API key (optional)" maxlength="60">
+ <button class="go" onclick="doLogin()">Let's go</button>
+ <div class="note">Add a free <a href="https://www.themoviedb.org/settings/api" target="_blank">TMDB key</a> to get live movies &amp; posters automatically.</div>
+</div></div>
+
+<div id="dgate"><div class="box">
+ <h2>Pune<span style="color:var(--acc)">Screens</span> is built for your phone 📱</h2>
+ <p>Seat maps, 360° seat views, one-thumb browsing. Scan to open:</p>
+ <img src="https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=https%3A%2F%2Fpunescreens.netlify.app" width="170" height="170" alt="QR">
+ <p style="font-size:.8rem">punescreens.netlify.app</p>
+ <a onclick="document.getElementById('dgate').classList.remove('show');localStorage.setItem('ps_desktop','1')">Continue on desktop anyway →</a>
 </div></div>
 
 <script>
 const D=[{"v":"E-Square EPIQ (Hinjawadi Ph2)","s":"EPIQ","cls":"plf","area":"Hinjawadi Ph2","chain":"E-Square","proj":"Barco RGB 4K Laser","snd":"64-ch Dolby Atmos","tags":["EPIQ"],"seats":310,"w":59.0,"h":31.0,"conf":"published","score":100.0,"rows":13,"pr":24,"brn":13,"br":"M","bs":12,"rel":3.17},{"v":"INOX Megaplex Phoenix MoM (Wakad)","s":"IMAX","cls":"plf","area":"Wakad","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["IMAX Laser","MX4D","Insignia"],"seats":262,"w":60.0,"h":33.0,"conf":"verified","score":98.6,"rows":12,"pr":22,"brn":12,"br":"L","bs":11,"rel":3.43},{"v":"City Pride Kharadi","s":"Audi 6 Dolby Cinema","cls":"plf","area":"Kharadi","chain":"City Pride","proj":"4K Laser","snd":"Dolby Atmos","tags":["Dolby Cinema","HFR 3D"],"seats":310,"w":55.0,"h":26.2,"conf":"fan-measured","score":89.5,"rows":13,"pr":24,"brn":13,"br":"M","bs":12,"rel":2.49},{"v":"PVR Grand Highstreet (Hinjawadi)","s":"P[XL]","cls":"plf","area":"Hinjawadi","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["P[XL]","RealD 3D"],"seats":401,"w":50.0,"h":27.0,"conf":"recalc-from-seatmap","score":81.1,"rows":15,"pr":27,"brn":12,"br":"L","bs":14,"rel":2.34},{"v":"Cinepolis Westend (Aundh)","s":"IMAX","cls":"plf","area":"Aundh","chain":"Cinepolis","proj":"2K Xenon","snd":"Dolby Atmos","tags":["IMAX"],"seats":283,"w":55.0,"h":31.0,"conf":"verified","score":72.3,"rows":12,"pr":24,"brn":12,"br":"L","bs":12,"rel":2.95},{"v":"City Pride Kothrud","s":"Audi 1","cls":"standard","area":"Kothrud","chain":"City Pride","proj":"4K","snd":"Dolby Atmos","tags":["3D"],"seats":525,"w":55.0,"h":25.0,"conf":"model-estimated","score":62.8,"rows":17,"pr":31,"brn":13,"br":"M","bs":16,"rel":2.38},{"v":"E-Square EPIQ (Hinjawadi Ph2)","s":"Screen 1","cls":"standard","area":"Hinjawadi Ph2","chain":"E-Square","proj":"Barco RGB 4K Laser","snd":"64-ch Dolby Atmos","tags":["EPIQ"],"seats":180,"w":33.5,"h":15.2,"conf":"model-estimated","score":60.1,"rows":10,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.88},{"v":"E-Square EPIQ (Hinjawadi Ph2)","s":"Screen 2","cls":"standard","area":"Hinjawadi Ph2","chain":"E-Square","proj":"Barco RGB 4K Laser","snd":"64-ch Dolby Atmos","tags":["EPIQ"],"seats":180,"w":33.5,"h":15.2,"conf":"model-estimated","score":60.1,"rows":10,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.88},{"v":"E-Square EPIQ (Hinjawadi Ph2)","s":"Screen 3","cls":"standard","area":"Hinjawadi Ph2","chain":"E-Square","proj":"Barco RGB 4K Laser","snd":"64-ch Dolby Atmos","tags":["EPIQ"],"seats":180,"w":33.5,"h":15.2,"conf":"model-estimated","score":60.1,"rows":10,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.88},{"v":"E-Square EPIQ (Hinjawadi Ph2)","s":"Screen 4","cls":"standard","area":"Hinjawadi Ph2","chain":"E-Square","proj":"Barco RGB 4K Laser","snd":"64-ch Dolby Atmos","tags":["EPIQ"],"seats":180,"w":33.5,"h":15.2,"conf":"model-estimated","score":60.1,"rows":10,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.88},{"v":"City Pride Kharadi","s":"Audi 7","cls":"standard","area":"Kharadi","chain":"City Pride","proj":"4K Laser","snd":"Dolby Atmos","tags":["Dolby Cinema","HFR 3D"],"seats":265,"w":40.7,"h":18.5,"conf":"model-estimated","score":59.2,"rows":12,"pr":22,"brn":10,"br":"J","bs":11,"rel":1.3},{"v":"INOX Megaplex Phoenix MoM (Wakad)","s":"Insignia 1","cls":"luxury","area":"Wakad","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["IMAX Laser","MX4D","Insignia"],"seats":49,"w":30.0,"h":16.0,"conf":"recalc-from-seatmap","score":58.6,"rows":5,"pr":10,"brn":5,"br":"E","bs":5,"rel":0.83},{"v":"INOX Megaplex Phoenix MoM (Wakad)","s":"Insignia 2","cls":"luxury","area":"Wakad","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["IMAX Laser","MX4D","Insignia"],"seats":49,"w":30.0,"h":16.0,"conf":"recalc-from-seatmap","score":58.6,"rows":5,"pr":10,"brn":5,"br":"E","bs":5,"rel":0.83},{"v":"PVR Director's Cut KOPA","s":"ICE Theatre","cls":"luxury","area":"Koregaon Park","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["Director's Cut","ICE"],"seats":184,"w":33.0,"h":14.0,"conf":"recalc-from-seatmap","score":58.3,"rows":10,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.8},{"v":"City Pride Kothrud","s":"Audi 2","cls":"standard","area":"Kothrud","chain":"City Pride","proj":"4K","snd":"Dolby Atmos","tags":["3D"],"seats":375,"w":48.4,"h":22.0,"conf":"model-estimated","score":57.6,"rows":14,"pr":27,"brn":12,"br":"L","bs":14,"rel":1.84},{"v":"PVR Director's Cut KOPA","s":"Director's Cut 1","cls":"luxury","area":"Koregaon Park","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["Director's Cut","ICE"],"seats":100,"w":30.0,"h":13.6,"conf":"model-estimated","score":57.4,"rows":7,"pr":14,"brn":7,"br":"G","bs":7,"rel":0.71},{"v":"PVR Director's Cut KOPA","s":"Director's Cut 2","cls":"luxury","area":"Koregaon Park","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["Director's Cut","ICE"],"seats":100,"w":30.0,"h":13.6,"conf":"model-estimated","score":57.4,"rows":7,"pr":14,"brn":7,"br":"G","bs":7,"rel":0.71},{"v":"PVR Director's Cut KOPA","s":"Director's Cut 3","cls":"luxury","area":"Koregaon Park","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["Director's Cut","ICE"],"seats":100,"w":30.0,"h":13.6,"conf":"model-estimated","score":57.4,"rows":7,"pr":14,"brn":7,"br":"G","bs":7,"rel":0.71},{"v":"PVR Director's Cut KOPA","s":"Director's Cut 4","cls":"luxury","area":"Koregaon Park","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["Director's Cut","ICE"],"seats":100,"w":30.0,"h":13.6,"conf":"model-estimated","score":57.4,"rows":7,"pr":14,"brn":7,"br":"G","bs":7,"rel":0.71},{"v":"PVR Director's Cut KOPA","s":"Director's Cut 5","cls":"luxury","area":"Koregaon Park","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["Director's Cut","ICE"],"seats":100,"w":30.0,"h":13.6,"conf":"model-estimated","score":57.4,"rows":7,"pr":14,"brn":7,"br":"G","bs":7,"rel":0.71},{"v":"City Pride Kharadi","s":"Audi 2","cls":"standard","area":"Kharadi","chain":"City Pride","proj":"4K Laser","snd":"Dolby Atmos","tags":["Dolby Cinema","HFR 3D"],"seats":199,"w":35.3,"h":16.0,"conf":"model-estimated","score":56.1,"rows":10,"pr":20,"brn":9,"br":"I","bs":10,"rel":0.98},{"v":"City Pride Kharadi","s":"Audi 3","cls":"standard","area":"Kharadi","chain":"City Pride","proj":"4K Laser","snd":"Dolby Atmos","tags":["Dolby Cinema","HFR 3D"],"seats":199,"w":35.3,"h":16.0,"conf":"model-estimated","score":56.1,"rows":10,"pr":20,"brn":9,"br":"I","bs":10,"rel":0.98},{"v":"PVR Grand Highstreet (Hinjawadi)","s":"Audi 1","cls":"standard","area":"Hinjawadi","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["P[XL]","RealD 3D"],"seats":189,"w":34.4,"h":15.6,"conf":"model-estimated","score":55.6,"rows":10,"pr":19,"brn":9,"br":"I","bs":10,"rel":0.93},{"v":"PVR Grand Highstreet (Hinjawadi)","s":"Audi 2","cls":"standard","area":"Hinjawadi","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["P[XL]","RealD 3D"],"seats":189,"w":34.4,"h":15.6,"conf":"model-estimated","score":55.6,"rows":10,"pr":19,"brn":9,"br":"I","bs":10,"rel":0.93},{"v":"PVR Grand Highstreet (Hinjawadi)","s":"Audi 3","cls":"standard","area":"Hinjawadi","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["P[XL]","RealD 3D"],"seats":189,"w":34.4,"h":15.6,"conf":"model-estimated","score":55.6,"rows":10,"pr":19,"brn":9,"br":"I","bs":10,"rel":0.93},{"v":"PVR Grand Highstreet (Hinjawadi)","s":"Audi 4","cls":"standard","area":"Hinjawadi","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["P[XL]","RealD 3D"],"seats":189,"w":34.4,"h":15.6,"conf":"model-estimated","score":55.6,"rows":10,"pr":19,"brn":9,"br":"I","bs":10,"rel":0.93},{"v":"PVR Grand Highstreet (Hinjawadi)","s":"Audi 5","cls":"standard","area":"Hinjawadi","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["P[XL]","RealD 3D"],"seats":189,"w":34.4,"h":15.6,"conf":"model-estimated","score":55.6,"rows":10,"pr":19,"brn":9,"br":"I","bs":10,"rel":0.93},{"v":"City Pride Kharadi","s":"Audi 4","cls":"standard","area":"Kharadi","chain":"City Pride","proj":"4K Laser","snd":"Dolby Atmos","tags":["Dolby Cinema","HFR 3D"],"seats":180,"w":33.5,"h":15.2,"conf":"model-estimated","score":55.1,"rows":10,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.88},{"v":"City Pride Kharadi","s":"Audi 5","cls":"standard","area":"Kharadi","chain":"City Pride","proj":"4K Laser","snd":"Dolby Atmos","tags":["Dolby Cinema","HFR 3D"],"seats":176,"w":33.2,"h":15.1,"conf":"model-estimated","score":55.0,"rows":10,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.87},{"v":"E-Square University Road","s":"Screen 5","cls":"standard","area":"University Rd","chain":"E-Square","proj":"4K","snd":"Dolby 7.1","tags":[],"seats":584,"w":55.0,"h":25.0,"conf":"model-estimated","score":54.9,"rows":18,"pr":32,"brn":13,"br":"M","bs":16,"rel":2.38},{"v":"INOX Megaplex Phoenix MoM (Wakad)","s":"Premiere 1","cls":"standard","area":"Wakad","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["IMAX Laser","MX4D","Insignia"],"seats":165,"w":32.1,"h":14.6,"conf":"model-estimated","score":54.5,"rows":10,"pr":16,"brn":8,"br":"H","bs":8,"rel":0.81},{"v":"INOX Megaplex Phoenix MoM (Wakad)","s":"Premiere 2","cls":"standard","area":"Wakad","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["IMAX Laser","MX4D","Insignia"],"seats":165,"w":32.1,"h":14.6,"conf":"model-estimated","score":54.5,"rows":10,"pr":16,"brn":8,"br":"H","bs":8,"rel":0.81},{"v":"INOX Megaplex Phoenix MoM (Wakad)","s":"Premiere 3","cls":"standard","area":"Wakad","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["IMAX Laser","MX4D","Insignia"],"seats":165,"w":32.1,"h":14.6,"conf":"model-estimated","score":54.5,"rows":10,"pr":16,"brn":8,"br":"H","bs":8,"rel":0.81},{"v":"INOX Megaplex Phoenix MoM (Wakad)","s":"Premiere 4","cls":"standard","area":"Wakad","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["IMAX Laser","MX4D","Insignia"],"seats":165,"w":32.1,"h":14.6,"conf":"model-estimated","score":54.5,"rows":10,"pr":16,"brn":8,"br":"H","bs":8,"rel":0.81},{"v":"INOX Megaplex Phoenix MoM (Wakad)","s":"Premiere 5","cls":"standard","area":"Wakad","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["IMAX Laser","MX4D","Insignia"],"seats":165,"w":32.1,"h":14.6,"conf":"model-estimated","score":54.5,"rows":10,"pr":16,"brn":8,"br":"H","bs":8,"rel":0.81},{"v":"INOX Megaplex Phoenix MoM (Wakad)","s":"Premiere 6","cls":"standard","area":"Wakad","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["IMAX Laser","MX4D","Insignia"],"seats":165,"w":32.1,"h":14.6,"conf":"model-estimated","score":54.5,"rows":10,"pr":16,"brn":8,"br":"H","bs":8,"rel":0.81},{"v":"INOX Megaplex Phoenix MoM (Wakad)","s":"Premiere 7","cls":"standard","area":"Wakad","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["IMAX Laser","MX4D","Insignia"],"seats":165,"w":32.1,"h":14.6,"conf":"model-estimated","score":54.5,"rows":10,"pr":16,"brn":8,"br":"H","bs":8,"rel":0.81},{"v":"INOX Megaplex Phoenix MoM (Wakad)","s":"Premiere 8","cls":"standard","area":"Wakad","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["IMAX Laser","MX4D","Insignia"],"seats":165,"w":32.1,"h":14.6,"conf":"model-estimated","score":54.5,"rows":10,"pr":16,"brn":8,"br":"H","bs":8,"rel":0.81},{"v":"INOX Megaplex Phoenix MoM (Wakad)","s":"Premiere 9","cls":"standard","area":"Wakad","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["IMAX Laser","MX4D","Insignia"],"seats":165,"w":32.1,"h":14.6,"conf":"model-estimated","score":54.5,"rows":10,"pr":16,"brn":8,"br":"H","bs":8,"rel":0.81},{"v":"PVR Director's Cut KOPA","s":"Premiere","cls":"standard","area":"Koregaon Park","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["Director's Cut","ICE"],"seats":150,"w":30.6,"h":13.9,"conf":"model-estimated","score":53.7,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.74},{"v":"City Pride Royal (Pimple Saudagar)","s":"Audi 1","cls":"standard","area":"Pimple Saudagar","chain":"City Pride","proj":"Laser","snd":"Dolby Atmos","tags":[],"seats":204,"w":35.7,"h":16.2,"conf":"model-estimated","score":53.3,"rows":11,"pr":19,"brn":9,"br":"I","bs":10,"rel":1.0},{"v":"City Pride Royal (Pimple Saudagar)","s":"Audi 2","cls":"standard","area":"Pimple Saudagar","chain":"City Pride","proj":"Laser","snd":"Dolby Atmos","tags":[],"seats":204,"w":35.7,"h":16.2,"conf":"model-estimated","score":53.3,"rows":11,"pr":19,"brn":9,"br":"I","bs":10,"rel":1.0},{"v":"City Pride Royal (Pimple Saudagar)","s":"Audi 3","cls":"standard","area":"Pimple Saudagar","chain":"City Pride","proj":"Laser","snd":"Dolby Atmos","tags":[],"seats":204,"w":35.7,"h":16.2,"conf":"model-estimated","score":53.3,"rows":11,"pr":19,"brn":9,"br":"I","bs":10,"rel":1.0},{"v":"City Pride Royal (Pimple Saudagar)","s":"Audi 4","cls":"standard","area":"Pimple Saudagar","chain":"City Pride","proj":"Laser","snd":"Dolby Atmos","tags":[],"seats":204,"w":35.7,"h":16.2,"conf":"model-estimated","score":53.3,"rows":11,"pr":19,"brn":9,"br":"I","bs":10,"rel":1.0},{"v":"City Pride Kharadi","s":"Audi 1","cls":"standard","area":"Kharadi","chain":"City Pride","proj":"4K Laser","snd":"Dolby Atmos","tags":["Dolby Cinema","HFR 3D"],"seats":129,"w":28.4,"h":12.9,"conf":"model-estimated","score":52.7,"rows":8,"pr":16,"brn":7,"br":"G","bs":8,"rel":0.63},{"v":"INOX Megaplex Phoenix MoM (Wakad)","s":"MX4D","cls":"standard","area":"Wakad","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["IMAX Laser","MX4D","Insignia"],"seats":120,"w":27.4,"h":12.5,"conf":"model-estimated","score":52.3,"rows":8,"pr":15,"brn":7,"br":"G","bs":8,"rel":0.59},{"v":"INOX Megaplex Phoenix MoM (Wakad)","s":"Kiddles","cls":"standard","area":"Wakad","chain":"PVR INOX","proj":"4K Laser","snd":"Dolby Atmos","tags":["IMAX Laser","MX4D","Insignia"],"seats":90,"w":26.0,"h":11.8,"conf":"model-estimated","score":51.7,"rows":7,"pr":13,"brn":7,"br":"G","bs":7,"rel":0.53},{"v":"City Pride Kothrud","s":"Audi 3","cls":"standard","area":"Kothrud","chain":"City Pride","proj":"4K","snd":"Dolby Atmos","tags":["3D"],"seats":250,"w":39.5,"h":18.0,"conf":"model-estimated","score":51.6,"rows":12,"pr":21,"brn":10,"br":"J","bs":11,"rel":1.23},{"v":"City Pride Kothrud","s":"Audi 4","cls":"standard","area":"Kothrud","chain":"City Pride","proj":"4K","snd":"Dolby Atmos","tags":["3D"],"seats":250,"w":39.5,"h":18.0,"conf":"model-estimated","score":51.6,"rows":12,"pr":21,"brn":10,"br":"J","bs":11,"rel":1.23},{"v":"PVR ICON The Pavillion","s":"Audi 1","cls":"standard","area":"SB Road","chain":"PVR INOX","proj":"4K","snd":"Dolby Atmos","tags":["ICON"],"seats":228,"w":37.7,"h":17.1,"conf":"model-estimated","score":50.5,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.12},{"v":"PVR ICON The Pavillion","s":"Audi 2","cls":"standard","area":"SB Road","chain":"PVR INOX","proj":"4K","snd":"Dolby Atmos","tags":["ICON"],"seats":228,"w":37.7,"h":17.1,"conf":"model-estimated","score":50.5,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.12},{"v":"PVR ICON The Pavillion","s":"Audi 3","cls":"standard","area":"SB Road","chain":"PVR INOX","proj":"4K","snd":"Dolby Atmos","tags":["ICON"],"seats":228,"w":37.7,"h":17.1,"conf":"model-estimated","score":50.5,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.12},{"v":"PVR ICON The Pavillion","s":"Audi 4","cls":"standard","area":"SB Road","chain":"PVR INOX","proj":"4K","snd":"Dolby Atmos","tags":["ICON"],"seats":228,"w":37.7,"h":17.1,"conf":"model-estimated","score":50.5,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.12},{"v":"PVR ICON The Pavillion","s":"Audi 5","cls":"standard","area":"SB Road","chain":"PVR INOX","proj":"4K","snd":"Dolby Atmos","tags":["ICON"],"seats":228,"w":37.7,"h":17.1,"conf":"model-estimated","score":50.5,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.12},{"v":"PVR ICON The Pavillion","s":"Audi 6","cls":"standard","area":"SB Road","chain":"PVR INOX","proj":"4K","snd":"Dolby Atmos","tags":["ICON"],"seats":228,"w":37.7,"h":17.1,"conf":"model-estimated","score":50.5,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.12},{"v":"Rajhans 93 Avenue","s":"Audi 4","cls":"standard","area":"Fatima Nagar","chain":"Rajhans","proj":"2K","snd":"Dolby Atmos","tags":["3D"],"seats":303,"w":43.5,"h":19.8,"conf":"model-estimated","score":46.3,"rows":13,"pr":23,"brn":11,"br":"K","bs":12,"rel":1.49},{"v":"Rajhans 93 Avenue","s":"Audi 2","cls":"standard","area":"Fatima Nagar","chain":"Rajhans","proj":"2K","snd":"Dolby Atmos","tags":["3D"],"seats":275,"w":41.5,"h":18.9,"conf":"model-estimated","score":45.0,"rows":12,"pr":23,"brn":10,"br":"J","bs":12,"rel":1.36},{"v":"Rajhans 93 Avenue","s":"Audi 1","cls":"standard","area":"Fatima Nagar","chain":"Rajhans","proj":"2K","snd":"Dolby Atmos","tags":["3D"],"seats":267,"w":40.9,"h":18.6,"conf":"model-estimated","score":44.6,"rows":12,"pr":22,"brn":10,"br":"J","bs":11,"rel":1.32},{"v":"Miraj Spine City (Moshi)","s":"Screen 2","cls":"standard","area":"Moshi","chain":"Miraj","proj":"2K","snd":"Dolby Atmos","tags":[],"seats":243,"w":39.0,"h":17.7,"conf":"model-estimated","score":43.4,"rows":12,"pr":20,"brn":10,"br":"J","bs":10,"rel":1.19},{"v":"Miraj Spine City (Moshi)","s":"Screen 3","cls":"standard","area":"Moshi","chain":"Miraj","proj":"2K","snd":"Dolby Atmos","tags":[],"seats":241,"w":38.8,"h":17.6,"conf":"model-estimated","score":43.3,"rows":11,"pr":22,"brn":10,"br":"J","bs":11,"rel":1.18},{"v":"INOX Elpro City Square (Chinchwad)","s":"Audi 1","cls":"standard","area":"Chinchwad","chain":"PVR INOX","proj":"2K","snd":"Dolby Atmos","tags":["3D"],"seats":228,"w":37.7,"h":17.1,"conf":"model-estimated","score":42.6,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.12},{"v":"INOX Elpro City Square (Chinchwad)","s":"Audi 2","cls":"standard","area":"Chinchwad","chain":"PVR INOX","proj":"2K","snd":"Dolby Atmos","tags":["3D"],"seats":228,"w":37.7,"h":17.1,"conf":"model-estimated","score":42.6,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.12},{"v":"INOX Elpro City Square (Chinchwad)","s":"Audi 3","cls":"standard","area":"Chinchwad","chain":"PVR INOX","proj":"2K","snd":"Dolby Atmos","tags":["3D"],"seats":228,"w":37.7,"h":17.1,"conf":"model-estimated","score":42.6,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.12},{"v":"INOX Elpro City Square (Chinchwad)","s":"Audi 4","cls":"standard","area":"Chinchwad","chain":"PVR INOX","proj":"2K","snd":"Dolby Atmos","tags":["3D"],"seats":228,"w":37.7,"h":17.1,"conf":"model-estimated","score":42.6,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.12},{"v":"INOX Elpro City Square (Chinchwad)","s":"Audi 5","cls":"standard","area":"Chinchwad","chain":"PVR INOX","proj":"2K","snd":"Dolby Atmos","tags":["3D"],"seats":228,"w":37.7,"h":17.1,"conf":"model-estimated","score":42.6,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.12},{"v":"Miraj Spine City (Moshi)","s":"Screen 4","cls":"standard","area":"Moshi","chain":"Miraj","proj":"2K","snd":"Dolby Atmos","tags":[],"seats":220,"w":37.1,"h":16.9,"conf":"model-estimated","score":42.3,"rows":11,"pr":20,"brn":9,"br":"I","bs":10,"rel":1.09},{"v":"E-Square Xion (Hinjawadi)","s":"Screen 1","cls":"standard","area":"Hinjawadi","chain":"E-Square","proj":"2K","snd":"Dolby Atmos","tags":[],"seats":200,"w":35.4,"h":16.1,"conf":"model-estimated","score":41.4,"rows":10,"pr":20,"brn":9,"br":"I","bs":10,"rel":0.99},{"v":"E-Square Xion (Hinjawadi)","s":"Screen 2","cls":"standard","area":"Hinjawadi","chain":"E-Square","proj":"2K","snd":"Dolby Atmos","tags":[],"seats":200,"w":35.4,"h":16.1,"conf":"model-estimated","score":41.4,"rows":10,"pr":20,"brn":9,"br":"I","bs":10,"rel":0.99},{"v":"E-Square Xion (Hinjawadi)","s":"Screen 3","cls":"standard","area":"Hinjawadi","chain":"E-Square","proj":"2K","snd":"Dolby Atmos","tags":[],"seats":200,"w":35.4,"h":16.1,"conf":"model-estimated","score":41.4,"rows":10,"pr":20,"brn":9,"br":"I","bs":10,"rel":0.99},{"v":"E-Square Xion (Hinjawadi)","s":"Screen 4","cls":"standard","area":"Hinjawadi","chain":"E-Square","proj":"2K","snd":"Dolby Atmos","tags":[],"seats":200,"w":35.4,"h":16.1,"conf":"model-estimated","score":41.4,"rows":10,"pr":20,"brn":9,"br":"I","bs":10,"rel":0.99},{"v":"E-Square Xion (Hinjawadi)","s":"Screen 5","cls":"standard","area":"Hinjawadi","chain":"E-Square","proj":"2K","snd":"Dolby Atmos","tags":[],"seats":200,"w":35.4,"h":16.1,"conf":"model-estimated","score":41.4,"rows":10,"pr":20,"brn":9,"br":"I","bs":10,"rel":0.99},{"v":"E-Square Xion (Hinjawadi)","s":"Screen 6","cls":"standard","area":"Hinjawadi","chain":"E-Square","proj":"2K","snd":"Dolby Atmos","tags":[],"seats":200,"w":35.4,"h":16.1,"conf":"model-estimated","score":41.4,"rows":10,"pr":20,"brn":9,"br":"I","bs":10,"rel":0.99},{"v":"Miraj Spine City (Moshi)","s":"Screen 1","cls":"standard","area":"Moshi","chain":"Miraj","proj":"2K","snd":"Dolby Atmos","tags":[],"seats":179,"w":33.4,"h":15.2,"conf":"model-estimated","score":40.3,"rows":10,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.88},{"v":"Rajhans 93 Avenue","s":"Audi 3","cls":"standard","area":"Fatima Nagar","chain":"Rajhans","proj":"2K","snd":"Dolby Atmos","tags":["3D"],"seats":172,"w":32.8,"h":14.9,"conf":"model-estimated","score":40.0,"rows":10,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.85},{"v":"E-Square University Road","s":"Screen 1","cls":"standard","area":"University Rd","chain":"E-Square","proj":"4K","snd":"Dolby 7.1","tags":[],"seats":160,"w":31.6,"h":14.4,"conf":"model-estimated","score":39.4,"rows":9,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.79},{"v":"E-Square University Road","s":"Screen 2","cls":"standard","area":"University Rd","chain":"E-Square","proj":"4K","snd":"Dolby 7.1","tags":[],"seats":160,"w":31.6,"h":14.4,"conf":"model-estimated","score":39.4,"rows":9,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.79},{"v":"E-Square University Road","s":"Screen 3","cls":"standard","area":"University Rd","chain":"E-Square","proj":"4K","snd":"Dolby 7.1","tags":[],"seats":160,"w":31.6,"h":14.4,"conf":"model-estimated","score":39.4,"rows":9,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.79},{"v":"E-Square University Road","s":"Screen 4","cls":"standard","area":"University Rd","chain":"E-Square","proj":"4K","snd":"Dolby 7.1","tags":[],"seats":160,"w":31.6,"h":14.4,"conf":"model-estimated","score":39.4,"rows":9,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.79},{"v":"E-Square University Road","s":"Screen 6","cls":"standard","area":"University Rd","chain":"E-Square","proj":"4K","snd":"Dolby 7.1","tags":[],"seats":160,"w":31.6,"h":14.4,"conf":"model-estimated","score":39.4,"rows":9,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.79},{"v":"Cinepolis Westend (Aundh)","s":"Audi 1","cls":"standard","area":"Aundh","chain":"Cinepolis","proj":"2K Xenon","snd":"Dolby Atmos","tags":["IMAX"],"seats":155,"w":31.1,"h":14.1,"conf":"model-estimated","score":39.2,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Westend (Aundh)","s":"Audi 2","cls":"standard","area":"Aundh","chain":"Cinepolis","proj":"2K Xenon","snd":"Dolby Atmos","tags":["IMAX"],"seats":155,"w":31.1,"h":14.1,"conf":"model-estimated","score":39.2,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Westend (Aundh)","s":"Audi 3","cls":"standard","area":"Aundh","chain":"Cinepolis","proj":"2K Xenon","snd":"Dolby Atmos","tags":["IMAX"],"seats":155,"w":31.1,"h":14.1,"conf":"model-estimated","score":39.2,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Westend (Aundh)","s":"Audi 4","cls":"standard","area":"Aundh","chain":"Cinepolis","proj":"2K Xenon","snd":"Dolby Atmos","tags":["IMAX"],"seats":155,"w":31.1,"h":14.1,"conf":"model-estimated","score":39.2,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Westend (Aundh)","s":"Audi 5","cls":"standard","area":"Aundh","chain":"Cinepolis","proj":"2K Xenon","snd":"Dolby Atmos","tags":["IMAX"],"seats":155,"w":31.1,"h":14.1,"conf":"model-estimated","score":39.2,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Westend (Aundh)","s":"Audi 6","cls":"standard","area":"Aundh","chain":"Cinepolis","proj":"2K Xenon","snd":"Dolby Atmos","tags":["IMAX"],"seats":155,"w":31.1,"h":14.1,"conf":"model-estimated","score":39.2,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Westend (Aundh)","s":"Audi 7","cls":"standard","area":"Aundh","chain":"Cinepolis","proj":"2K Xenon","snd":"Dolby Atmos","tags":["IMAX"],"seats":155,"w":31.1,"h":14.1,"conf":"model-estimated","score":39.2,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"City Pride Abhiruchi","s":"Audi 6","cls":"standard","area":"Sinhagad Rd","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":["3D"],"seats":315,"w":44.4,"h":20.2,"conf":"model-estimated","score":37.0,"rows":13,"pr":24,"brn":11,"br":"K","bs":12,"rel":1.55},{"v":"City Pride Mangala","s":"Screen 1","cls":"standard","area":"Shivajinagar","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":[],"seats":300,"w":43.3,"h":19.7,"conf":"model-estimated","score":36.3,"rows":13,"pr":23,"brn":11,"br":"K","bs":12,"rel":1.48},{"v":"City Pride Mangala","s":"Screen 2","cls":"standard","area":"Shivajinagar","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":[],"seats":300,"w":43.3,"h":19.7,"conf":"model-estimated","score":36.3,"rows":13,"pr":23,"brn":11,"br":"K","bs":12,"rel":1.48},{"v":"City Pride Mangala","s":"Screen 3","cls":"standard","area":"Shivajinagar","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":[],"seats":300,"w":43.3,"h":19.7,"conf":"model-estimated","score":36.3,"rows":13,"pr":23,"brn":11,"br":"K","bs":12,"rel":1.48},{"v":"MovieMax Gold Mariplex","s":"Audi 1","cls":"luxury","area":"Kalyani Nagar","chain":"MovieMax","proj":"2K","snd":"Dolby 7.1","tags":["Gold"],"seats":120,"w":32.9,"h":15.0,"conf":"model-estimated","score":36.2,"rows":8,"pr":15,"brn":8,"br":"H","bs":8,"rel":0.85},{"v":"MovieMax Gold Mariplex","s":"Audi 2","cls":"luxury","area":"Kalyani Nagar","chain":"MovieMax","proj":"2K","snd":"Dolby 7.1","tags":["Gold"],"seats":120,"w":32.9,"h":15.0,"conf":"model-estimated","score":36.2,"rows":8,"pr":15,"brn":8,"br":"H","bs":8,"rel":0.85},{"v":"MovieMax Gold Mariplex","s":"Audi 3","cls":"luxury","area":"Kalyani Nagar","chain":"MovieMax","proj":"2K","snd":"Dolby 7.1","tags":["Gold"],"seats":120,"w":32.9,"h":15.0,"conf":"model-estimated","score":36.2,"rows":8,"pr":15,"brn":8,"br":"H","bs":8,"rel":0.85},{"v":"PVR Kumar Pacific","s":"Audi 1","cls":"standard","area":"Swargate","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":235,"w":38.3,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":10,"br":"J","bs":11,"rel":1.15},{"v":"PVR Kumar Pacific","s":"Audi 2","cls":"standard","area":"Swargate","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":235,"w":38.3,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":10,"br":"J","bs":11,"rel":1.15},{"v":"PVR Kumar Pacific","s":"Audi 3","cls":"standard","area":"Swargate","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":235,"w":38.3,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":10,"br":"J","bs":11,"rel":1.15},{"v":"PVR Kumar Pacific","s":"Audi 4","cls":"standard","area":"Swargate","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":235,"w":38.3,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":10,"br":"J","bs":11,"rel":1.15},{"v":"INOX Bund Garden","s":"Audi 1","cls":"standard","area":"Bund Garden","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["Insignia"],"seats":235,"w":38.3,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":10,"br":"J","bs":11,"rel":1.15},{"v":"INOX Bund Garden","s":"Audi 2","cls":"standard","area":"Bund Garden","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["Insignia"],"seats":235,"w":38.3,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":10,"br":"J","bs":11,"rel":1.15},{"v":"INOX Bund Garden","s":"Audi 3","cls":"standard","area":"Bund Garden","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["Insignia"],"seats":235,"w":38.3,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":10,"br":"J","bs":11,"rel":1.15},{"v":"INOX Bund Garden","s":"Audi 4","cls":"standard","area":"Bund Garden","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["Insignia"],"seats":235,"w":38.3,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":10,"br":"J","bs":11,"rel":1.15},{"v":"MovieMax Amanora","s":"Audi 1","cls":"standard","area":"Hadapsar","chain":"MovieMax","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":233,"w":38.2,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.15},{"v":"MovieMax Amanora","s":"Audi 2","cls":"standard","area":"Hadapsar","chain":"MovieMax","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":233,"w":38.2,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.15},{"v":"MovieMax Amanora","s":"Audi 3","cls":"standard","area":"Hadapsar","chain":"MovieMax","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":233,"w":38.2,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.15},{"v":"MovieMax Amanora","s":"Audi 4","cls":"standard","area":"Hadapsar","chain":"MovieMax","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":233,"w":38.2,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.15},{"v":"MovieMax Amanora","s":"Audi 5","cls":"standard","area":"Hadapsar","chain":"MovieMax","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":233,"w":38.2,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.15},{"v":"MovieMax Amanora","s":"Audi 6","cls":"standard","area":"Hadapsar","chain":"MovieMax","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":233,"w":38.2,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.15},{"v":"MovieMax Amanora","s":"Audi 7","cls":"standard","area":"Hadapsar","chain":"MovieMax","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":233,"w":38.2,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.15},{"v":"MovieMax Amanora","s":"Audi 8","cls":"standard","area":"Hadapsar","chain":"MovieMax","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":233,"w":38.2,"h":17.4,"conf":"model-estimated","score":35.1,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.15},{"v":"PVR Phoenix Marketcity","s":"Audi 1","cls":"standard","area":"Viman Nagar","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["4DX","Gold Class"],"seats":230,"w":37.9,"h":17.2,"conf":"model-estimated","score":34.9,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.13},{"v":"PVR Phoenix Marketcity","s":"Audi 2","cls":"standard","area":"Viman Nagar","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["4DX","Gold Class"],"seats":230,"w":37.9,"h":17.2,"conf":"model-estimated","score":34.9,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.13},{"v":"PVR Phoenix Marketcity","s":"Audi 3","cls":"standard","area":"Viman Nagar","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["4DX","Gold Class"],"seats":230,"w":37.9,"h":17.2,"conf":"model-estimated","score":34.9,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.13},{"v":"PVR Phoenix Marketcity","s":"Audi 4","cls":"standard","area":"Viman Nagar","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["4DX","Gold Class"],"seats":230,"w":37.9,"h":17.2,"conf":"model-estimated","score":34.9,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.13},{"v":"PVR Phoenix Marketcity","s":"Audi 5","cls":"standard","area":"Viman Nagar","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["4DX","Gold Class"],"seats":230,"w":37.9,"h":17.2,"conf":"model-estimated","score":34.9,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.13},{"v":"PVR Phoenix Marketcity","s":"Audi 6","cls":"standard","area":"Viman Nagar","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["4DX","Gold Class"],"seats":230,"w":37.9,"h":17.2,"conf":"model-estimated","score":34.9,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.13},{"v":"PVR Phoenix Marketcity","s":"Audi 7","cls":"standard","area":"Viman Nagar","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["4DX","Gold Class"],"seats":230,"w":37.9,"h":17.2,"conf":"model-estimated","score":34.9,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.13},{"v":"City Pride Satara Road","s":"Audi 1","cls":"standard","area":"Market Yard","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":["Gold Class"],"seats":250,"w":39.5,"h":18.0,"conf":"model-estimated","score":33.9,"rows":12,"pr":21,"brn":10,"br":"J","bs":11,"rel":1.23},{"v":"City Pride Satara Road","s":"Audi 2","cls":"standard","area":"Market Yard","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":["Gold Class"],"seats":250,"w":39.5,"h":18.0,"conf":"model-estimated","score":33.9,"rows":12,"pr":21,"brn":10,"br":"J","bs":11,"rel":1.23},{"v":"City Pride Satara Road","s":"Audi 3","cls":"standard","area":"Market Yard","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":["Gold Class"],"seats":234,"w":38.2,"h":17.4,"conf":"model-estimated","score":33.1,"rows":11,"pr":21,"brn":9,"br":"I","bs":11,"rel":1.15},{"v":"INOX Jai Ganesh Vision (Akurdi)","s":"Audi 1","cls":"standard","area":"Akurdi","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":180,"w":33.5,"h":15.2,"conf":"model-estimated","score":32.5,"rows":10,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.88},{"v":"INOX Jai Ganesh Vision (Akurdi)","s":"Audi 2","cls":"standard","area":"Akurdi","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":180,"w":33.5,"h":15.2,"conf":"model-estimated","score":32.5,"rows":10,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.88},{"v":"INOX Jai Ganesh Vision (Akurdi)","s":"Audi 3","cls":"standard","area":"Akurdi","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":180,"w":33.5,"h":15.2,"conf":"model-estimated","score":32.5,"rows":10,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.88},{"v":"INOX Jai Ganesh Vision (Akurdi)","s":"Audi 4","cls":"standard","area":"Akurdi","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":[],"seats":180,"w":33.5,"h":15.2,"conf":"model-estimated","score":32.5,"rows":10,"pr":18,"brn":8,"br":"H","bs":9,"rel":0.88},{"v":"Connplex Luxuriance Tribeca","s":"Screen 1","cls":"luxury","area":"NIBM/Undri","chain":"Connplex","proj":"2K","snd":"Dolby 7.1","tags":["Luxury"],"seats":56,"w":22.4,"h":10.2,"conf":"model-estimated","score":31.7,"rows":6,"pr":9,"brn":6,"br":"F","bs":5,"rel":0.39},{"v":"Connplex Luxuriance Tribeca","s":"Screen 2","cls":"luxury","area":"NIBM/Undri","chain":"Connplex","proj":"2K","snd":"Dolby 7.1","tags":["Luxury"],"seats":56,"w":22.4,"h":10.2,"conf":"model-estimated","score":31.7,"rows":6,"pr":9,"brn":6,"br":"F","bs":5,"rel":0.39},{"v":"Connplex Luxuriance Tribeca","s":"Screen 3","cls":"luxury","area":"NIBM/Undri","chain":"Connplex","proj":"2K","snd":"Dolby 7.1","tags":["Luxury"],"seats":56,"w":22.4,"h":10.2,"conf":"model-estimated","score":31.7,"rows":6,"pr":9,"brn":6,"br":"F","bs":5,"rel":0.39},{"v":"Connplex Luxuriance Tribeca","s":"Screen 4","cls":"luxury","area":"NIBM/Undri","chain":"Connplex","proj":"2K","snd":"Dolby 7.1","tags":["Luxury"],"seats":56,"w":22.4,"h":10.2,"conf":"model-estimated","score":31.7,"rows":6,"pr":9,"brn":6,"br":"F","bs":5,"rel":0.39},{"v":"PVR Phoenix Marketcity","s":"Gold Class","cls":"luxury","area":"Viman Nagar","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["4DX","Gold Class"],"seats":40,"w":22.0,"h":10.0,"conf":"model-estimated","score":31.6,"rows":5,"pr":8,"brn":5,"br":"E","bs":4,"rel":0.38},{"v":"INOX Bund Garden","s":"Insignia 1","cls":"luxury","area":"Bund Garden","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["Insignia"],"seats":32,"w":22.0,"h":10.0,"conf":"model-estimated","score":31.6,"rows":4,"pr":8,"brn":4,"br":"D","bs":4,"rel":0.38},{"v":"INOX Bund Garden","s":"Insignia 2","cls":"luxury","area":"Bund Garden","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["Insignia"],"seats":32,"w":22.0,"h":10.0,"conf":"model-estimated","score":31.6,"rows":4,"pr":8,"brn":4,"br":"D","bs":4,"rel":0.38},{"v":"Cinepolis Seasons Mall","s":"VIP 1","cls":"luxury","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":50,"w":22.0,"h":10.0,"conf":"model-estimated","score":31.6,"rows":5,"pr":10,"brn":5,"br":"E","bs":5,"rel":0.38},{"v":"Cinepolis Seasons Mall","s":"VIP 2","cls":"luxury","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":50,"w":22.0,"h":10.0,"conf":"model-estimated","score":31.6,"rows":5,"pr":10,"brn":5,"br":"E","bs":5,"rel":0.38},{"v":"Cinepolis Seasons Mall","s":"VIP 3","cls":"luxury","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":50,"w":22.0,"h":10.0,"conf":"model-estimated","score":31.6,"rows":5,"pr":10,"brn":5,"br":"E","bs":5,"rel":0.38},{"v":"City Pride Abhiruchi","s":"Audi 1","cls":"standard","area":"Sinhagad Rd","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":["3D"],"seats":200,"w":35.4,"h":16.1,"conf":"model-estimated","score":31.5,"rows":10,"pr":20,"brn":9,"br":"I","bs":10,"rel":0.99},{"v":"City Pride Abhiruchi","s":"Audi 2","cls":"standard","area":"Sinhagad Rd","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":["3D"],"seats":200,"w":35.4,"h":16.1,"conf":"model-estimated","score":31.5,"rows":10,"pr":20,"brn":9,"br":"I","bs":10,"rel":0.99},{"v":"City Pride Abhiruchi","s":"Audi 3","cls":"standard","area":"Sinhagad Rd","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":["3D"],"seats":200,"w":35.4,"h":16.1,"conf":"model-estimated","score":31.5,"rows":10,"pr":20,"brn":9,"br":"I","bs":10,"rel":0.99},{"v":"City Pride Abhiruchi","s":"Audi 4","cls":"standard","area":"Sinhagad Rd","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":["3D"],"seats":200,"w":35.4,"h":16.1,"conf":"model-estimated","score":31.5,"rows":10,"pr":20,"brn":9,"br":"I","bs":10,"rel":0.99},{"v":"City Pride Abhiruchi","s":"Audi 5","cls":"standard","area":"Sinhagad Rd","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":["3D"],"seats":200,"w":35.4,"h":16.1,"conf":"model-estimated","score":31.5,"rows":10,"pr":20,"brn":9,"br":"I","bs":10,"rel":0.99},{"v":"City Pride Abhiruchi","s":"Audi 7","cls":"standard","area":"Sinhagad Rd","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":["3D"],"seats":200,"w":35.4,"h":16.1,"conf":"model-estimated","score":31.5,"rows":10,"pr":20,"brn":9,"br":"I","bs":10,"rel":0.99},{"v":"Cinepolis Seasons Mall","s":"Audi 1","cls":"standard","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":154,"w":31.0,"h":14.1,"conf":"model-estimated","score":31.3,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Seasons Mall","s":"Audi 2","cls":"standard","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":154,"w":31.0,"h":14.1,"conf":"model-estimated","score":31.3,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Seasons Mall","s":"Audi 3","cls":"standard","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":154,"w":31.0,"h":14.1,"conf":"model-estimated","score":31.3,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Seasons Mall","s":"Audi 4","cls":"standard","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":154,"w":31.0,"h":14.1,"conf":"model-estimated","score":31.3,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Seasons Mall","s":"Audi 5","cls":"standard","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":154,"w":31.0,"h":14.1,"conf":"model-estimated","score":31.3,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Seasons Mall","s":"Audi 6","cls":"standard","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":154,"w":31.0,"h":14.1,"conf":"model-estimated","score":31.3,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Seasons Mall","s":"Audi 7","cls":"standard","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":154,"w":31.0,"h":14.1,"conf":"model-estimated","score":31.3,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Seasons Mall","s":"Audi 8","cls":"standard","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":154,"w":31.0,"h":14.1,"conf":"model-estimated","score":31.3,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Seasons Mall","s":"Audi 9","cls":"standard","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":154,"w":31.0,"h":14.1,"conf":"model-estimated","score":31.3,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Seasons Mall","s":"Audi 10","cls":"standard","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":154,"w":31.0,"h":14.1,"conf":"model-estimated","score":31.3,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Seasons Mall","s":"Audi 11","cls":"standard","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":154,"w":31.0,"h":14.1,"conf":"model-estimated","score":31.3,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"Cinepolis Seasons Mall","s":"Audi 12","cls":"standard","area":"Magarpatta","chain":"Cinepolis","proj":"2K","snd":"Dolby 7.1","tags":["VIP"],"seats":154,"w":31.0,"h":14.1,"conf":"model-estimated","score":31.3,"rows":9,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.76},{"v":"City Pride Satara Road","s":"Gold Class (Audi 4)","cls":"luxury","area":"Market Yard","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":["Gold Class"],"seats":65,"w":24.2,"h":11.0,"conf":"model-estimated","score":30.4,"rows":6,"pr":11,"brn":6,"br":"F","bs":6,"rel":0.46},{"v":"Rahul 70MM","s":"Ground (ex-70mm)","cls":"single","area":"Shivajinagar","chain":"Independent","proj":"Digital","snd":"Basic","tags":["Heritage 70mm"],"seats":700,"w":50.0,"h":22.7,"conf":"estimated","score":30.2,"rows":20,"pr":35,"brn":12,"br":"L","bs":18,"rel":1.96},{"v":"PVR Phoenix Marketcity","s":"4DX","cls":"standard","area":"Viman Nagar","chain":"PVR INOX","proj":"2K","snd":"Dolby 7.1","tags":["4DX","Gold Class"],"seats":130,"w":28.5,"h":13.0,"conf":"model-estimated","score":30.1,"rows":8,"pr":16,"brn":7,"br":"G","bs":8,"rel":0.64},{"v":"INOX Royale Heritage (NIBM)","s":"Audi 1","cls":"standard","area":"NIBM","chain":"PVR INOX","proj":"2K","snd":"Dolby Digital","tags":[],"seats":166,"w":32.2,"h":14.6,"conf":"model-estimated","score":29.8,"rows":10,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.81},{"v":"INOX Royale Heritage (NIBM)","s":"Audi 2","cls":"standard","area":"NIBM","chain":"PVR INOX","proj":"2K","snd":"Dolby Digital","tags":[],"seats":166,"w":32.2,"h":14.6,"conf":"model-estimated","score":29.8,"rows":10,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.81},{"v":"INOX Royale Heritage (NIBM)","s":"Audi 3","cls":"standard","area":"NIBM","chain":"PVR INOX","proj":"2K","snd":"Dolby Digital","tags":[],"seats":166,"w":32.2,"h":14.6,"conf":"model-estimated","score":29.8,"rows":10,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.81},{"v":"INOX Royale Heritage (NIBM)","s":"Audi 4","cls":"standard","area":"NIBM","chain":"PVR INOX","proj":"2K","snd":"Dolby Digital","tags":[],"seats":166,"w":32.2,"h":14.6,"conf":"model-estimated","score":29.8,"rows":10,"pr":17,"brn":8,"br":"H","bs":9,"rel":0.81},{"v":"City Pride R-Deccan","s":"Screen 1","cls":"luxury","area":"Deccan","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":["Micro-plex"],"seats":50,"w":22.0,"h":10.0,"conf":"model-estimated","score":29.6,"rows":5,"pr":10,"brn":5,"br":"E","bs":5,"rel":0.38},{"v":"City Pride R-Deccan","s":"Screen 2","cls":"luxury","area":"Deccan","chain":"City Pride","proj":"2K","snd":"Dolby Digital","tags":["Micro-plex"],"seats":50,"w":22.0,"h":10.0,"conf":"model-estimated","score":29.6,"rows":5,"pr":10,"brn":5,"br":"E","bs":5,"rel":0.38},{"v":"Ashok (Pimpri)","s":"Main","cls":"single","area":"Pimpri","chain":"Independent","proj":"Digital","snd":"Basic","tags":["Heritage"],"seats":600,"w":34.0,"h":15.5,"conf":"estimated","score":19.9,"rows":18,"pr":33,"brn":9,"br":"I","bs":17,"rel":0.91},{"v":"Alaka Talkies","s":"Main","cls":"single","area":"Sadashiv Peth","chain":"Independent","proj":"Digital","snd":"Basic","tags":["Heritage"],"seats":600,"w":34.0,"h":15.5,"conf":"estimated","score":19.9,"rows":18,"pr":33,"brn":9,"br":"I","bs":17,"rel":0.91},{"v":"Victory (Camp)","s":"Main","cls":"single","area":"Camp","chain":"Independent","proj":"Digital","snd":"Basic","tags":["Heritage 1938"],"seats":600,"w":32.0,"h":14.5,"conf":"estimated","score":18.9,"rows":18,"pr":33,"brn":8,"br":"H","bs":17,"rel":0.8},{"v":"Rahul 70MM","s":"Upper","cls":"single","area":"Shivajinagar","chain":"Independent","proj":"Digital","snd":"Basic","tags":["Heritage 70mm"],"seats":300,"w":32.0,"h":14.5,"conf":"estimated","score":18.9,"rows":13,"pr":23,"brn":8,"br":"H","bs":12,"rel":0.8},{"v":"Vasant (Budhwar Peth)","s":"Main","cls":"single","area":"Budhwar Peth","chain":"Independent","proj":"Digital","snd":"Basic","tags":["Heritage"],"seats":500,"w":32.0,"h":14.5,"conf":"estimated","score":18.9,"rows":17,"pr":29,"brn":8,"br":"H","bs":15,"rel":0.8},{"v":"Vilux Talkies (Khadki)","s":"Main","cls":"single","area":"Khadki","chain":"Independent","proj":"Digital","snd":"Basic","tags":["Heritage"],"seats":400,"w":28.0,"h":12.7,"conf":"estimated","score":17.1,"rows":15,"pr":27,"brn":7,"br":"G","bs":14,"rel":0.62}],T=[{"id":"wakad_imax","v":"INOX Megaplex, Phoenix Mall of the Millennium","s":"IMAX","area":"Wakad","tech":"IMAX XT 4K Laser \u00b7 Dolby Atmos \u00b7 1.90:1","w":60,"h":33,"conf":"verified (KDCloudy)","seats":262,"lay":[["L",[[17,"cl"]]],["K",[[21,"cl"]]],["J",[[4,"cp"],[17,"cp"],[4,"cp"]]],["I",[[4,"cp"],[17,"cp"],[4,"cp"]]],["H",[[4,"pr"],[17,"pr"],[4,"pr"]]],["G",[[4,"pr"],[17,"pr"],[4,"pr"]]],["F",[[4,"pr"],[17,"pp"],[4,"pr"]]],["E",[[4,"pr"],[17,"pp"],[4,"pr"]]],["D",[[4,"pr"],[17,"pp"],[4,"pr"]]],["C",[[4,"pr"],[17,"pp"],[4,"pr"]]],["B",[[16,"rc"]]],["A",[[2,"rc"],[6,"rc"]]]],"best":{"row":"D","seat":13,"label":"Row D \u00b7 Seat 13 \u2014 dead centre of the Picture Perfect block"},"avoid":"Recliner rows A\u2013B sit too deep for the 1.90:1 frame; row L is neck-crane territory.","playing":[["The Odyssey (IMAX 2D)","Shot 100% on IMAX film cameras \u2014 this screen is its home turf"]]},{"id":"epiq","v":"E-Square EPIQ, Hinjawadi Ph 2","s":"EPIQ","area":"Hinjawadi","tech":"Barco RGB 4K Laser \u00b7 64-ch Dolby Atmos \u00b7 1.89:1 wall-to-wall","w":59,"h":31,"conf":"published (Qube)","seats":310,"lay":[["A",[[22,"pr"]]],["B",[[22,"pr"]]],["C",[[22,"pr"]]],["D",[[22,"pr"]]],["E",[[22,"pr"]]],["F",[[22,"pr"]]],["G",[[22,"pr"]]],["H",[[22,"pr"]]],["I",[[22,"pr"]]],["J",[[22,"pr"]]],["K",[[22,"pr"]]],["L",[[22,"pr"]]],["M",[[22,"pr"]]],["N",[[22,"pr"]]]],"best":{"row":"G","seat":11,"label":"Row G \u00b7 Seat 11 \u2014 the 64-channel Atmos sweet spot"},"avoid":"Nothing yet \u2014 opened Mar 2026, Pune's newest premium hall.","playing":[["Spider-Man: Brand New Day","First Hollywood film mastered for EPIQ; expanded 1.90 frame edge-to-edge"]]},{"id":"dolby","v":"City Pride Kharadi","s":"Audi 6 \u2014 Dolby Cinema","area":"Kharadi","tech":"Dual Christie 4K RGB Laser \u00b7 Dolby Vision \u00b7 61-ch Atmos \u00b7 2.1:1","w":55,"h":26.2,"conf":"fan-measured (Shrey Tyagi + KDCloudy)","seats":310,"lay":[["A",[[22,"cl"]]],["B",[[22,"cl"]]],["C",[[22,"cl"]]],["D",[[22,"xl"]]],["E",[[22,"xl"]]],["F",[[22,"xl"]]],["G",[[22,"xl"]]],["H",[[22,"pr"]]],["J",[[22,"pr"]]],["K",[[22,"pr"]]],["L",[[22,"pr"]]],["M",[[22,"pr"]]],["N",[[22,"pr"]]],["P",[[12,"sf"]]]],"best":{"row":"J","seat":11,"label":"Row J \u00b7 Seat 11 \u2014 centre of the Dolby Vision + Atmos field"},"avoid":"Rear 'sofa' row seats are ordinary, not recliners \u2014 pay for position, not the name.","playing":[["Spider-Man: Brand New Day","Called the #1 way to watch it in India with IMAX locked out"]]},{"id":"westend_imax","v":"Cinepolis Nexus Westend Mall","s":"IMAX","area":"Aundh","tech":"IMAX Dual Xenon 2K \u00b7 1.90:1 \u2014 oldest IMAX tech in the city","w":55,"h":31,"conf":"verified (KDCloudy)","seats":283,"lay":[["A",[[19,"cl"]]],["B",[[19,"cl"]]],["C",[[19,"cl"]]],["D",[[19,"cl"]]],["E",[[19,"cl"]]],["F",[[20,"pr"]]],["G",[[20,"pr"]]],["H",[[20,"pr"]]],["I",[[20,"pr"]]],["J",[[20,"pr"]]],["K",[[20,"pr"]]],["L",[[20,"pr"]]],["M",[[20,"pr"]]],["N",[[20,"pr"]]],["O",[[8,"rc"]]]],"best":{"row":"H","seat":10,"label":"Row H \u00b7 Seat 10 \u2014 mid-hall centre"},"avoid":"Row O recliners: a divider rod sits in your sightline (real complaint). 'LieMAX' rep \u2014 Wakad beats it.","playing":[["The Odyssey (IMAX 2D)","Same film as Wakad but on 2K xenon \u2014 go Wakad if you can"]]},{"id":"pxl","v":"PVR Grand Highstreet, Hinjawadi","s":"P[XL]","area":"Hinjawadi","tech":"4K Laser \u00b7 Dolby Atmos \u00b7 flat wall-to-wall","w":50,"h":27,"conf":"recalculated from real seat map","seats":401,"lay":[["A",[[25,"cl"]]],["B",[[6,"cl"],[14,"cl"],[6,"cl"]]],["C",[[6,"pr"],[14,"pr"],[6,"pr"]]],["D",[[6,"pr"],[14,"pr"],[6,"pr"]]],["E",[[6,"pr"],[14,"pr"],[6,"pr"]]],["F",[[6,"pr"],[14,"pr"],[6,"pr"]]],["G",[[6,"pr"],[14,"pr"],[6,"pr"]]],["H",[[6,"pr"],[14,"pr"],[6,"pr"]]],["J",[[6,"pr"],[14,"pr"],[6,"pr"]]],["K",[[6,"pr"],[14,"pr"],[6,"pr"]]],["L",[[6,"el"],[14,"el"],[6,"el"]]],["M",[[6,"p+"],[15,"p+"],[6,"p+"]]],["N",[[6,"p+"],[15,"p+"],[6,"p+"]]],["P",[[5,"p+"],[13,"p+"],[5,"p+"]]],["Q",[[5,"p+"],[13,"p+"],[5,"p+"]]],["R",[[4,"rc"],[4,"rc"],[4,"rc"],[4,"rc"]]]],"best":{"row":"L","seat":13,"label":"Row L \u00b7 Seat 13 \u2014 the Extra Legroom row; PVR literally built the sweet spot"},"avoid":"Rows A\u2013C put a 50-ft screen in your lap. 401 seats \u2014 book the centre early.","playing":[["The Odyssey (P[XL])","Big-canvas epic on the wall-to-wall flat screen"],["Spider-Man 3D (P[XL])","Expanded 1.90 frame fills the flat screen"]]},{"id":"kothrud1","v":"City Pride Kothrud","s":"Audi 1","area":"Kothrud","tech":"4K \u00b7 Dolby Atmos (renovated) \u00b7 Gold/Silver","w":52,"h":24,"conf":"model-estimated","seats":527,"lay":[["A",[[31,"sv"]]],["B",[[31,"sv"]]],["C",[[31,"sv"]]],["D",[[31,"sv"]]],["E",[[31,"sv"]]],["F",[[31,"sv"]]],["G",[[31,"sv"]]],["H",[[31,"sv"]]],["I",[[31,"gd"]]],["J",[[31,"gd"]]],["K",[[31,"gd"]]],["L",[[31,"gd"]]],["M",[[31,"gd"]]],["N",[[31,"gd"]]],["P",[[31,"gd"]]],["Q",[[31,"gd"]]],["R",[[31,"gd"]]]],"best":{"row":"M","seat":16,"label":"Row M \u00b7 Seat 16 \u2014 Gold class centre in Maharashtra's first multiplex"},"avoid":"Silver front rows under a 525-seat hall's rake. No recliners anywhere.","playing":[["Dhamaal 4","Gold-class crowd-pleaser energy"]]},{"id":"esq5","v":"E-Square University Road","s":"Screen 5","area":"University Rd","tech":"4K projector \u00b7 Dolby 7.1 \u00b7 584 seats \u2014 Pune's biggest hall","w":54,"h":24.5,"conf":"model-estimated","seats":584,"lay":[["A",[[32,"sv"]]],["B",[[32,"sv"]]],["C",[[32,"sv"]]],["D",[[32,"sv"]]],["E",[[32,"sv"]]],["F",[[32,"sv"]]],["G",[[32,"sv"]]],["H",[[32,"sv"]]],["I",[[32,"sv"]]],["J",[[32,"sv"]]],["K",[[33,"gd"]]],["L",[[33,"gd"]]],["M",[[33,"gd"]]],["N",[[33,"gd"]]],["P",[[33,"gd"]]],["Q",[[33,"gd"]]],["R",[[33,"gd"]]],["S",[[33,"gd"]]]],"best":{"row":"M","seat":17,"label":"Row M \u00b7 Seat 17 \u2014 Gold centre with 583 other people roaring"},"avoid":"2003-era hall: sit Gold centre or don't bother.","playing":[["Mass entertainers","584 seats of single-screen energy in a multiplex shell"]]},{"id":"icon","v":"PVR ICON, The Pavillion Mall","s":"Flagship Audi (263)","area":"SB Road","tech":"4K \u00b7 Dolby Atmos \u00b7 ICON premium","w":40,"h":18,"conf":"recalculated from real seat map","seats":263,"lay":[["A",[[10,"cl"],[10,"cl"]]],["B",[[10,"cl"],[10,"cl"]]],["C",[[10,"pr"],[10,"pr"]]],["D",[[10,"pr"],[10,"pr"]]],["E",[[10,"pr"],[10,"pr"]]],["F",[[10,"pr"],[10,"pr"]]],["G",[[10,"pr"],[10,"pr"]]],["H",[[10,"pr"],[10,"pr"]]],["J",[[10,"pr"],[10,"pr"]]],["K",[[10,"p+"],[10,"p+"]]],["L",[[10,"p+"],[10,"p+"]]],["M",[[9,"p+"],[10,"p+"]]],["N",[[10,"p+"]]],["P",[[14,"rc"]]]],"best":{"row":"J","seat":10,"label":"Row J \u00b7 Seat 10 \u2014 centre aisle-side of the Prime block"},"avoid":"Row N is half-width beside the entrance vomitory \u2014 light spill on late arrivals.","playing":[["Spider-Man 3D","Prime-time 3D shows run here"],["Dhamaal 4","Comfort pick"]]},{"id":"ice","v":"PVR Director's Cut, KOPA Mall","s":"ICE Theatre","area":"Koregaon Park","tech":"4K Laser \u00b7 Dolby Atmos \u00b7 LED side panels \u00b7 scope screen","w":33,"h":14,"conf":"recalculated from real seat map","seats":184,"lay":[["A",[[12,"pr"],[4,"pr"]]],["B",[[12,"pr"],[4,"pr"]]],["C",[[12,"pr"],[4,"pr"]]],["D",[[12,"pr"],[4,"pr"]]],["E",[[12,"pr"],[4,"pr"]]],["F",[[12,"pr"],[4,"pr"]]],["G",[[12,"pr"],[4,"pr"]]],["H",[[12,"p+"],[4,"p+"]]],["J",[[12,"p+"],[4,"p+"]]],["K",[[12,"p+"],[6,"p+"]]],["L",[[11,"p+"],[11,"p+"]]]],"best":{"row":"F","seat":7,"label":"Row F \u00b7 Seat 7 \u2014 where the LED side panels wrap your peripheral vision"},"avoid":"Last row L: the side-panel effect fades at the back.","playing":[["Spider-Man (ICE 2D)","5 shows a day \u2014 the panels sell the swing shots"]]},{"id":"insignia","v":"INOX Megaplex, Phoenix MoM","s":"Insignia","area":"Wakad","tech":"4K Laser \u00b7 Dolby Atmos \u00b7 every seat a Royal Recliner","w":30,"h":16,"conf":"recalculated from real seat map","seats":49,"lay":[["E",[[9,"ry"]]],["D",[[9,"ry"]]],["C",[[9,"ry"]]],["B",[[11,"ry"]]],["A",[[11,"ry"]]]],"best":{"row":"B","seat":6,"label":"Row B \u00b7 Seat 6 \u2014 but honestly, all 49 are recliners"},"avoid":"Nothing. That's the point of paying for Insignia.","playing":[["Cocktail 2","Dialogue drama + recliner = correct"],["The Odyssey (Insignia)","3 hours is a recliner film"]]}];
+/* ---------- desktop gate ---------- */
+if(innerWidth>=900&&!localStorage.getItem('ps_desktop'))document.getElementById('dgate').classList.add('show');
 /* ---------- data prep ---------- */
 const CCOL={cl:'#3d3f52',cp:'#4a4e6a',pr:'#5a2c33','p+':'#7a3b45',pp:'#7a6cff',xl:'#3f6b5a',el:'#2e8c6a',rc:'#d9a441',ry:'#d9a441',sf:'#c47b3e',gd:'#a8823a',sv:'#4b4a42'};
-function procLayout(s){// procedural layout for screens without a real map
- const lay=[];const L='ABCDEFGHJKLMNPQRSTUV';
- for(let r=0;r<s.rows;r++)lay.push([L[r]||('R'+r),[[s.pr,'pr']]]);
- return lay;}
-// attach a layout + screen dims to every "hall" object we can open
+function procLayout(s){const lay=[];const L='ABCDEFGHJKLMNPQRSTUV';
+ for(let r=0;r<s.rows;r++)lay.push([L[r]||('R'+r),[[s.pr,'pr']]]);return lay;}
 T.forEach(t=>t.isTop=true);
 const HALLS=[...T];
 D.forEach((s,i)=>{const match=T.find(t=>t.v.split(',')[0].toLowerCase().includes(s.v.split(' (')[0].toLowerCase().slice(0,12))&&t.s===s.s);
  if(!match)HALLS.push({v:s.v,s:s.s,area:s.area,tech:s.proj+' · '+s.snd,w:s.w,h:s.h,seats:s.seats,lay:procLayout(s),score:s.score,di:i});});
 T.forEach(t=>{const d=D.find(x=>t.v.toLowerCase().includes(x.v.split(' (')[0].toLowerCase().slice(0,12))&&x.s===t.s);t.score=d?d.score:90;});
 HALLS.sort((a,b)=>(b.score||0)-(a.score||0));
-/* seat scoring: distance + lateral angle + neck strain */
 function gradeHall(hall){
- const W=hall.w,firstD=0.42*W,pitch=3.7;
- const rows=hall.lay;const graded=[];
- rows.forEach((r,ri)=>{
-  const total=r[1].reduce((a,g)=>a+g[0],0);
-  const d=firstD+ri*pitch;
+ const W=hall.w,firstD=0.42*W,pitch=3.7;const graded=[];
+ hall.lay.forEach((r,ri)=>{
+  const total=r[1].reduce((a,g)=>a+g[0],0);const d=firstD+ri*pitch;
   const rowSeats=[];let idx=0;
   r[1].forEach(g=>{for(let k=0;k<g[0];k++){idx++;
    const x=(idx-(total+1)/2)*1.75;
@@ -154,52 +185,61 @@ function gradeHall(hall){
   graded.push(rowSeats);});
  return graded;}
 const tier=s=>s>=82?5:s>=68?4:s>=52?3:s>=38?2:1;
-const TCOL={5:'var(--s5)',4:'var(--s4)',3:'var(--s3)',2:'var(--s2)',1:'var(--s1)'};
+const TCOL={5:'#22c07a',4:'#8fce5f',3:'#e3c14f',2:'#e0854a',1:'#d84f4f'};
 const TNAME={5:'Best',4:'Good',3:'Okay',2:'Meh',1:'Avoid'};
-/* ---------- movies ---------- */
-const MOVIES=[
- {t:'The Odyssey',e:'🌊',g:'Epic · Nolan · IMAX film',bg:'#1b2c4a',halls:[
-  ['wakad_imax','Shot on IMAX cameras — this is the screen it was made for'],
-  ['westend_imax','Second IMAX option — older projection'],
-  ['pxl','Wall-to-wall canvas for the scale'],
-  ['ice','Comfort + LED side panels']]},
- {t:'Spider-Man: Brand New Day',e:'🕷️',g:'Superhero · 3D · No IMAX in India',bg:'#3a1b1b',halls:[
-  ['dolby','Rated the #1 way to watch it in India'],
-  ['epiq','First Hollywood film mastered for EPIQ'],
-  ['icon','Prime-time 3D shows all day'],
-  ['ice','The LED panels sell the web-swings']]},
- {t:'Dhamaal 4',e:'😂',g:'Comedy · Hindi',bg:'#3a2c14',halls:[
-  ['insignia','Comedy + recliners + food service = correct'],
-  ['kothrud1','Gold class, full-house laughter'],
-  ['pxl','Big hall energy']]},
- {t:'Evil Dead Burn',e:'🔥',g:'Horror · A',bg:'#2c1420',halls:[
-  ['icon','Late show, big dark hall'],
-  ['ice','Panels make the dread wraparound']]},
- {t:'Cocktail 2',e:'🍸',g:'Romance · Drama',bg:'#14262c',halls:[
-  ['insignia','Dialogue film — buy comfort, not canvas'],
-  ['kothrud1','Classic date-movie hall']]}];
+/* ---------- movies: curated fallback + TMDB live ---------- */
+const CURATED=[
+ {t:'The Odyssey',e:'🌊',g:'Epic · Nolan · IMAX film',halls:[['wakad_imax','Shot on IMAX cameras — the screen it was made for'],['westend_imax','Second IMAX option — older projection'],['pxl','Wall-to-wall canvas for the scale'],['ice','Comfort + LED side panels']]},
+ {t:'Spider-Man: Brand New Day',e:'🕷️',g:'Superhero · 3D',halls:[['dolby','Rated the #1 way to watch it in India'],['epiq','First Hollywood film mastered for EPIQ'],['icon','Prime-time 3D shows all day'],['ice','The LED panels sell the web-swings']]},
+ {t:'Dhamaal 4',e:'😂',g:'Comedy · Hindi',halls:[['insignia','Comedy + recliners + food service = correct'],['kothrud1','Gold class, full-house laughter'],['pxl','Big hall energy']]},
+ {t:'Evil Dead Burn',e:'🔥',g:'Horror',halls:[['icon','Late show, big dark hall'],['ice','Panels make the dread wraparound']]},
+ {t:'Cocktail 2',e:'🍸',g:'Romance · Drama',halls:[['insignia','Dialogue film — buy comfort, not canvas'],['kothrud1','Classic date-movie hall']]}];
+let MOVIES=CURATED.map(m=>({...m}));
+/* genre → hall algorithm (TMDB genre ids) */
+function rankHallsFor(genres){
+ const has=g=>genres.includes(g);
+ if(has(878)||has(12)||has(14)||has(10752)||has(36))return[['wakad_imax','Spectacle pick — Pune\'s biggest, sharpest screen'],['epiq','Wall-to-wall premium canvas'],['pxl','Big flat screen, big scale'],['dolby','Reference picture quality']];
+ if(has(28)||has(53)||has(80))return[['dolby','Best picture + sound in the city'],['epiq','64-channel Atmos hits hard'],['wakad_imax','Scale pick'],['icon','Reliable premium hall']];
+ if(has(27))return[['icon','Big dark hall — dread loves company'],['ice','Wraparound LED panels'],['dolby','Blackest blacks in Pune']];
+ if(has(35)||has(10749)||has(18)||has(10751))return[['insignia','Recliners + food service — comfort pick'],['kothrud1','Full-house energy, Gold class'],['ice','Premium comfort']];
+ if(has(16))return[['dolby','Colour pops hardest here'],['epiq','Laser-sharp for animation'],['insignia','Kid-friendly comfort']];
+ return[['wakad_imax','The default best in Pune'],['dolby','Picture-quality pick'],['epiq','Sound pick']];}
+async function loadMovies(){
+ const key=localStorage.getItem('ps_tmdb');if(!key)return;
+ try{
+  const r=await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${key}&region=IN&page=1`);
+  const j=await r.json();if(!j.results)return;
+  const gm=await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${key}`).then(x=>x.json()).catch(()=>({genres:[]}));
+  const gname=id=>(gm.genres.find(g=>g.id===id)||{}).name;
+  MOVIES=j.results.slice(0,10).map(m=>{
+   const cur=CURATED.find(c=>m.title.toLowerCase().includes(c.t.toLowerCase().split(':')[0].toLowerCase()));
+   return{t:m.title,e:'🎬',g:(m.genre_ids||[]).map(gname).filter(Boolean).slice(0,3).join(' · ')||'Now playing',
+    poster:m.poster_path?`https://image.tmdb.org/t/p/w342${m.poster_path}`:null,
+    halls:cur?cur.halls:rankHallsFor(m.genre_ids||[])};});
+  if(view.p==='movies'||view.p==='movie')render();
+ }catch(e){}}
 const byId=id=>T.find(t=>t.id===id);
 /* ---------- router ---------- */
 const app=document.getElementById('app');
 let view={p:'home'};
 function go(p,a){view={p,a};render();scrollTo(0,0);}
+function posterEl(m,sq){return `<div class="poster${sq?' sq':''}">${m.poster?`<img src="${m.poster}" alt="" loading="lazy">`:m.e||'🎬'}</div>`}
 function render(){
  const u=localStorage.getItem('ps_name');
  if(view.p==='home')app.innerHTML=`
   <h1>${u?`Hey ${u} 👋`:'Watch it right.'}</h1>
   <p class="sub">The right movie, the right hall, the right seat — in two taps.</p>
   <button class="bigbtn" onclick="go('movies')"><span class="e">🎬</span><span class="t">Movies in Pune</span><div class="d">What's playing & where it hits hardest</div></button>
-  <button class="bigbtn" onclick="go('theaters')"><span class="e">🏆</span><span class="t">Best theaters in Pune</span><div class="d">Every hall ranked · tap any seat to see the view</div></button>`;
+  <button class="bigbtn" onclick="go('theaters')"><span class="e">🏆</span><span class="t">Best theaters in Pune</span><div class="d">Every hall ranked · see the view from any seat</div></button>`;
  if(view.p==='movies')app.innerHTML=`
   <button class="back" onclick="go('home')">← Home</button>
-  <h1>Movies in Pune</h1><p class="sub">Tap a movie to see where to watch it — best hall first.</p>
+  <h1>Movies in Pune</h1><p class="sub">Tap a movie — best hall for it comes first.${localStorage.getItem('ps_tmdb')?'':' <span style="color:var(--acc)">Add a TMDB key (👤) for live listings & posters.</span>'}</p>
   ${MOVIES.map((m,i)=>`<div class="card" onclick="go('movie',${i})"><div class="row1">
-   <div class="poster" style="background:${m.bg}">${m.e}</div>
-   <div class="ct"><div class="t">${m.t}</div><div class="d">${m.g}</div></div>
-   <div class="chev">›</div></div></div>`).join('')}`;
+   ${posterEl(m)}<div class="ct"><div class="t">${m.t}</div><div class="d">${m.g}</div></div><div class="chev">›</div></div></div>`).join('')}`;
  if(view.p==='movie'){const m=MOVIES[view.a];app.innerHTML=`
   <button class="back" onclick="go('movies')">← Movies</button>
-  <h1>${m.t}</h1><p class="sub">${m.g}</p>
+  <div class="row1" style="margin:18px 0 4px">${posterEl(m)}<div><h1 style="margin:0">${m.t}</h1><p class="sub" style="margin:2px 0 0">${m.g}</p></div></div>
+  <p class="sub" style="margin-top:14px">Where to watch it, ranked:</p>
   ${m.halls.map((hp,i)=>{const t=byId(hp[0]);if(!t)return '';const s=Math.round(t.score||88);
    return `<div class="card" onclick="go('hall',HALLS.indexOf(byId('${hp[0]}')))"><div class="row1">
    <div class="rankn">${i+1}</div>
@@ -208,44 +248,67 @@ function render(){
    <div class="whybox"><b>Why:</b> ${hp[1]}</div></div>`}).join('')}`;}
  if(view.p==='theaters')app.innerHTML=`
   <button class="back" onclick="go('home')">← Home</button>
-  <h1>Best theaters in Pune</h1><p class="sub">Ranked by screen, projection & sound. Tap one → tap any seat → see the view.</p>
+  <h1>Best theaters in Pune</h1><p class="sub">Ranked by screen, projection & sound.</p>
   ${HALLS.slice(0,25).map((h,i)=>`<div class="card" onclick="go('hall',${i})"><div class="row1">
    <div class="rankn">${i+1}</div>
    <div class="ct"><div class="t">${h.v}</div><div class="d">${h.s} · ${h.area} · ${h.seats} seats</div></div>
    <div class="badge b${tier(Math.round(h.score||60))}">${Math.round(h.score||60)}</div><div class="chev">›</div></div></div>`).join('')}`;
- if(view.p==='hall'){renderHall(HALLS[view.a]);}
+ if(view.p==='hall')renderHall(HALLS[view.a]);
 }
-/* ---------- hall page ---------- */
-let curHall=null,curGrade=null;
+/* ---------- hall page: overview map + zone picker ---------- */
+let curHall=null,curGrade=null,bestList=[],curSeatIdx=0;
+const ZN=[['Front left','Front centre','Front right'],['Middle left','Middle centre','Middle right'],['Back left','Back centre','Back right']];
+function zoneOf(st,rows){
+ const zr=st.ri<rows/3?0:st.ri<rows*2/3?1:2;
+ const zc=st.x<-curHall.w/6?0:st.x>curHall.w/6?2:1;
+ return zr*3+zc;}
 function renderHall(h){
  curHall=h;curGrade=gradeHall(h);
  const flat=curGrade.flat();
- const best=[...flat].sort((a,b)=>b.sc-a.sc).slice(0,6);
- const worst=[...flat].sort((a,b)=>a.sc-b.sc).slice(0,4);
+ bestList=[...flat].sort((a,b)=>b.sc-a.sc).slice(0,6);
+ const rows=curGrade.length;
+ const zones=Array.from({length:9},()=>({sum:0,n:0}));
+ flat.forEach(st=>{const z=zoneOf(st,rows);zones[z].sum+=st.sc;zones[z].n++;});
  const maxSeats=Math.max(...curGrade.map(r=>r.length));
- const sw=Math.max(7,Math.min(13,Math.floor(300/maxSeats)));
+ const dw=Math.max(4,Math.min(9,Math.floor(280/maxSeats)));
  app.innerHTML=`
-  <button class="back" onclick="history.length>1?go('theaters'):go('home')">← Back</button>
-  <h1>${h.v}</h1>
-  <p class="sub">${h.s} · ${h.area}${h.tech?' · '+h.tech:''}</p>
-  <div class="chips">${(h.isTop?['✓ mapped from real seat layout']:['layout approximated']).map(c=>`<span class="chip gold">${c}</span>`).join('')}
-   <span class="chip">${h.seats} seats</span><span class="chip">${h.lay.length} rows</span></div>
+  <button class="back" onclick="go('theaters')">← Back</button>
+  <h1 style="font-size:1.35rem">${h.v}</h1>
+  <p class="sub" style="margin-bottom:8px">${h.s} · ${h.area}${h.tech?' · '+h.tech:''}</p>
+  <div class="chips">${h.isTop?'<span class="chip gold">✓ real seat layout</span>':''}<span class="chip">${h.seats} seats</span><span class="chip">${h.lay.length} rows</span></div>
   <div class="mapcard">
    <div class="screenbar" style="width:${Math.min(92,Math.round(h.w/62*100))}%"></div>
    <div class="screenlbl">SCREEN</div>
-   ${curGrade.map((r,ri)=>`<div class="srow"><span class="srl">${r[0]?r[0].row:''}</span>
-    ${r.map(st=>`<span class="seat" onclick="openSeat(${ri},${st.n})" title="${st.row}${st.n} · ${st.sc}/100"
-     style="width:${sw}px;height:${sw}px;background:${TCOL[tier(st.sc)]}"></span>`).join('')}</div>`).join('')}
+   ${curGrade.map(r=>`<div class="srow">${r.map(st=>`<span class="dot" style="width:${dw}px;height:${dw}px;background:${TCOL[tier(st.sc)]}"></span>`).join('')}</div>`).join('')}
    <div class="maplegend">${[5,4,3,2,1].map(t=>`<span class="lg"><span class="sw" style="background:${TCOL[t]}"></span>${TNAME[t]}</span>`).join('')}</div>
-   <div class="hint">👆 Tap any seat to see the view from it</div>
   </div>
-  <div class="seatlists">
-   <div class="slbox best"><h3>★ Top seats</h3><div class="seats">${best.map(s=>`<span class="pillseat g" onclick="openSeat(${s.ri},${s.n})">${s.row}${s.n}</span>`).join('')}</div></div>
-   <div class="slbox worst"><h3>✗ Skip these</h3><div class="seats">${worst.map(s=>`<span class="pillseat r" onclick="openSeat(${s.ri},${s.n})">${s.row}${s.n}</span>`).join('')}</div></div>
+  <button class="cta" onclick="openBest()">⭐ Take me to the best seat</button>
+  <div class="zlbl">…or pick your area — big buttons, easy thumbs 👇</div>
+  <div class="zones">
+   ${zones.map((z,i)=>{const avg=z.n?Math.round(z.sum/z.n):0;const t=tier(avg);
+    return `<button class="zone" style="background:${TCOL[t]}" onclick="openZone(${i})" ${z.n?'':'disabled'}>
+    <div class="zn">${ZN[Math.floor(i/3)][i%3]}</div><div class="zs">${z.n?avg+'/100':'—'}</div></button>`}).join('')}
   </div>
-  ${h.best&&h.best.label?`<div class="card" style="cursor:default"><div class="whybox" style="border:0;padding:0;margin:0">💡 <b>Local intel:</b> ${h.best.label}${h.avoid?'<br>⚠ '+h.avoid:''}</div></div>`:''}`;
+  ${h.best&&h.best.label?`<div class="card" style="cursor:default;margin-top:14px"><div class="whybox" style="border:0;padding:0;margin:0">💡 <b>Local intel:</b> ${h.best.label}${h.avoid?'<br>⚠ '+h.avoid:''}</div></div>`:''}`;
 }
-/* ---------- 3D: hall + first-person from seat ---------- */
+function openBest(){const s=bestList[0];curSeatIdx=0;openSeat(s.ri,s.n);}
+/* zone bottom sheet */
+function openZone(zi){
+ const rows=curGrade.length;
+ const inZone=curGrade.map(r=>r.filter(st=>zoneOf(st,rows)===zi)).filter(r=>r.length);
+ document.getElementById('sht').textContent=ZN[Math.floor(zi/3)][zi%3];
+ document.getElementById('shd').textContent='Tap a seat to see the exact view from it';
+ document.getElementById('shb').innerHTML=inZone.map(r=>`<div class="bsrow"><span class="bsrl">${r[0].row}</span>
+  ${r.map(st=>`<button class="bseat" style="background:${TCOL[tier(st.sc)]}" onclick="fromSheet(${st.ri},${st.n})">${st.n}</button>`).join('')}</div>`).join('');
+ document.getElementById('sheet').classList.add('open');
+ document.getElementById('shade').classList.add('open');}
+function closeSheet(){document.getElementById('sheet').classList.remove('open');document.getElementById('shade').classList.remove('open');}
+function fromSheet(ri,n){closeSheet();openSeat(ri,n);}
+function cycleSeat(dir){
+ if(!bestList.length)return;
+ curSeatIdx=(curSeatIdx+dir+bestList.length)%bestList.length;
+ const s=bestList[curSeatIdx];openSeat(s.ri,s.n);}
+/* ---------- 3D ---------- */
 let R3=null,scene,camera,raf=null,mode='seat',seatPos=null,yaw=0,pitchA=0,theta=.55,phi=1.1,radius=90,target3;
 const vc=document.getElementById('vc'),viewer=document.getElementById('viewer');
 function seatDims(c){if(c==='sf')return[3.1,2.4];if(c==='rc'||c==='ry')return[2.3,2.2];if(c==='el'||c==='xl')return[1.9,1.9];return[1.6,1.5];}
@@ -254,17 +317,17 @@ function openSeat(ri,n){
  document.getElementById('vt').textContent=h.v+' — '+h.s;
  document.getElementById('vd').textContent='Seat '+st.row+st.n;
  const t=tier(st.sc);
- const vs=document.getElementById('vscore');vs.textContent=st.sc+'/100 · '+TNAME[t];
- vs.style.background=`color-mix(in srgb,${TCOL[t]} 18%,transparent)`;vs.style.color=TCOL[t];
+ const vs=document.getElementById('vscore');vs.textContent=st.row+st.n+' · '+st.sc+'/100';
+ vs.style.background='rgba(255,255,255,.08)';vs.style.color=TCOL[t];
  viewer.classList.add('open');
  if(!R3){R3=new THREE.WebGLRenderer({canvas:vc,antialias:true});R3.setPixelRatio(Math.min(devicePixelRatio,2));}
- buildScene(h,st);setMode('seat');animate();}
+ buildScene(h,st);setMode(mode==='hall'?'hall':'seat');animate();}
 function setMode(m){mode=m;
  document.getElementById('bSeat').classList.toggle('on',m==='seat');
  document.getElementById('bHall').classList.toggle('on',m==='hall');
  if(m==='seat'){yaw=0;pitchA=0;}else{theta=.55;phi=1.1;}}
 function closeViewer(){viewer.classList.remove('open');if(raf)cancelAnimationFrame(raf);raf=null;}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeViewer();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeViewer();closeSheet();}});
 function buildScene(o,st){
  if(raf)cancelAnimationFrame(raf);
  scene=new THREE.Scene();scene.background=new THREE.Color(0x05060a);scene.fog=new THREE.Fog(0x05060a,160,420);
@@ -283,8 +346,7 @@ function buildScene(o,st){
  [-1,1].forEach(sg=>{const wl=new THREE.Mesh(new THREE.PlaneGeometry(depth+24,H+24),wallM);
   wl.rotation.y=sg<0?Math.PI/2:-Math.PI/2;wl.position.set(sg*hallW/2,(H+24)/2,depth/2);scene.add(wl);});
  const back=new THREE.Mesh(new THREE.PlaneGeometry(hallW,H+24),wallM);back.position.set(0,(H+24)/2,depth+12);back.rotation.y=Math.PI;scene.add(back);
- // screen with a fake "movie" gradient via canvas texture
- const cnv=document.createElement('canvas');cnv.width=512;cnv.height=Math.round(512*H/W);
+ const cnv=document.createElement('canvas');cnv.width=512;cnv.height=Math.max(2,Math.round(512*H/W));
  const g=cnv.getContext('2d');const gr=g.createLinearGradient(0,0,512,cnv.height);
  gr.addColorStop(0,'#2b3f74');gr.addColorStop(.45,'#c8d4ff');gr.addColorStop(.55,'#e8b96a');gr.addColorStop(1,'#1c2440');
  g.fillStyle=gr;g.fillRect(0,0,512,cnv.height);
@@ -296,7 +358,6 @@ function buildScene(o,st){
  const frameM=new THREE.MeshBasicMaterial({color:0x030308});
  const fb=new THREE.Mesh(new THREE.BoxGeometry(W+4,2,1),frameM);fb.position.set(0,scrBase-1,0);scene.add(fb);
  const ft=fb.clone();ft.position.y=scrBase+H+1;scene.add(ft);
- // seats
  const mkSeat=(x,y,z,cw,cd,m)=>{const s1=new THREE.Mesh(new THREE.BoxGeometry(cw*0.86,1.6,cd*0.8),m);s1.position.set(x,y+0.8,z);scene.add(s1);
   const bk=new THREE.Mesh(new THREE.BoxGeometry(cw*0.86,1.5,0.32),m);bk.position.set(x,y+2.2,z+cd*0.45);scene.add(bk);};
  let z=firstD,y=0;seatPos=null;
@@ -335,25 +396,30 @@ function animate(){raf=requestAnimationFrame(animate);
  camera.updateProjectionMatrix();
  R3.render(scene,camera);}
 let drag=false,px=0,py=0;
-vc.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY;vc.setPointerCapture(e.pointerId);vc.style.cursor='grabbing'});
+vc.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY;vc.setPointerCapture(e.pointerId);});
 vc.addEventListener('pointermove',e=>{if(!drag)return;
  if(mode==='seat'){yaw+=(e.clientX-px)*0.004;pitchA+=(e.clientY-py)*0.003;}
  else{theta-=(e.clientX-px)*0.005;phi=Math.min(1.5,Math.max(0.25,phi-(e.clientY-py)*0.004));}
  px=e.clientX;py=e.clientY;});
-vc.addEventListener('pointerup',()=>{drag=false;vc.style.cursor='grab'});
+vc.addEventListener('pointerup',()=>{drag=false;});
 vc.addEventListener('wheel',e=>{e.preventDefault();
  if(mode==='hall')radius=Math.min(550,Math.max(25,radius+e.deltaY*0.12));},{passive:false});
-/* ---------- login + city ---------- */
-function openLogin(){const u=localStorage.getItem('ps_name');
- if(u){if(confirm('Signed in as '+u+'. Sign out?')){localStorage.removeItem('ps_name');render();}return;}
- document.getElementById('login').classList.add('open');document.getElementById('lname').focus();}
-function doLogin(){const v=document.getElementById('lname').value.trim();
+/* ---------- login / settings ---------- */
+function openLogin(){
+ document.getElementById('lname').value=localStorage.getItem('ps_name')||'';
+ document.getElementById('lkey').value=localStorage.getItem('ps_tmdb')||'';
+ document.getElementById('login').classList.add('open');}
+function doLogin(){
+ const v=document.getElementById('lname').value.trim();
+ const k=document.getElementById('lkey').value.trim();
  if(v)localStorage.setItem('ps_name',v);
+ if(k){localStorage.setItem('ps_tmdb',k);loadMovies();}
  document.getElementById('login').classList.remove('open');render();}
 document.getElementById('login').addEventListener('click',e=>{if(e.target.id==='login')e.target.classList.remove('open');});
-document.getElementById('lname')&&document.getElementById('lname').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 function cityMenu(){alert('Pune is live.\nMumbai & Chennai — coming soon.');}
 window.go=go;window.openSeat=openSeat;window.setMode=setMode;window.closeViewer=closeViewer;
-window.openLogin=openLogin;window.doLogin=doLogin;window.cityMenu=cityMenu;window.HALLS=HALLS;window.byId=byId;
-render();
+window.openLogin=openLogin;window.doLogin=doLogin;window.cityMenu=cityMenu;
+window.openZone=openZone;window.closeSheet=closeSheet;window.fromSheet=fromSheet;
+window.openBest=openBest;window.cycleSeat=cycleSeat;window.HALLS=HALLS;window.byId=byId;
+render();loadMovies();
 </script></body></html>
