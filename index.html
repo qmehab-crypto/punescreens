@@ -466,7 +466,9 @@ function openSeat(ri,n,glabel){
  if(!R3){R3=new THREE.WebGLRenderer({canvas:vc,antialias:true,powerPreference:'high-performance'});
   R3.setPixelRatio(Math.min(devicePixelRatio,1.75));
   vc.addEventListener('webglcontextlost',e=>{e.preventDefault();R3=null;},{once:true});}
- buildScene(h,st);setMode(mode==='hall'?'hall':'seat');animate();}
+ buildScene(h,st);setMode(mode==='hall'?'hall':'seat');animate();
+ /* arriving from a 3D movie: glasses go on automatically */
+ if(curMovie&&/3d/i.test(curMovie.g||'')&&!mode3d)toggle3d();}
 /* shared geometry + material caches — stops GPU memory leaks (the black-screen bug) */
 const _geo={},G3=(w,h,d)=>{const k='b'+w.toFixed(2)+'_'+h.toFixed(2)+'_'+d.toFixed(2);return _geo[k]||(_geo[k]=new THREE.BoxGeometry(w,h,d));};
 const _mat={},M3=(key,opts)=>_mat[key]||(_mat[key]=new THREE.MeshStandardMaterial(opts));
@@ -481,16 +483,26 @@ function toggle3d(){mode3d=!mode3d;
  document.getElementById('glasses').classList.toggle('on',mode3d);
  document.getElementById('b3d').classList.toggle('on',mode3d);
  if(mode3d)spawnPop();else clearPop();}
-function clearPop(){(window._pop||[]).forEach(p=>scene&&scene.remove(p));window._pop=[];}
-function spawnPop(){clearPop();if(!scene||!window._scrDims)return;
- const {W,H,scrBase}=window._scrDims;
- const cols=[0x8fb6ff,0xffd166,0xff8fa3,0x8ff0c8];
- for(let i=0;i<7;i++){
-  const p=new THREE.Mesh(_geo.pop||(_geo.pop=new THREE.SphereGeometry(0.35,8,6)),
-   new THREE.MeshBasicMaterial({color:cols[i%4],transparent:true,opacity:.75,blending:THREE.AdditiveBlending}));
-  p.position.set((Math.random()-.5)*W*0.7,scrBase+2+Math.random()*(H-4),1+Math.random()*4);
-  p.userData.v=0.12+Math.random()*0.2;
-  scene.add(p);window._pop.push(p);}}
+function clearPop(){const f=window._fx3d;
+ if(f&&scene)[...f.ghosts,f.pop,...f.parts].forEach(o=>{if(!o)return;scene.remove(o);
+  if(o.geometry&&o.geometry!==_geo.pop)o.geometry.dispose();o.material.dispose();});
+ window._fx3d=null;}
+function spawnPop(){clearPop();if(!scene||!window._scrDims||!window._scrMat)return;
+ const {W,H,scrBase}=window._scrDims;const map=window._scrMat.map;
+ /* the picture splits into stereo ghosts and leans off the screen at you */
+ const gh=(tint,dx,dz)=>{const g=new THREE.Mesh(new THREE.PlaneGeometry(W,H),
+  new THREE.MeshBasicMaterial({map,transparent:true,opacity:0.22,blending:THREE.AdditiveBlending,color:tint,depthWrite:false}));
+  g.position.set(dx,scrBase+H/2,dz);scene.add(g);return g;};
+ const ghosts=[gh(0xff6666,-0.45,0.2),gh(0x66ddff,0.45,0.4)];
+ const pop=new THREE.Mesh(new THREE.PlaneGeometry(W*0.62,H*0.62),
+  new THREE.MeshBasicMaterial({map,transparent:true,opacity:0.42,blending:THREE.AdditiveBlending,depthWrite:false}));
+ pop.position.set(0,scrBase+H/2,3);scene.add(pop);
+ const parts=[];const cols=[0x8fb6ff,0xffd166,0x8ff0c8];
+ for(let i=0;i<4;i++){const p=new THREE.Mesh(_geo.pop||(_geo.pop=new THREE.SphereGeometry(0.3,8,6)),
+  new THREE.MeshBasicMaterial({color:cols[i%3],transparent:true,opacity:.7,blending:THREE.AdditiveBlending}));
+  p.position.set((Math.random()-.5)*W*0.6,scrBase+2+Math.random()*(H-4),2+Math.random()*4);
+  p.userData.v=0.15+Math.random()*0.2;scene.add(p);parts.push(p);}
+ window._fx3d={ghosts,pop,parts};}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeViewer();closeSheet();}});
 function buildScene(o,st){
  if(raf)cancelAnimationFrame(raf);
@@ -519,7 +531,7 @@ function buildScene(o,st){
  gr.addColorStop(0,'#2b3f74');gr.addColorStop(.45,'#c8d4ff');gr.addColorStop(.55,'#e8b96a');gr.addColorStop(1,'#1c2440');
  g.fillStyle=gr;g.fillRect(0,0,512,cnv.height);
  const tex=new THREE.CanvasTexture(cnv);window._cnvTex=tex;
- const scrMat=new THREE.MeshBasicMaterial({map:tex});
+ const scrMat=new THREE.MeshBasicMaterial({map:tex});window._scrMat=scrMat;
  const scr=new THREE.Mesh(TG(new THREE.PlaneGeometry(W,H)),scrMat);
  scr.position.set(0,scrBase+H/2,0);scene.add(scr);
  /* the movie you came from plays on this hall's real-size screen, cover-cropped */
@@ -617,7 +629,7 @@ function buildScene(o,st){
   z+=pitch;y+=rowRise*((cls0==='rc'||cls0==='ry'||cls0==='sf')?1.25:1);});
  if(!seatPos)seatPos=new THREE.Vector3(0,4,depth*0.6);
  window._scrCenter=new THREE.Vector3(0,scrBase+H/2,0);
- window._scrDims={W,H,scrBase,depth};window._pop=[];
+ window._scrDims={W,H,scrBase,depth};window._fx3d=null;
  if(mode3d)spawnPop();
  /* your popcorn & drink — right there in your lap 🍿🥤 */
  {const fwd=new THREE.Vector3().subVectors(window._scrCenter,seatPos);fwd.y=0;fwd.normalize();
@@ -646,10 +658,20 @@ function animate(){raf=requestAnimationFrame(animate);
  const tnow=performance.now()/1000;
  if(window._panels&&window._panels.length)window._panels.forEach((pm,i)=>pm.opacity=.4+.35*Math.sin(tnow*2.2+i*1.3));
  if(window._scrLight)window._scrLight.intensity=1.15+0.14*Math.sin(tnow*1.3)+0.07*Math.sin(tnow*7.7)+0.04*Math.sin(tnow*13.1);
- if(mode3d&&window._pop&&seatPos)window._pop.forEach(p=>{p.position.z+=p.userData.v;
-  p.material.opacity=Math.max(0,.8-(p.position.z/(seatPos.z+2))*.6);
-  if(p.position.z>seatPos.z+1){p.position.z=1+Math.random()*3;
-   const d2=window._scrDims;p.position.x=(Math.random()-.5)*d2.W*0.7;p.position.y=d2.scrBase+2+Math.random()*(d2.H-4);}});
+ if(mode3d&&window._fx3d&&seatPos){const f=window._fx3d,d2=window._scrDims;
+  const mp=window._scrMat&&window._scrMat.map;
+  [...f.ghosts,f.pop].forEach(o=>{if(mp&&o.material.map!==mp){o.material.map=mp;o.material.needsUpdate=true;}});
+  const towards=Math.min(seatPos.z*0.6,d2.depth*0.5);
+  const ph=0.5+0.5*Math.sin(tnow*0.7);
+  f.pop.position.z=3+ph*towards;
+  const sc2=1+0.35*ph;f.pop.scale.set(sc2,sc2,1);
+  f.pop.material.opacity=0.42-0.26*ph;
+  f.ghosts[0].position.x=-0.45-0.3*Math.sin(tnow*1.1);
+  f.ghosts[1].position.x=0.45+0.3*Math.sin(tnow*1.1);
+  f.parts.forEach(p=>{p.position.z+=p.userData.v;
+   p.material.opacity=Math.max(0,.7-(p.position.z/(seatPos.z+2))*.55);
+   if(p.position.z>seatPos.z+1){p.position.z=2+Math.random()*3;
+    p.position.x=(Math.random()-.5)*d2.W*0.6;p.position.y=d2.scrBase+2+Math.random()*(d2.H-4);}});}
  if(mode==='seat'){
   camera.position.copy(seatPos);
   /* 4DX / MX4D: the seat moves — heave, surge, sway */
