@@ -1,0 +1,167 @@
+venue,screen,class,seats,seats_source,width_ft,height_ft,width_cm,height_cm,area_sqft,dimension_confidence,notes
+INOX Megaplex Phoenix MoM (Wakad),IMAX,plf,262,known,60,33,1829,1006,1980,verified,KDCloudy measured
+E-Square EPIQ (Hinjawadi Ph2),EPIQ,plf,310,known,59,31,1798,945,1829,published,Qube/EPIQ published spec
+Cinepolis Westend (Aundh),IMAX,plf,283,known,55,31,1676,945,1705,verified,KDCloudy measured; 2K xenon
+PVR Grand Highstreet (Hinjawadi),P[XL],plf,401,seat-map,50,27,1524,823,1350,recalc-from-seatmap,401 seats/16 rows A-R from District seat map; 26-wide rows -> ~50ft wall-to-wall flat screen
+City Pride Kharadi,Audi 6 Dolby Cinema,plf,310,known,55,26.2,1676,799,1441,fan-measured,laser-measured by Shrey Tyagi + KDCloudy
+City Pride Kothrud,Audi 1,standard,525,known,55,25.0,1676,762,1375,model-estimated,chain's classic big hall
+E-Square University Road,Screen 5,standard,584,known,55,25.0,1676,762,1375,model-estimated,one of Pune's largest halls; 4K
+Rahul 70MM,Ground (ex-70mm),single,700,est,50,22.7,1524,692,1135,estimated,"70mm-era big screen, hall since split"
+City Pride Kothrud,Audi 2,standard,375,known,48.4,22.0,1475,671,1065,model-estimated,
+City Pride Abhiruchi,Audi 6,standard,315,known,44.4,20.2,1353,616,897,model-estimated,
+Rajhans 93 Avenue,Audi 4,standard,303,known,43.5,19.8,1326,604,861,model-estimated,
+City Pride Mangala,Screen 1,standard,300,est,43.3,19.7,1320,600,853,model-estimated,converted single-screen halls
+City Pride Mangala,Screen 2,standard,300,est,43.3,19.7,1320,600,853,model-estimated,converted single-screen halls
+City Pride Mangala,Screen 3,standard,300,est,43.3,19.7,1320,600,853,model-estimated,converted single-screen halls
+Rajhans 93 Avenue,Audi 2,standard,275,known,41.5,18.9,1265,576,784,model-estimated,
+Rajhans 93 Avenue,Audi 1,standard,267,known,40.9,18.6,1247,567,761,model-estimated,
+City Pride Kharadi,Audi 7,standard,265,known,40.7,18.5,1241,564,753,model-estimated,
+City Pride Kothrud,Audi 3,standard,250,est,39.5,18.0,1204,549,711,model-estimated,
+City Pride Kothrud,Audi 4,standard,250,est,39.5,18.0,1204,549,711,model-estimated,
+City Pride Satara Road,Audi 1,standard,250,est,39.5,18.0,1204,549,711,model-estimated,
+City Pride Satara Road,Audi 2,standard,250,est,39.5,18.0,1204,549,711,model-estimated,
+Miraj Spine City (Moshi),Screen 2,standard,243,known,39.0,17.7,1189,539,690,model-estimated,
+Miraj Spine City (Moshi),Screen 3,standard,241,known,38.8,17.6,1183,536,683,model-estimated,
+PVR Kumar Pacific,Audi 1,standard,235,est,38.3,17.4,1167,530,666,model-estimated,941/4
+PVR Kumar Pacific,Audi 2,standard,235,est,38.3,17.4,1167,530,666,model-estimated,941/4
+PVR Kumar Pacific,Audi 3,standard,235,est,38.3,17.4,1167,530,666,model-estimated,941/4
+PVR Kumar Pacific,Audi 4,standard,235,est,38.3,17.4,1167,530,666,model-estimated,941/4
+INOX Bund Garden,Audi 1,standard,235,est,38.3,17.4,1167,530,666,model-estimated,~1000+/4
+INOX Bund Garden,Audi 2,standard,235,est,38.3,17.4,1167,530,666,model-estimated,~1000+/4
+INOX Bund Garden,Audi 3,standard,235,est,38.3,17.4,1167,530,666,model-estimated,~1000+/4
+INOX Bund Garden,Audi 4,standard,235,est,38.3,17.4,1167,530,666,model-estimated,~1000+/4
+MovieMax Amanora,Audi 1,standard,233,est,38.2,17.4,1164,530,665,model-estimated,1865/8
+MovieMax Amanora,Audi 2,standard,233,est,38.2,17.4,1164,530,665,model-estimated,1865/8
+MovieMax Amanora,Audi 3,standard,233,est,38.2,17.4,1164,530,665,model-estimated,1865/8
+MovieMax Amanora,Audi 4,standard,233,est,38.2,17.4,1164,530,665,model-estimated,1865/8
+MovieMax Amanora,Audi 5,standard,233,est,38.2,17.4,1164,530,665,model-estimated,1865/8
+MovieMax Amanora,Audi 6,standard,233,est,38.2,17.4,1164,530,665,model-estimated,1865/8
+MovieMax Amanora,Audi 7,standard,233,est,38.2,17.4,1164,530,665,model-estimated,1865/8
+MovieMax Amanora,Audi 8,standard,233,est,38.2,17.4,1164,530,665,model-estimated,1865/8
+City Pride Satara Road,Audi 3,standard,234,known,38.2,17.4,1164,530,665,model-estimated,
+PVR Phoenix Marketcity,Audi 1,standard,230,est,37.9,17.2,1155,524,652,model-estimated,
+PVR Phoenix Marketcity,Audi 2,standard,230,est,37.9,17.2,1155,524,652,model-estimated,
+PVR Phoenix Marketcity,Audi 3,standard,230,est,37.9,17.2,1155,524,652,model-estimated,
+PVR Phoenix Marketcity,Audi 4,standard,230,est,37.9,17.2,1155,524,652,model-estimated,
+PVR Phoenix Marketcity,Audi 5,standard,230,est,37.9,17.2,1155,524,652,model-estimated,
+PVR Phoenix Marketcity,Audi 6,standard,230,est,37.9,17.2,1155,524,652,model-estimated,
+PVR Phoenix Marketcity,Audi 7,standard,230,est,37.9,17.2,1155,524,652,model-estimated,
+PVR ICON The Pavillion,Audi 1,standard,228,est,37.7,17.1,1149,521,645,model-estimated,1366/6
+PVR ICON The Pavillion,Audi 2,standard,228,est,37.7,17.1,1149,521,645,model-estimated,1366/6
+PVR ICON The Pavillion,Audi 3,standard,228,est,37.7,17.1,1149,521,645,model-estimated,1366/6
+PVR ICON The Pavillion,Audi 4,standard,228,est,37.7,17.1,1149,521,645,model-estimated,1366/6
+PVR ICON The Pavillion,Audi 5,standard,228,est,37.7,17.1,1149,521,645,model-estimated,1366/6
+PVR ICON The Pavillion,Audi 6,standard,228,est,37.7,17.1,1149,521,645,model-estimated,1366/6
+INOX Elpro City Square (Chinchwad),Audi 1,standard,228,est,37.7,17.1,1149,521,645,model-estimated,1139/5
+INOX Elpro City Square (Chinchwad),Audi 2,standard,228,est,37.7,17.1,1149,521,645,model-estimated,1139/5
+INOX Elpro City Square (Chinchwad),Audi 3,standard,228,est,37.7,17.1,1149,521,645,model-estimated,1139/5
+INOX Elpro City Square (Chinchwad),Audi 4,standard,228,est,37.7,17.1,1149,521,645,model-estimated,1139/5
+INOX Elpro City Square (Chinchwad),Audi 5,standard,228,est,37.7,17.1,1149,521,645,model-estimated,1139/5
+Miraj Spine City (Moshi),Screen 4,standard,220,known,37.1,16.9,1131,515,627,model-estimated,
+City Pride Royal (Pimple Saudagar),Audi 1,standard,204,est,35.7,16.2,1088,494,578,model-estimated,817/4
+City Pride Royal (Pimple Saudagar),Audi 2,standard,204,est,35.7,16.2,1088,494,578,model-estimated,817/4
+City Pride Royal (Pimple Saudagar),Audi 3,standard,204,est,35.7,16.2,1088,494,578,model-estimated,817/4
+City Pride Royal (Pimple Saudagar),Audi 4,standard,204,est,35.7,16.2,1088,494,578,model-estimated,817/4
+City Pride Abhiruchi,Audi 1,standard,200,est,35.4,16.1,1079,491,570,model-estimated,
+City Pride Abhiruchi,Audi 2,standard,200,est,35.4,16.1,1079,491,570,model-estimated,
+City Pride Abhiruchi,Audi 3,standard,200,est,35.4,16.1,1079,491,570,model-estimated,
+City Pride Abhiruchi,Audi 4,standard,200,est,35.4,16.1,1079,491,570,model-estimated,
+City Pride Abhiruchi,Audi 5,standard,200,est,35.4,16.1,1079,491,570,model-estimated,
+City Pride Abhiruchi,Audi 7,standard,200,est,35.4,16.1,1079,491,570,model-estimated,
+E-Square Xion (Hinjawadi),Screen 1,standard,200,est,35.4,16.1,1079,491,570,model-estimated,
+E-Square Xion (Hinjawadi),Screen 2,standard,200,est,35.4,16.1,1079,491,570,model-estimated,
+E-Square Xion (Hinjawadi),Screen 3,standard,200,est,35.4,16.1,1079,491,570,model-estimated,
+E-Square Xion (Hinjawadi),Screen 4,standard,200,est,35.4,16.1,1079,491,570,model-estimated,
+E-Square Xion (Hinjawadi),Screen 5,standard,200,est,35.4,16.1,1079,491,570,model-estimated,
+E-Square Xion (Hinjawadi),Screen 6,standard,200,est,35.4,16.1,1079,491,570,model-estimated,
+City Pride Kharadi,Audi 2,standard,199,known,35.3,16.0,1076,488,565,model-estimated,
+City Pride Kharadi,Audi 3,standard,199,known,35.3,16.0,1076,488,565,model-estimated,
+PVR Grand Highstreet (Hinjawadi),Audi 1,standard,189,est,34.4,15.6,1049,475,537,model-estimated,(1244-300)/5
+PVR Grand Highstreet (Hinjawadi),Audi 2,standard,189,est,34.4,15.6,1049,475,537,model-estimated,(1244-300)/5
+PVR Grand Highstreet (Hinjawadi),Audi 3,standard,189,est,34.4,15.6,1049,475,537,model-estimated,(1244-300)/5
+PVR Grand Highstreet (Hinjawadi),Audi 4,standard,189,est,34.4,15.6,1049,475,537,model-estimated,(1244-300)/5
+PVR Grand Highstreet (Hinjawadi),Audi 5,standard,189,est,34.4,15.6,1049,475,537,model-estimated,(1244-300)/5
+Ashok (Pimpri),Main,single,600,est,34,15.5,1036,472,527,estimated,
+Alaka Talkies,Main,single,600,est,34,15.5,1036,472,527,estimated,dormant?
+INOX Jai Ganesh Vision (Akurdi),Audi 1,standard,180,est,33.5,15.2,1021,463,509,model-estimated,
+INOX Jai Ganesh Vision (Akurdi),Audi 2,standard,180,est,33.5,15.2,1021,463,509,model-estimated,
+INOX Jai Ganesh Vision (Akurdi),Audi 3,standard,180,est,33.5,15.2,1021,463,509,model-estimated,
+INOX Jai Ganesh Vision (Akurdi),Audi 4,standard,180,est,33.5,15.2,1021,463,509,model-estimated,
+City Pride Kharadi,Audi 4,standard,180,known,33.5,15.2,1021,463,509,model-estimated,
+E-Square EPIQ (Hinjawadi Ph2),Screen 1,standard,180,est,33.5,15.2,1021,463,509,model-estimated,
+E-Square EPIQ (Hinjawadi Ph2),Screen 2,standard,180,est,33.5,15.2,1021,463,509,model-estimated,
+E-Square EPIQ (Hinjawadi Ph2),Screen 3,standard,180,est,33.5,15.2,1021,463,509,model-estimated,
+E-Square EPIQ (Hinjawadi Ph2),Screen 4,standard,180,est,33.5,15.2,1021,463,509,model-estimated,
+Miraj Spine City (Moshi),Screen 1,standard,179,known,33.4,15.2,1018,463,508,model-estimated,
+City Pride Kharadi,Audi 5,standard,176,known,33.2,15.1,1012,460,501,model-estimated,
+INOX Megaplex Phoenix MoM (Wakad),Insignia 1,luxury,49,seat-map,30,16,914,488,480,recalc-from-seatmap,"49 all-recliner seats, 5 rows A-E"
+INOX Megaplex Phoenix MoM (Wakad),Insignia 2,luxury,49,seat-map,30,16,914,488,480,recalc-from-seatmap,"49 all-recliner seats, 5 rows A-E"
+MovieMax Gold Mariplex,Audi 1,luxury,120,est,32.9,15.0,1003,457,494,model-estimated,
+MovieMax Gold Mariplex,Audi 2,luxury,120,est,32.9,15.0,1003,457,494,model-estimated,
+MovieMax Gold Mariplex,Audi 3,luxury,120,est,32.9,15.0,1003,457,494,model-estimated,
+Rajhans 93 Avenue,Audi 3,standard,172,known,32.8,14.9,1000,454,489,model-estimated,
+INOX Royale Heritage (NIBM),Audi 1,standard,166,est,32.2,14.6,981,445,470,model-estimated,662/4
+INOX Royale Heritage (NIBM),Audi 2,standard,166,est,32.2,14.6,981,445,470,model-estimated,662/4
+INOX Royale Heritage (NIBM),Audi 3,standard,166,est,32.2,14.6,981,445,470,model-estimated,662/4
+INOX Royale Heritage (NIBM),Audi 4,standard,166,est,32.2,14.6,981,445,470,model-estimated,662/4
+INOX Megaplex Phoenix MoM (Wakad),Premiere 1,standard,165,est,32.1,14.6,978,445,469,model-estimated,2199 total minus premium audis /9
+INOX Megaplex Phoenix MoM (Wakad),Premiere 2,standard,165,est,32.1,14.6,978,445,469,model-estimated,2199 total minus premium audis /9
+INOX Megaplex Phoenix MoM (Wakad),Premiere 3,standard,165,est,32.1,14.6,978,445,469,model-estimated,2199 total minus premium audis /9
+INOX Megaplex Phoenix MoM (Wakad),Premiere 4,standard,165,est,32.1,14.6,978,445,469,model-estimated,2199 total minus premium audis /9
+INOX Megaplex Phoenix MoM (Wakad),Premiere 5,standard,165,est,32.1,14.6,978,445,469,model-estimated,2199 total minus premium audis /9
+INOX Megaplex Phoenix MoM (Wakad),Premiere 6,standard,165,est,32.1,14.6,978,445,469,model-estimated,2199 total minus premium audis /9
+INOX Megaplex Phoenix MoM (Wakad),Premiere 7,standard,165,est,32.1,14.6,978,445,469,model-estimated,2199 total minus premium audis /9
+INOX Megaplex Phoenix MoM (Wakad),Premiere 8,standard,165,est,32.1,14.6,978,445,469,model-estimated,2199 total minus premium audis /9
+INOX Megaplex Phoenix MoM (Wakad),Premiere 9,standard,165,est,32.1,14.6,978,445,469,model-estimated,2199 total minus premium audis /9
+Victory (Camp),Main,single,600,est,32,14.5,975,442,464,estimated,reviews: 'screen not too big'
+Rahul 70MM,Upper,single,300,est,32,14.5,975,442,464,estimated,post-split second screen
+Vasant (Budhwar Peth),Main,single,500,est,32,14.5,975,442,464,estimated,status uncertain
+E-Square University Road,Screen 1,standard,160,est,31.6,14.4,963,439,455,model-estimated,(1384-584)/5
+E-Square University Road,Screen 2,standard,160,est,31.6,14.4,963,439,455,model-estimated,(1384-584)/5
+E-Square University Road,Screen 3,standard,160,est,31.6,14.4,963,439,455,model-estimated,(1384-584)/5
+E-Square University Road,Screen 4,standard,160,est,31.6,14.4,963,439,455,model-estimated,(1384-584)/5
+E-Square University Road,Screen 6,standard,160,est,31.6,14.4,963,439,455,model-estimated,(1384-584)/5
+Cinepolis Westend (Aundh),Audi 1,standard,155,est,31.1,14.1,948,430,439,model-estimated,(1369-283)/7
+Cinepolis Westend (Aundh),Audi 2,standard,155,est,31.1,14.1,948,430,439,model-estimated,(1369-283)/7
+Cinepolis Westend (Aundh),Audi 3,standard,155,est,31.1,14.1,948,430,439,model-estimated,(1369-283)/7
+Cinepolis Westend (Aundh),Audi 4,standard,155,est,31.1,14.1,948,430,439,model-estimated,(1369-283)/7
+Cinepolis Westend (Aundh),Audi 5,standard,155,est,31.1,14.1,948,430,439,model-estimated,(1369-283)/7
+Cinepolis Westend (Aundh),Audi 6,standard,155,est,31.1,14.1,948,430,439,model-estimated,(1369-283)/7
+Cinepolis Westend (Aundh),Audi 7,standard,155,est,31.1,14.1,948,430,439,model-estimated,(1369-283)/7
+Cinepolis Seasons Mall,Audi 1,standard,154,est,31.0,14.1,945,430,437,model-estimated,~2000 total
+Cinepolis Seasons Mall,Audi 2,standard,154,est,31.0,14.1,945,430,437,model-estimated,~2000 total
+Cinepolis Seasons Mall,Audi 3,standard,154,est,31.0,14.1,945,430,437,model-estimated,~2000 total
+Cinepolis Seasons Mall,Audi 4,standard,154,est,31.0,14.1,945,430,437,model-estimated,~2000 total
+Cinepolis Seasons Mall,Audi 5,standard,154,est,31.0,14.1,945,430,437,model-estimated,~2000 total
+Cinepolis Seasons Mall,Audi 6,standard,154,est,31.0,14.1,945,430,437,model-estimated,~2000 total
+Cinepolis Seasons Mall,Audi 7,standard,154,est,31.0,14.1,945,430,437,model-estimated,~2000 total
+Cinepolis Seasons Mall,Audi 8,standard,154,est,31.0,14.1,945,430,437,model-estimated,~2000 total
+Cinepolis Seasons Mall,Audi 9,standard,154,est,31.0,14.1,945,430,437,model-estimated,~2000 total
+Cinepolis Seasons Mall,Audi 10,standard,154,est,31.0,14.1,945,430,437,model-estimated,~2000 total
+Cinepolis Seasons Mall,Audi 11,standard,154,est,31.0,14.1,945,430,437,model-estimated,~2000 total
+Cinepolis Seasons Mall,Audi 12,standard,154,est,31.0,14.1,945,430,437,model-estimated,~2000 total
+PVR Director's Cut KOPA,Premiere,standard,150,est,30.6,13.9,933,424,425,model-estimated,
+PVR Director's Cut KOPA,ICE Theatre,luxury,184,seat-map,33,14,1006,427,462,recalc-from-seatmap,184 seats/11 rows A-L; scope screen + LED side panels
+PVR Director's Cut KOPA,Director's Cut 1,luxury,100,est,30.0,13.6,914,415,408,model-estimated,751 total
+PVR Director's Cut KOPA,Director's Cut 2,luxury,100,est,30.0,13.6,914,415,408,model-estimated,751 total
+PVR Director's Cut KOPA,Director's Cut 3,luxury,100,est,30.0,13.6,914,415,408,model-estimated,751 total
+PVR Director's Cut KOPA,Director's Cut 4,luxury,100,est,30.0,13.6,914,415,408,model-estimated,751 total
+PVR Director's Cut KOPA,Director's Cut 5,luxury,100,est,30.0,13.6,914,415,408,model-estimated,751 total
+PVR Phoenix Marketcity,4DX,standard,130,est,28.5,13.0,869,396,370,model-estimated,
+City Pride Kharadi,Audi 1,standard,129,known,28.4,12.9,866,393,366,model-estimated,
+Vilux Talkies (Khadki),Main,single,400,est,28,12.7,853,387,356,estimated,'without proper screen'; worst-screen pick
+INOX Megaplex Phoenix MoM (Wakad),MX4D,standard,120,est,27.4,12.5,835,381,342,model-estimated,
+INOX Megaplex Phoenix MoM (Wakad),Kiddles,standard,90,est,26,11.8,792,360,307,model-estimated,
+City Pride Satara Road,Gold Class (Audi 4),luxury,65,known,24.2,11.0,738,335,266,model-estimated,
+Connplex Luxuriance Tribeca,Screen 1,luxury,56,est,22.4,10.2,683,311,228,model-estimated,225/4
+Connplex Luxuriance Tribeca,Screen 2,luxury,56,est,22.4,10.2,683,311,228,model-estimated,225/4
+Connplex Luxuriance Tribeca,Screen 3,luxury,56,est,22.4,10.2,683,311,228,model-estimated,225/4
+Connplex Luxuriance Tribeca,Screen 4,luxury,56,est,22.4,10.2,683,311,228,model-estimated,225/4
+PVR Phoenix Marketcity,Gold Class,luxury,40,est,22,10.0,671,305,220,model-estimated,
+INOX Bund Garden,Insignia 1,luxury,32,known,22,10.0,671,305,220,model-estimated,
+INOX Bund Garden,Insignia 2,luxury,32,known,22,10.0,671,305,220,model-estimated,
+Cinepolis Seasons Mall,VIP 1,luxury,50,est,22,10.0,671,305,220,model-estimated,
+Cinepolis Seasons Mall,VIP 2,luxury,50,est,22,10.0,671,305,220,model-estimated,
+Cinepolis Seasons Mall,VIP 3,luxury,50,est,22,10.0,671,305,220,model-estimated,
+City Pride R-Deccan,Screen 1,luxury,50,known,22,10.0,671,305,220,model-estimated,micro-plex; smallest-screen candidate
+City Pride R-Deccan,Screen 2,luxury,50,est,22,10.0,671,305,220,model-estimated,

@@ -1,0 +1,49 @@
+venue,chain,area,status,total_screens,screen,format,projection,sound,seats,width_ft,height_ft,width_cm,height_cm,dimension_confidence,year,notes,source
+INOX Megaplex Phoenix Mall of the Millennium,PVR INOX,Wakad (PCMC),open,14,IMAX,IMAX,IMAX XT Laser 4K 3D 1.90:1,Atmos,262,60,33,1829,1006,verified,2024,Pune's biggest + only laser IMAX,KDCloudy sheet
+INOX Megaplex Phoenix Mall of the Millennium,PVR INOX,Wakad (PCMC),open,14,Insignia 1,PLF,4K laser,Atmos,,,,,,unknown,2024,All 14 audis 4K laser + Atmos + Volfoni 3D; 2199 seats total,PVR INOX PR
+INOX Megaplex Phoenix Mall of the Millennium,PVR INOX,Wakad (PCMC),open,14,Insignia 2,PLF,4K laser,Atmos,,,,,,unknown,2024,,PVR INOX PR
+INOX Megaplex Phoenix Mall of the Millennium,PVR INOX,Wakad (PCMC),open,14,MX4D,4D,4K laser,Atmos,,,,,,unknown,2024,Pune's first MX4D,PVR INOX PR
+INOX Megaplex Phoenix Mall of the Millennium,PVR INOX,Wakad (PCMC),open,14,Kiddles,kids,4K laser,Atmos,,,,,,unknown,2024,,PVR INOX PR
+INOX Megaplex Phoenix Mall of the Millennium,PVR INOX,Wakad (PCMC),open,14,Premiere x9,standard,4K laser,Atmos,,,,,,unknown,2024,Last-row recliners,PVR INOX PR
+PVR ICON The Pavillion Mall,PVR INOX,Senapati Bapat Rd,open,6,all,premium,4K,Atmos,1366 total,,,,,unknown,2017,Screen count conflict: 6 (LBB) vs 9 (blog) — verify,LBB / district.in
+PVR Kumar Pacific Mall,PVR INOX,Swargate,open,4,all,standard,,,~941 total,,,,,unknown,2017,,LBB
+PVR Phoenix Marketcity,PVR INOX,Viman Nagar,open,9,4DX,4D,,,,,,,,unknown,2018,Pune's first 4DX (added 2018); also Gold Class; venue opened 2011,Justdial / Wikipedia
+PVR Grand Highstreet Mall,PVR INOX,Hinjawadi (PCMC),open,6,P[XL],PLF,4K laser,Atmos + RealD 3D,,62,,1890,,estimated,2022,Pune's first P[XL]; ~19m width is flagship-format spec not Pune-measured; 1244 seats total,Business Standard / ANI
+PVR Director's Cut KOPA Mall,PVR INOX,Koregaon Park,open,7,ICE Theatre,ICE (LED side panels),4K laser,Atmos,,,,,,unknown,2024,5 Director's Cut luxury audis + 1 Premiere; 751 seats total,Punekar News
+INOX Bund Garden,PVR INOX,Bund Garden Rd,open,6,Insignia x2,PLF recliner,,,~32 each,,,,,unknown,2002,INOX's first multiplex in India (2002); Insignia added 2015; screen count 4-6 conflicting,Newswire PR
+INOX Jai Ganesh Vision Mall,PVR INOX,Akurdi (PCMC),open,4,all,standard,,,~372,,,,,unknown,,Ex-Fame Cinemas; screen count 3-4 conflicting,Excellent Publicity
+INOX Elpro City Square,PVR INOX,Chinchwad (PCMC),open,5,all,standard,,Atmos,1139 total,,,,,unknown,2020,Volfoni SmartCrystal Diamond 3D,cityairnews
+INOX Royale Heritage Mall,PVR INOX,NIBM Ext Mohammadwadi,open,4,all,standard,2K,Dolby Digital,662 total,,,,,unknown,2017,,Punekar News
+Cinepolis Nexus Westend Mall,Cinepolis,Aundh,open,8,IMAX,IMAX,IMAX Dual Xenon 2K 3D 1.90:1,IMAX 5-ch,283,55,31,1676,945,verified,2016,Oldest IMAX tech in city; repeated 'LieMAX' complaints — worst-value IMAX candidate,KDCloudy sheet
+Cinepolis Nexus Westend Mall,Cinepolis,Aundh,open,8,others x7,standard,,Atmos (1 audi) + RealD 3D,1369 total,,,,,unknown,2016,,Business Standard
+Cinepolis Seasons Mall,Cinepolis,Magarpatta/Hadapsar,open,15,VIP x3,luxury,,,~2000 total,,,,,unknown,2013,India's largest megaplex by screen count (12+3 VIP); 4DX claim conflicts — likely no 4DX,district.in / Cinema Treasures
+MovieMax Amanora Town Centre,MovieMax,Hadapsar,open,8,all,standard,2K,,1865 total,,,,,unknown,2024,Ex-INOX Amanora (8 screens) renovated + rebranded Apr 2024,equitybulls / district.in
+MovieMax Gold Mariplex Mall,MovieMax,Kalyani Nagar,open,3,all,premium Gold,2K,Dolby 7.1,,,,,,unknown,2024,Ex-Gold Adlabs/BIG/Carnival site; relaunched Oct 2024,Celluloid Junkie
+Miraj Cinemas Spine City Mall,Miraj,Moshi (PCMC),open,4,S1-S4,standard,,Atmos (all 4),883 (179/243/241/220),,,,,unknown,2023,Miraj's first Pune property; 43 recliners + 36 sofas,Celluloid Junkie
+Rajhans Cinemas 93 Avenue Mall,Rajhans,Fatima Nagar,open,4,all,standard,2K,Atmos,1017 (267/275/172/303),,,,,unknown,2022,,LinkedIn PR / district.in
+Connplex Luxuriance CINEBAR Tribeca Highstreet,Connplex,NIBM/Undri,open,4,all,boutique luxury,,,225 total,,,,,unknown,2026,All-recliner mini-screens,Hospitality News
+City Pride Kothrud,City Pride,Kothrud,open,4,Audi 1,standard (big hall),,Dolby Digital 3D,525,,,,,unknown,2001,First multiplex in Maharashtra; Audi 2: 375,punefirst / Excellent Publicity
+City Pride Satara Road,City Pride,Market Yard,open,4,Gold Class (Audi 4),luxury mini,,,65,,,,,unknown,~2005,Audi 3: 234; renovation-to-7 claim unverified,Excellent Publicity / Tripadvisor
+City Pride R-Deccan,City Pride,JM Rd Deccan,open,2,Screen 1,luxury micro,,,~50,,,,,unknown,~2010,Smallest-screen candidate (micro-plex),punefirst
+City Pride Abhiruchi,City Pride,Sinhagad Rd Vadgaon Bk,open,7,Audi 6,standard,,Dolby Digital 3D,315,,,,,unknown,~2011,Screen count 6-7 conflicting,Excellent Publicity
+City Pride Mangala,City Pride,Shivajinagar,open,3,all,budget,,,,,,,,unknown,~2005,Ex-Mangala Talkies (1939 roots); 'one of the worst halls in Pune' per reviews — worst-screen candidate,Tripadvisor
+City Pride Royal Cinemas Spot 18,City Pride,Pimple Saudagar (PCMC),open,4,all,standard,laser (first City Pride),Atmos (larger screens),817 total,,,,,unknown,2015,,Penworkers / Justdial
+City Pride Kharadi,City Pride,Nyati Plaza Kharadi,open,7,Audi 6 Dolby Cinema,Dolby Cinema (India's first),Dual Christie 4K RGB laser Dolby Vision 108 nits HFR,61-ch Atmos + Dolby 3D,310,55,26.2,1676,799,fan-measured,2025,Laser-measured in person by Shrey Tyagi + KDCloudy; 2.1:1 hybrid ratio; best-screen contender,shreytyagi.com / @DheerajD111
+City Pride Kharadi,City Pride,Nyati Plaza Kharadi,open,7,Audi 7,standard,4K laser,Atmos,265,,,,,unknown,2025,Audis 1-5: 129/199/199/180/176 no Atmos; 1458 seats total,Film Information / Dolby PR
+E-Square University Road,E-Square,Ganeshkhind/Shivajinagar,open,6,Screen 5,standard (big hall),4K projector,Dolby 7.1,584,,,,,unknown,2003,Pune's first multiplex; 584-seat hall among city's largest; ~1384 seats total,Penworkers / Moviebuff
+E-Square Xion Mall,E-Square,Hinjawadi Ph1 (PCMC),open,6,all,standard,2K,Atmos (1 audi),~1200 total,,,,,unknown,2015,Reviews report chromatic aberration + screen tear + bad 3D glasses — worst-screen candidate,Penworkers / Tripadvisor
+E-Square EPIQ VJ Happiness Street,E-Square,Hinjawadi Ph2 (PCMC),open,5,EPIQ,PLF (1st EPIQ outside South India),Barco RGB 4K laser + Active 3D,64-ch Atmos,310,59,31,1798,945,published,2026,Wall-to-wall 1.89:1; opened Mar 2026; best-screen contender,Film Information / Free Press Journal
+Victory Cinema,independent,Camp (East St),open,1,main,single screen,digital,basic,,,,,,unknown,1938,Oldest functioning single screen; 2D only; 'screen not too big sound not very good',LBB / Sahapedia
+Rahul 70MM,independent,Shivajinagar,open,2,ground floor,ex-70mm split,,,,,,,,unknown,1966,Famous 'biggest screen in Pune' 70mm hall SPLIT into 2 screens; ground-floor hall still huge,Justdial / cinematimes
+Vilux Talkies,independent,Khadki Bazaar,open,1,main,single screen,,,,,,,,unknown,,'Old theatre without proper screen/seats/ventilation' — prime worst-screen candidate,Ticketnew / district.in
+Ashok Theatre,independent,Pimpri (PCMC),open,1,main,single screen,,,,,,,,unknown,,Hindi/Bhojpuri/Marathi budget house,Ticketnew
+Vasant Cineplex,independent,Budhwar Peth,uncertain,1,main,single screen,,,,,,,,unknown,,Status conflicts between sources — verify,district.in / Bridge Chronicle
+Alaka Talkies,Mukta A2 JV,Sadashiv Peth,uncertain,1,main,single screen,,,,,,,,unknown,,Listed on District but 'no shows playing' — dormant?,district.in / Ticketnew
+Funsquare Cinema,independent,Pirangut,open,,all,,,,,,,,,unknown,,Fringe venue on District listings,district.in
+Prabhat (Kibe Lakshmi),independent,Appa Balwant Chowk,closed 2021,1,main,single screen,,,895,,,,,unknown,,Marathi-only for 40+ years,Punekar News / DNA
+Neelayam,independent,Sadashiv Peth,closed,1,main,single screen (70mm era),,,,,,,,unknown,1973,,Bridge Chronicle
+Vaibhav Chitramandir,independent,Hadapsar,likely closed,2,,,,,,,,,,unknown,,Was twin; no 3D; conflicting status,Bridge Chronicle / Ticketnew
+PVR City One Mall,PVR INOX,Pimpri (PCMC),closed ~2024,5,,,,,911 total,,,,,unknown,2017,,Justdial
+INOX Fun N Shop Mall,PVR INOX,Fatima Nagar,closed,,,,,,,,,,,unknown,,,Justdial
+Carnival Spine City Mall,Carnival,Moshi (PCMC),closed,,,,,,,,,,,unknown,~2017,Site recycled as Miraj Spine City,Justdial
+Carnival Premier Plaza Mall,Carnival,Chinchwad (PCMC),closed,~3,,,,,,,,,,unknown,,Carnival chain collapsed post-COVID,Justdial / Wikipedia

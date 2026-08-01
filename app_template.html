@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PuneScreens — Know your screen.</title>
+<meta name="description" content="Every hall in Pune. Ranked without mercy. The best seat in every one.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root{--bg:#080807;--ink:#f2efe6;--mut:#7d7a70;--gold:#d9a441;--gold2:#f5c76a;--red:#c2453a;--glow:#aeb8ea;--line:#1d1c19}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+::selection{background:var(--gold);color:#000}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 'Space Grotesk',sans-serif;overflow-x:hidden}
+/* film grain */
+body::after{content:'';position:fixed;inset:-50%;pointer-events:none;z-index:90;opacity:.055;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+animation:grain 8s steps(10) infinite}
+@keyframes grain{0%,100%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-2%)}60%{transform:translate(-2%,-4%)}80%{transform:translate(4%,2%)}}
+/* progress */
+#prog{position:fixed;top:0;left:0;height:2px;background:var(--gold);z-index:99;width:0}
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;gap:34px;padding:20px 42px;transition:.35s}
+nav.scr{background:rgba(8,8,7,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:13px 42px}
+.logo{font-family:'Bebas Neue';font-size:1.5rem;letter-spacing:.14em;color:var(--ink);text-decoration:none}
+.logo b{color:var(--gold)}
+nav a.lnk{color:var(--mut);text-decoration:none;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;transition:.2s}
+nav a.lnk:hover{color:var(--gold2)}
+nav .spacer{flex:1}
+/* hero */
+#hero{min-height:100svh;position:relative;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;overflow:hidden}
+.beam{position:absolute;top:-12%;right:-6%;width:80vw;height:130vh;pointer-events:none;
+background:conic-gradient(from 208deg at 88% 0%,transparent 0deg,rgba(214,222,255,.10) 7deg,rgba(214,222,255,.035) 17deg,transparent 26deg);
+animation:flick 7s ease-in-out infinite}
+@keyframes flick{0%,100%{opacity:.85}8%{opacity:1}12%{opacity:.7}18%{opacity:.95}47%{opacity:.8}52%{opacity:1}88%{opacity:.75}}
+.dust{position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(220,225,255,.5);pointer-events:none;animation:drift linear infinite}
+@keyframes drift{from{transform:translateY(8vh) translateX(0);opacity:0}12%{opacity:.7}88%{opacity:.4}to{transform:translateY(-96vh) translateX(6vw);opacity:0}}
+.kick{font-size:.8rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+h1{font-family:'Bebas Neue';font-weight:400;font-size:clamp(4rem,13.5vw,12.5rem);line-height:.88;letter-spacing:.005em}
+h1 .l{display:block;overflow:hidden}
+h1 .l span{display:inline-block;transform:translateY(110%);animation:rise 1s cubic-bezier(.2,.7,.2,1) forwards}
+h1 .l:nth-child(2) span{animation-delay:.14s;color:transparent;-webkit-text-stroke:1.5px var(--ink)}
+h1 .l:nth-child(3) span{animation-delay:.28s;color:var(--gold)}
+@keyframes rise{to{transform:translateY(0)}}
+.tagl{margin-top:30px;max-width:430px;color:var(--mut);font-size:1.02rem}
+.tagl em{font-family:'Instrument Serif';font-style:italic;color:var(--ink);font-size:1.12em}
+.ctas{margin-top:40px;display:flex;gap:16px;flex-wrap:wrap}
+.btn{display:inline-block;text-decoration:none;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;padding:15px 30px;border:1px solid var(--gold);color:var(--gold);transition:.25s;position:relative;overflow:hidden}
+.btn:hover{color:#000;background:var(--gold)}
+.btn.ghost{border-color:#333;color:var(--mut)}.btn.ghost:hover{border-color:var(--ink);color:var(--ink);background:transparent}
+/* marquee */
+.marq{position:absolute;bottom:0;left:0;right:0;border-top:1px solid var(--line);padding:14px 0;overflow:hidden;white-space:nowrap}
+.marq .track{display:inline-block;animation:marq 36s linear infinite}
+.marq span{font-family:'Bebas Neue';font-size:1.05rem;letter-spacing:.22em;color:#38362f;margin:0 34px}
+.marq b{color:var(--gold);font-weight:400}
+@keyframes marq{to{transform:translateX(-50%)}}
+/* sections */
+section{padding:120px 8vw;position:relative}
+.snum{font-family:'Bebas Neue';font-size:.95rem;letter-spacing:.3em;color:var(--gold);display:block;margin-bottom:14px}
+.stitle{font-family:'Bebas Neue';font-weight:400;font-size:clamp(2.6rem,6vw,5rem);line-height:.95;margin-bottom:12px}
+.sdesc{color:var(--mut);max-width:480px;margin-bottom:64px}
+.sdesc em{font-family:'Instrument Serif';font-style:italic;color:var(--ink)}
+/* reveal */
+.rv{opacity:0;transform:translateY(38px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+/* tonight */
+.film{border-top:1px solid var(--line);padding:44px 0;display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:baseline}
+.film:last-child{border-bottom:1px solid var(--line)}
+.fm{font-family:'Instrument Serif';font-style:italic;font-size:clamp(1.9rem,4vw,3.1rem);line-height:1.05}
+.fg{color:var(--mut);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;margin-top:8px}
+.fpick{font-size:1.05rem;color:var(--gold2)}
+.fpick::before{content:'→ ';color:var(--gold)}
+.fwhy{color:var(--mut);margin-top:8px;font-size:.92rem}
+.falt{margin-top:10px;font-size:.78rem;letter-spacing:.06em;color:#5a584f}
+/* the ten */
+.hall{position:relative;border-top:1px solid var(--line);padding:74px 0;display:grid;grid-template-columns:1fr 380px;gap:56px;align-items:center}
+.hall:nth-child(even){grid-template-columns:380px 1fr}
+.hall:nth-child(even) .hinfo{order:2}
+.ghost{position:absolute;top:26px;right:-10px;font-family:'Bebas Neue';font-size:clamp(7rem,16vw,15rem);line-height:1;color:transparent;-webkit-text-stroke:1px #211f1a;pointer-events:none;user-select:none}
+.hall:nth-child(even) .ghost{right:auto;left:-10px}
+.harea{font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.hname{font-family:'Bebas Neue';font-weight:400;font-size:clamp(2rem,4.4vw,3.6rem);line-height:.98;margin:10px 0 2px}
+.hscreen{font-family:'Instrument Serif';font-style:italic;font-size:1.5rem;color:var(--gold2)}
+.htech{color:var(--mut);font-size:.85rem;margin-top:10px;letter-spacing:.04em}
+.havoid{margin-top:16px;color:#8f6a63;font-size:.85rem;max-width:420px}
+.havoid::before{content:'⚠ ';color:var(--red)}
+.hplay{margin-top:16px;font-size:.9rem;color:var(--mut)}
+.hplay b{color:var(--ink);font-weight:500}
+/* ticket stub */
+.stub{margin-top:26px;display:inline-flex;align-items:stretch;background:#0f0e0c;border:1px solid #2a2822;border-radius:10px;overflow:hidden;position:relative}
+.stub .l{padding:16px 22px;border-right:1.5px dashed #33312a}
+.stub .r{padding:16px 22px;display:flex;flex-direction:column;justify-content:center}
+.stub small{display:block;font-size:.62rem;letter-spacing:.28em;color:var(--mut);text-transform:uppercase}
+.stub .big{font-family:'Bebas Neue';font-size:2rem;color:var(--gold);line-height:1.05}
+.stub .why{font-size:.78rem;color:var(--mut);max-width:200px}
+/* seat map art */
+.mapart{background:radial-gradient(ellipse at 50% -10%,#15151f 0%,#0c0c0a 60%);border:1px solid #201f1b;border-radius:14px;padding:26px 20px 18px;cursor:pointer;transition:.3s;position:relative}
+.mapart:hover{border-color:var(--gold);transform:translateY(-4px)}
+.mapart .hint{position:absolute;top:12px;right:14px;font-size:.62rem;letter-spacing:.24em;color:var(--mut);text-transform:uppercase}
+.mapart:hover .hint{color:var(--gold2)}
+.scrbar{height:4px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--glow),transparent);margin:0 auto 18px;box-shadow:0 0 24px rgba(174,184,234,.55)}
+.mrow{display:flex;justify-content:center;gap:5px;margin-bottom:4px;align-items:center}
+.mrl{width:11px;font-size:7.5px;color:#454339;text-align:right;margin-right:3px;font-family:'Space Grotesk'}
+.seg{display:flex;gap:1.5px}
+.st{border-radius:1.5px}
+/* ladder */
+.lrow{display:grid;grid-template-columns:56px 1fr 220px 60px;gap:18px;align-items:center;border-top:1px solid var(--line);padding:17px 0;cursor:pointer;transition:.2s}
+.lrow:hover{background:#0d0c0a;padding-left:10px}
+.lrow:last-child{border-bottom:1px solid var(--line)}
+.lr{font-family:'Bebas Neue';font-size:1.4rem;color:#454339}
+.lrow:nth-child(-n+4) .lr{color:var(--gold)}
+.ln{font-size:.98rem}.ln small{display:block;color:var(--mut);font-size:.76rem;letter-spacing:.05em}
+.lbar{height:3px;background:#1a1916;border-radius:2px;overflow:hidden}
+.lbar i{display:block;height:100%;background:linear-gradient(90deg,#6b5a2b,var(--gold));width:0;transition:width 1.1s cubic-bezier(.2,.7,.2,1)}
+.lsc{font-family:'Bebas Neue';font-size:1.35rem;text-align:right;color:var(--ink)}
+/* pit */
+#pit{background:radial-gradient(ellipse at 50% 0%,#160b09 0%,var(--bg) 62%)}
+#pit .stitle{color:var(--red)}
+.pitrow{border-top:1px solid #241412;padding:20px 0;display:grid;grid-template-columns:56px 1fr auto;gap:18px;align-items:center;cursor:pointer}
+.pitrow:hover{background:#100908}
+.pitrow .lr{color:var(--red)}
+.pitrow .why{color:#7d5b52;font-size:.82rem}
+/* finder */
+#find input{width:100%;max-width:560px;background:transparent;border:0;border-bottom:1px solid #33312a;padding:14px 2px;color:var(--ink);font:1.35rem 'Instrument Serif';font-style:italic;outline:none;transition:.3s}
+#find input:focus{border-color:var(--gold)}
+#find input::placeholder{color:#454339}
+.stubs{margin-top:44px;display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.fstub{background:#0f0e0c;border:1px solid #232219;border-radius:12px;padding:18px 20px;cursor:pointer;transition:.25s}
+.fstub:hover{border-color:var(--gold);transform:translateY(-3px)}
+.fstub .v{font-size:.95rem;font-weight:500}.fstub .s{font-family:'Instrument Serif';font-style:italic;color:var(--gold2)}
+.fstub .m{color:var(--mut);font-size:.76rem;margin-top:2px}
+.fstub .row{margin-top:12px;display:flex;justify-content:space-between;align-items:baseline;border-top:1px dashed #2c2a22;padding-top:10px}
+.fstub .big{font-family:'Bebas Neue';font-size:1.5rem;color:var(--gold)}
+.fstub small{font-size:.64rem;letter-spacing:.2em;color:var(--mut);text-transform:uppercase}
+footer{padding:90px 8vw 60px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:20px}
+footer .big{font-family:'Bebas Neue';font-size:clamp(2.4rem,7vw,5.4rem);line-height:.9}
+footer .big i{font-family:'Instrument Serif';color:var(--gold)}
+footer .mut{color:var(--mut);font-size:.8rem;letter-spacing:.1em}
+/* modal */
+#modal{position:fixed;inset:0;background:rgba(4,4,3,.96);z-index:100;display:none;flex-direction:column}
+#modal.open{display:flex}
+#mhead{display:flex;align-items:center;gap:16px;padding:20px 34px}
+#mv{font-family:'Bebas Neue';font-size:1.7rem;letter-spacing:.03em}
+#ms{font-family:'Instrument Serif';font-style:italic;color:var(--gold2)}
+#mclose{margin-left:auto;background:transparent;border:1px solid #33312a;color:var(--ink);border-radius:99px;width:42px;height:42px;font-size:1.05rem;cursor:pointer;transition:.2s}
+#mclose:hover{border-color:var(--gold);color:var(--gold)}
+#c3d{flex:1;touch-action:none;cursor:grab}
+#mfoot{display:flex;gap:20px;justify-content:center;align-items:center;padding:14px;color:var(--mut);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;flex-wrap:wrap}
+.legend{display:flex;align-items:center;gap:6px}.sw{width:10px;height:10px;border-radius:3px;display:inline-block}
+@media(max-width:880px){
+ nav{padding:16px 22px;gap:18px}nav a.lnk{display:none}
+ section{padding:90px 6vw}
+ .hall,.hall:nth-child(even){grid-template-columns:1fr}.hall:nth-child(even) .hinfo{order:0}
+ .film{grid-template-columns:1fr}
+ .lrow{grid-template-columns:44px 1fr 60px}.lbar{display:none}
+}
+</style></head><body>
+<div id="prog"></div>
+<nav id="nav">
+ <a class="logo" href="#hero">PUNE<b>SCREENS</b></a>
+ <span class="spacer"></span>
+ <a class="lnk" href="#tonight">Tonight</a>
+ <a class="lnk" href="#ten">The Ten</a>
+ <a class="lnk" href="#ladder">The Ladder</a>
+ <a class="lnk" href="#pit">The Pit</a>
+ <a class="lnk" href="#find">My Seat</a>
+</nav>
+
+<div id="hero">
+ <div class="beam"></div>
+ <div class="kick">Every hall in Pune · Seat by seat</div>
+ <h1><span class="l"><span>KNOW</span></span><span class="l"><span>YOUR</span></span><span class="l"><span>SCREEN.</span></span></h1>
+ <p class="tagl">The city has 166 screens. Ten are worth your money. <em>We found the exact seat in each one.</em></p>
+ <div class="ctas"><a class="btn" href="#tonight">What's worth it tonight</a><a class="btn ghost" href="#ten">Explore the halls</a></div>
+ <div class="marq"><div class="track" id="marq"></div></div>
+</div>
+
+<section id="tonight">
+ <span class="snum rv">01 — Tonight</span>
+ <h2 class="stitle rv">The right hall<br>for the right film.</h2>
+ <p class="sdesc rv">A great film in the wrong hall is a wasted ticket. <em>Match the movie to the room.</em></p>
+ <div id="films"></div>
+</section>
+
+<section id="ten">
+ <span class="snum rv">02 — The Ten</span>
+ <h2 class="stitle rv">Pune's ten halls<br>that matter.</h2>
+ <p class="sdesc rv">Mapped seat by seat. Tap a hall to <em>stand inside it</em> — drag to look around.</p>
+ <div id="halls"></div>
+</section>
+
+<section id="ladder">
+ <span class="snum rv">03 — The Ladder</span>
+ <h2 class="stitle rv">All 166 screens.<br>One ladder.</h2>
+ <p class="sdesc rv">Scale, projection, sound and format — distilled to a single number. <em>No sentiment. No mercy.</em></p>
+ <div id="rank"></div>
+</section>
+
+<section id="pit">
+ <span class="snum rv" style="color:var(--red)">04 — The Pit</span>
+ <h2 class="stitle rv">The bottom<br>of the barrel.</h2>
+ <p class="sdesc rv">You were warned. <em>Some tickets are donations.</em></p>
+ <div id="worst"></div>
+</section>
+
+<section id="find">
+ <span class="snum rv">05 — My Seat</span>
+ <h2 class="stitle rv">Find your seat.</h2>
+ <p class="sdesc rv">Type your theatre. Get the row and seat that make the room feel built around you.</p>
+ <input id="q" class="rv" type="search" placeholder="Try “Kothrud” or “IMAX”…">
+ <div class="stubs" id="found"></div>
+</section>
+
+<footer>
+ <div class="big">SEE YOU IN<br><i>Row D, Seat 13.</i></div>
+ <div class="mut">PUNESCREENS — MADE IN PUNE · MMXXVI</div>
+</footer>
+
+<div id="modal">
+ <div id="mhead"><div><div id="mv"></div><div id="ms"></div></div><button id="mclose">✕</button></div>
+ <canvas id="c3d"></canvas>
+ <div id="mfoot">
+  <span class="legend"><span class="sw" style="background:#aeb8ea"></span>screen</span>
+  <span class="legend"><span class="sw" style="background:#ffd166"></span>your seat <b id="mseat" style="color:var(--gold)"></b></span>
+  <span class="legend"><span class="sw" style="background:#d9a441"></span>recliner</span>
+  <span class="legend"><span class="sw" style="background:#7a6cff"></span>premium</span>
+  <span class="legend">🧍 human, to scale · drag · scroll</span>
+ </div>
+</div>
+
+<script>
+const D=__DATA__,T=__TOP10__,PAIR=__PAIR__;
+const CCOL={cl:'#3d3f52',cp:'#4a4e6a',pr:'#5a2c33','p+':'#7a3b45',pp:'#7a6cff',xl:'#3f6b5a',el:'#2e8c6a',rc:'#d9a441',ry:'#d9a441',sf:'#c47b3e',gd:'#a8823a',sv:'#4b4a42'};
+/* hero dust */
+for(let i=0;i<34;i++){const d=document.createElement('span');d.className='dust';
+ d.style.left=(20+Math.random()*75)+'vw';d.style.top=(30+Math.random()*70)+'vh';
+ d.style.animationDuration=(9+Math.random()*16)+'s';d.style.animationDelay=(-Math.random()*20)+'s';
+ d.style.opacity=.2+Math.random()*.5;document.getElementById('hero').appendChild(d);}
+/* marquee */
+const names=T.map(t=>t.v.split(',')[0].toUpperCase());
+document.getElementById('marq').innerHTML=(names.map(n=>`<span>${n} <b>★</b></span>`).join('')).repeat(2);
+/* nav + progress */
+addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scr',scrollY>40);
+ const h=document.documentElement;document.getElementById('prog').style.width=(scrollY/(h.scrollHeight-h.clientHeight)*100)+'%';},{passive:true});
+/* tonight */
+document.getElementById('films').innerHTML=PAIR.map(p=>`<div class="film rv">
+ <div><div class="fm">${p.m}</div><div class="fg">${p.g}</div></div>
+ <div><div class="fpick">${p.pick}</div><div class="fwhy">${p.why}</div><div class="falt">ALSO: ${p.alt}</div></div></div>`).join('');
+/* seat map art */
+function mapArt(t,i){
+ const maxSeats=Math.max(...t.lay.map(r=>r[1].reduce((a,g)=>a+g[0],0)));
+ const sw=Math.min(9,Math.max(4,Math.floor(250/maxSeats)));
+ return `<div class="mapart" onclick="open3D('t',${i})">
+ <div class="hint">Enter hall →</div>
+ <div class="scrbar" style="width:${Math.round(t.w/62*100)}%"></div>
+ ${t.lay.map(r=>`<div class="mrow"><span class="mrl">${r[0]}</span>${r[1].map(g=>`<span class="seg">${Array(g[0]).fill(0).map((_,k)=>{
+   const best=(r[0]===t.best.row);let cum=0;for(const gg of r[1]){if(gg===g)break;cum+=gg[0]}
+   const isBest=best&&(cum+k+1)===t.best.seat;
+   return `<span class="st" style="background:${isBest?'#ffd166':CCOL[g[1]]};width:${sw}px;height:${sw}px;${isBest?'box-shadow:0 0 8px #ffd166':''}"></span>`}).join('')}</span>`).join('')}</div>`).join('')}
+ </div>`}
+/* the ten */
+document.getElementById('halls').innerHTML=T.map((t,i)=>`<div class="hall rv">
+ <div class="ghost">${String(i+1).padStart(2,'0')}</div>
+ <div class="hinfo">
+  <div class="harea">${t.area}</div>
+  <div class="hname">${t.v}</div>
+  <div class="hscreen">${t.s}</div>
+  <div class="htech">${t.tech} — ${t.seats} seats, ${t.lay.length} rows</div>
+  <div class="stub"><div class="l"><small>Your seat</small><div class="big">ROW ${t.best.row} · ${String(t.best.seat).padStart(2,'0')}</div></div>
+  <div class="r"><div class="why">${t.best.label.split('—')[1]||t.best.label}</div></div></div>
+  <div class="havoid">${t.avoid}</div>
+  <div class="hplay">${t.playing.map(p=>`<div>▸ <b>${p[0]}</b> — ${p[1]}</div>`).join('')}</div>
+ </div>
+ ${mapArt(t,i)}
+</div>`).join('');
+/* ladder */
+document.getElementById('rank').innerHTML=D.slice(0,30).map((s,i)=>`<div class="lrow rv" onclick="open3D('d',${D.indexOf(s)})">
+ <div class="lr">${String(i+1).padStart(2,'0')}</div>
+ <div class="ln">${s.v} <span style="color:var(--gold2)">· ${s.s}</span><small>${s.area} — ${s.proj}, ${s.snd}, ${s.seats} seats</small></div>
+ <div class="lbar"><i data-w="${s.score}"></i></div>
+ <div class="lsc">${Math.round(s.score)}</div></div>`).join('');
+/* pit */
+const worst=[...D].sort((a,b)=>a.score-b.score).slice(0,12);
+document.getElementById('worst').innerHTML=worst.map((s,i)=>`<div class="pitrow rv" onclick="open3D('d',${D.indexOf(s)})">
+ <div class="lr">${String(D.length-i)}</div>
+ <div class="ln">${s.v} <span style="color:#a86a5f">· ${s.s}</span><div class="why">${s.area} — ${s.proj} projection, ${s.snd} sound</div></div>
+ <div class="lsc" style="color:var(--red)">${Math.round(s.score)}</div></div>`).join('');
+/* finder */
+const found=document.getElementById('found');
+function renderFind(q){const l=D.filter(s=>!q||(s.v+' '+s.s+' '+s.area).toLowerCase().includes(q.toLowerCase())).slice(0,15);
+ found.innerHTML=l.map(s=>`<div class="fstub" onclick="open3D('d',${D.indexOf(s)})">
+ <div class="v">${s.v}</div><div class="s">${s.s}</div><div class="m">${s.area} · ${s.seats} seats · ${s.rows} rows</div>
+ <div class="row"><div><small>Your seat</small><div class="big">ROW ${s.br} · ${String(s.bs).padStart(2,'0')}</div></div><small>tap for 3D</small></div></div>`).join('');}
+document.getElementById('q').addEventListener('input',e=>renderFind(e.target.value));
+renderFind('');
+/* reveals */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');
+ e.target.querySelectorAll('.lbar i').forEach(b=>b.style.width=b.dataset.w+'%');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+/* ---------- 3D hall ---------- */
+let R3=null,scene,camera,raf=null,theta=0.5,phi=1.12,radius=90,target3;
+const cv=document.getElementById('c3d'),modal=document.getElementById('modal');
+function open3D(kind,i){
+ const o=kind==='t'?T[i]:D[i];
+ document.getElementById('mv').textContent=o.v;
+ document.getElementById('ms').textContent=o.s+' — '+(o.area||'')+', '+o.seats+' seats';
+ document.getElementById('mseat').textContent=kind==='t'?('ROW '+o.best.row+' · '+o.best.seat):('ROW '+o.br+' · '+o.bs);
+ modal.classList.add('open');
+ if(!R3){R3=new THREE.WebGLRenderer({canvas:cv,antialias:true});R3.setPixelRatio(Math.min(devicePixelRatio,2));}
+ buildScene(o,kind==='t');animate();}
+function seatDims(c){if(c==='sf')return[3.1,2.4];if(c==='rc'||c==='ry')return[2.3,2.2];if(c==='el'||c==='xl')return[1.9,1.9];return[1.55,1.5];}
+function buildScene(o,hasLay){
+ if(raf)cancelAnimationFrame(raf);
+ scene=new THREE.Scene();scene.background=new THREE.Color(0x060605);scene.fog=new THREE.Fog(0x060605,140,380);
+ const W=o.w,H=o.h,firstD=0.42*W,scrBase=3.2,rowRise=1.05;
+ const rowPitch=c=>(c==='rc'||c==='ry'||c==='sf')?4.6:3.7;
+ let depth=firstD;if(hasLay){o.lay.forEach(r=>depth+=rowPitch(r[1][0][1]));}else{depth+=o.rows*3.7;}
+ const hallW=Math.max(W+10,(hasLay?Math.max(...o.lay.map(r=>r[1].reduce((a,g)=>a+g[0],0)))*1.9:o.pr*1.8)+12);
+ target3=new THREE.Vector3(0,H*0.35,depth*0.45);
+ radius=Math.max(depth*1.15,W*1.4);theta=0.55;phi=1.1;
+ camera=new THREE.PerspectiveCamera(50,1,0.1,1400);
+ const floor=new THREE.Mesh(new THREE.PlaneGeometry(hallW,depth+24),new THREE.MeshStandardMaterial({color:0x121118,roughness:.95}));
+ floor.rotation.x=-Math.PI/2;floor.position.z=depth/2;scene.add(floor);
+ const wallM=new THREE.MeshStandardMaterial({color:0x0e0d13,roughness:1});
+ [-1,1].forEach(sg=>{const wl=new THREE.Mesh(new THREE.PlaneGeometry(depth+24,H+24),wallM);
+  wl.rotation.y=sg<0?Math.PI/2:-Math.PI/2;wl.position.set(sg*hallW/2,(H+24)/2,depth/2);scene.add(wl);});
+ const scr=new THREE.Mesh(new THREE.PlaneGeometry(W,H),new THREE.MeshBasicMaterial({color:0xbfc8f5}));
+ scr.position.set(0,scrBase+H/2,0);scene.add(scr);
+ const glow=new THREE.Mesh(new THREE.PlaneGeometry(W*1.12,H*1.18),new THREE.MeshBasicMaterial({color:0x2e3459,transparent:true,opacity:.55}));
+ glow.position.set(0,scrBase+H/2,-0.3);scene.add(glow);
+ const sl=new THREE.PointLight(0x9aa4e8,1.1,240);sl.position.set(0,scrBase+H/2,16);scene.add(sl);
+ scene.add(new THREE.AmbientLight(0x8888aa,.32));
+ const top=new THREE.DirectionalLight(0xffffff,.2);top.position.set(0,90,depth/2);scene.add(top);
+ const frameM=new THREE.MeshBasicMaterial({color:0x040406});
+ const fb=new THREE.Mesh(new THREE.BoxGeometry(W+4,2,1),frameM);fb.position.set(0,scrBase-1,0);scene.add(fb);
+ const ft=fb.clone();ft.position.y=scrBase+H+1;scene.add(ft);
+ const goldM=new THREE.MeshStandardMaterial({color:0xffd166,emissive:0x775511,roughness:.35});
+ const mkSeat=(x,y,z,cw,cd,m)=>{const st=new THREE.Mesh(new THREE.BoxGeometry(cw*0.86,1.6,cd*0.8),m);st.position.set(x,y+0.8,z);scene.add(st);
+  const bk=new THREE.Mesh(new THREE.BoxGeometry(cw*0.86,1.5,0.32),m);bk.position.set(x,y+2.2,z+cd*0.45);scene.add(bk);};
+ let z=firstD,y=0;
+ if(hasLay){
+  o.lay.forEach(r=>{
+   const cls0=r[1][0][1],pitch=rowPitch(cls0);
+   const aisle=3,fullW=r[1].reduce((a,g)=>a+g[0]*seatDims(g[1])[0],0)+(r[1].length-1)*aisle;
+   const ris=new THREE.Mesh(new THREE.BoxGeometry(Math.min(hallW-2,fullW+3),Math.max(0.2,y),pitch),new THREE.MeshStandardMaterial({color:0x16151c,roughness:1}));
+   ris.position.set(0,Math.max(0.1,y/2),z);scene.add(ris);
+   let x=-fullW/2,seatIdx=0;
+   r[1].forEach(g=>{const [gw,gd]=seatDims(g[1]);
+    for(let k=0;k<g[0];k++){seatIdx++;const cx=x+gw/2;
+     const best=(r[0]===o.best.row&&seatIdx===o.best.seat);
+     const m=best?goldM:new THREE.MeshStandardMaterial({color:CCOL[g[1]],roughness:.75});
+     mkSeat(cx,y,z,gw,gd,m);
+     if(best){const gl=new THREE.PointLight(0xffd166,.95,11);gl.position.set(cx,y+4.2,z);scene.add(gl);}
+     x+=gw;}
+    x+=aisle;});
+   z+=pitch;y+=rowRise*((cls0==='rc'||cls0==='ry'||cls0==='sf')?1.25:1);});
+ }else{
+  const seatM=new THREE.MeshStandardMaterial({color:0x5a2c33,roughness:.8});
+  for(let r=0;r<o.rows;r++){const zz=firstD+r*3.7,yy=r*rowRise;
+   const ris=new THREE.Mesh(new THREE.BoxGeometry(Math.min(hallW-2,o.pr*1.8+2),Math.max(0.2,yy),3.7),new THREE.MeshStandardMaterial({color:0x16151c,roughness:1}));
+   ris.position.set(0,Math.max(0.1,yy/2),zz);scene.add(ris);
+   for(let c=0;c<o.pr;c++){const x=(c-(o.pr-1)/2)*1.8;
+    const best=(r===o.brn-1&&c===o.bs-1);
+    mkSeat(x,yy,zz,1.55,1.5,best?goldM:seatM);
+    if(best){const gl=new THREE.PointLight(0xffd166,.9,10);gl.position.set(x,yy+4,zz);scene.add(gl);}}}
+ }
+ const hm=new THREE.Group();
+ const body=new THREE.Mesh(new THREE.CylinderGeometry(.55,.55,4.0,10),new THREE.MeshStandardMaterial({color:0xcccccc}));
+ body.position.y=2.0;hm.add(body);
+ const head=new THREE.Mesh(new THREE.SphereGeometry(.75,12,10),new THREE.MeshStandardMaterial({color:0xddddcc}));
+ head.position.y=4.9;hm.add(head);
+ hm.position.set(-W/2-3,0,2.5);scene.add(hm);
+}
+function animate(){raf=requestAnimationFrame(animate);
+ const w=cv.clientWidth,h=cv.clientHeight;
+ if(cv.width!==w*R3.getPixelRatio()||cv.height!==h*R3.getPixelRatio()){R3.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+ camera.position.set(target3.x+radius*Math.sin(phi)*Math.sin(theta),target3.y+radius*Math.cos(phi),target3.z+radius*Math.sin(phi)*Math.cos(theta));
+ camera.lookAt(target3);R3.render(scene,camera);}
+let drag=false,px=0,py=0;
+cv.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY;cv.setPointerCapture(e.pointerId);cv.style.cursor='grabbing'});
+cv.addEventListener('pointermove',e=>{if(!drag)return;theta-=(e.clientX-px)*0.005;phi=Math.min(1.5,Math.max(0.25,phi-(e.clientY-py)*0.004));px=e.clientX;py=e.clientY;});
+cv.addEventListener('pointerup',()=>{drag=false;cv.style.cursor='grab'});
+cv.addEventListener('wheel',e=>{e.preventDefault();radius=Math.min(550,Math.max(25,radius+e.deltaY*0.12));},{passive:false});
+document.getElementById('mclose').onclick=()=>{modal.classList.remove('open');if(raf)cancelAnimationFrame(raf);raf=null;};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('mclose').click();});
+window.open3D=open3D;
+</script></body></html>
