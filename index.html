@@ -381,7 +381,7 @@ function openSeat(ri,n,glabel){
  viewer.classList.add('open');
  if(!R3){R3=new THREE.WebGLRenderer({canvas:vc,antialias:true,powerPreference:'high-performance'});
   R3.setPixelRatio(Math.min(devicePixelRatio,1.75));
-  cv.addEventListener('webglcontextlost',e=>{e.preventDefault();R3=null;},{once:true});}
+  vc.addEventListener('webglcontextlost',e=>{e.preventDefault();R3=null;},{once:true});}
  buildScene(h,st);setMode(mode==='hall'?'hall':'seat');animate();}
 /* shared geometry + material caches — stops GPU memory leaks (the black-screen bug) */
 const _geo={},G3=(w,h,d)=>{const k='b'+w.toFixed(2)+'_'+h.toFixed(2)+'_'+d.toFixed(2);return _geo[k]||(_geo[k]=new THREE.BoxGeometry(w,h,d));};
