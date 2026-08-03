@@ -96,6 +96,10 @@ h1{font-size:1.7rem;line-height:1.15;margin:22px 0 6px}
 .shchip.past{opacity:.35;text-decoration:line-through}
 .bookbtn{display:block;text-align:center;margin-top:12px;background:rgba(245,185,66,.12);border:1px solid var(--acc);color:var(--acc);border-radius:10px;padding:10px;text-decoration:none;font-size:.85rem;font-weight:700}
 .approx{display:inline-block;background:rgba(122,140,255,.15);color:#9fb0ff;font-size:.6rem;font-weight:800;padding:3px 8px;border-radius:6px;letter-spacing:.1em;vertical-align:middle}
+.dot.lux{border-radius:4px;box-shadow:inset 0 -1.5px 0 rgba(0,0,0,.45)}
+.swlux{border-radius:4px !important;width:16px !important}
+.pricenote{font-size:.64rem;color:#6e7690;margin-top:6px}
+.bsp{display:block;font-size:.55rem;color:#8e96ab;font-weight:600}
 .tline{border-left:2px solid rgba(159,176,255,.35);margin:4px 0 10px 6px;padding-left:14px;display:flex;flex-direction:column;gap:9px}
 .tstep{position:relative;font-size:.8rem;color:#cdd4e4;line-height:1.35}
 .tstep:before{content:'';position:absolute;left:-19px;top:5px;width:8px;height:8px;border-radius:50%;background:#9fb0ff}
@@ -365,6 +369,9 @@ async function loadShows(h){const s=SLUGS[norm(h.v)];if(!s)return null;
 function istNow(){const d=new Date();return new Date(d.getTime()+(330+d.getTimezoneOffset())*60000);}
 function toMin(t){const m=String(t).match(/(\d{1,2}):(\d{2})\s?(AM|PM)/i);if(!m)return null;
  let h=+m[1]%12;if(/pm/i.test(m[3]))h+=12;return h*60+ +m[2];}
+/* only trust plausible cinema times: 7:00 AM through 2:30 AM. Kills scraper junk like 4:59 AM. */
+function plausT(t){const m2=toMin(t);return m2!=null&&(m2>=420||m2<=150);}
+const sortT=(a,b)=>{const x=toMin(a.t),y=toMin(b.t);return (x<420?x+1440:x)-(y<420?y+1440:y);};
 /* ---------- arrival planner: what really happens after the listed showtime (researched, approx) ---------- */
 const PRESHOW=[
  [/pvr|inox/i,{ads:22,lo:15,hi:30}],
@@ -392,11 +399,13 @@ async function renderShows(h){const box=document.getElementById('showbox');if(!b
  const j=await loadShows(h);
  if(!j||!j.ok||!document.getElementById('showbox')){if(box)box.innerHTML=planBox(h,null);return;}
  const n2=istNow(),nowM=n2.getHours()*60+n2.getMinutes();
+ const movies=j.movies.map(mv=>({movie:mv.movie,shows:mv.shows.filter(s=>plausT(s.t)).sort(sortT)})).filter(mv=>mv.shows.length);
+ if(!movies.length){box.innerHTML=planBox(h,null);return;}
  let firstUp=null;
- j.movies.forEach(mv=>mv.shows.forEach(s=>{const m2=toMin(s.t);
+ movies.forEach(mv=>mv.shows.forEach(s=>{const m2=toMin(s.t);
   if(m2!=null&&m2>=nowM&&(firstUp==null||m2<toMin(firstUp)))firstUp=s.t;}));
  box.innerHTML=`<div class="card" style="cursor:default"><div style="font-weight:700;margin-bottom:6px">🎟️ Today at this cinema <span class="livec">LIVE</span></div>
- ${j.movies.slice(0,5).map(mv=>`<div class="shrow"><span class="shm">${mv.movie}</span>
+ ${movies.slice(0,5).map(mv=>`<div class="shrow"><span class="shm">${mv.movie}</span>
   <span class="sht">${mv.shows.slice(0,4).map(s=>`<span class="shchip ${toMin(s.t)!=null&&toMin(s.t)<nowM?'past':''}">${s.t}${s.tag?' · '+s.tag:''}</span>`).join('')}</span></div>`).join('')}
  <a class="bookbtn" href="${j.url}" target="_blank" rel="noopener">Book on District →</a></div>`+planBox(h,firstUp);}
 async function renderNext(){const el=document.getElementById('nextshow');if(!el)return;
@@ -405,7 +414,7 @@ async function renderNext(){const el=document.getElementById('nextshow');if(!el)
  let best=null;
  for(const k of picks){const h=HALLS.find(x=>norm(x.v)===k);if(!h)continue;
   const j=await loadShows(h);if(!j||!j.ok)continue;
-  j.movies.forEach(mv=>mv.shows.forEach(s=>{const m2=toMin(s.t);if(m2==null||m2<nowM)return;
+  j.movies.forEach(mv=>mv.shows.forEach(s=>{if(!plausT(s.t))return;const m2=toMin(s.t);if(m2==null||m2<nowM)return;
    const prem=/IMAX|INSIGNIA|EPIQ|ICE|4D|PXL/i.test(s.tag||'');
    const sc2=(m2-nowM)+(prem?0:240);
    if(!best||sc2<best.sc)best={sc:sc2,mv:mv.movie,t:s.t,tag:s.tag,v:h.v,url:j.url};}));}
@@ -527,7 +536,8 @@ function renderHall(h){
       if(g[1]==='g'){html+=`<span style="display:inline-block;flex:none;width:${Math.max(2,g[0]*(dw+2.5)-2.5)}px"></span>`;return;}
       html+=Array(g[0]).fill(0).map(()=>{const st=seats[si++];if(!st)return '';
        const col=mm==='c'?(CCOL[st.cls]||'#5a2c33'):TCOL[tier(st.sc)];
-       return `<span class="dot" style="width:${dw}px;height:${dw}px;background:${col}"></span>`;}).join('');
+       const luxc=st.cls==='rc'||st.cls==='ry'||st.cls==='sf'||st.cls==='gd';
+       return `<span class="dot${luxc?' lux':''}" style="width:${luxc?Math.round(dw*1.5):dw}px;height:${dw}px;background:${col}"></span>`;}).join('');
       /* visible walking aisle between seat blocks */
       if(gi2<r[1].length-1&&r[1][gi2+1][1]!=='g')html+=`<span style="display:inline-block;flex:none;width:${Math.round(dw*1.9)}px"></span>`;});
      return `<div class="srow">${html}</div>`}).join('')}
@@ -535,9 +545,11 @@ function renderHall(h){
    </div>
    <div style="text-align:right;font-size:.62rem;color:#5a647a;margin-top:6px;letter-spacing:.12em">ENTRANCE ⟶</div>
    <div class="hint">👆 Tap the map right where you want to sit</div>
-   ${(localStorage.getItem('ps_mapmode')||'q')==='c'
-    ?`<div class="maplegend">${[...new Set(curGrade.flat().map(s2=>s2.cls))].map(c=>`<span class="lg"><span class="sw" style="background:${CCOL[c]||'#5a2c33'}"></span>${CNAME[c]||c}</span>`).join('')}</div>`
-    :`<div class="maplegend"><span style="font-size:.68rem;color:#5a647a">Seat colours:</span>${[[5,'BEST'],[4,'GOOD'],[3,'OKAY'],[1,'AVOID']].map(([t,w])=>`<span class="lgword">${[...w].map(ch=>`<span class="lt" style="background:${TCOL[t]}">${ch}</span>`).join('')}</span>`).join('')}</div>`}
+   ${(()=>{const cls=[...new Set(curGrade.flat().map(s2=>s2.cls))];
+     const cchips=cls.map(c=>`<span class="lg"><span class="sw${(c==='rc'||c==='ry'||c==='sf'||c==='gd')?' swlux':''}" style="background:${CCOL[c]||'#5a2c33'}"></span>${CNAME[c]||c}${h.price&&h.price[c]?` <b>₹${h.price[c]}</b>`:''}</span>`).join('');
+     const qleg=`<div class="maplegend"><span style="font-size:.68rem;color:#5a647a">Seat colours:</span>${[[5,'BEST'],[4,'GOOD'],[3,'OKAY'],[1,'AVOID']].map(([t,w])=>`<span class="lgword">${[...w].map(ch=>`<span class="lt" style="background:${TCOL[t]}">${ch}</span>`).join('')}</span>`).join('')}</div>`;
+     const note=h.price?`<div class="pricenote">${h.psrc==='District'?'Ticket prices from District, weekday base. Big releases and weekends cost more.':'Prices approximate. This cinema sells on BookMyShow.'}</div>`:'';
+     return ((localStorage.getItem('ps_mapmode')||'q')==='c'?'':qleg)+`<div class="maplegend">${cchips}</div>`+note;})()}
   </div>
   <div class="party">Going as
    ${[1,2,3,4,6].map(n=>`<button class="pbtn ${party===n?'on':''}" onclick="setParty(${n})">${n===1?'Just me':n===2?'Couple':n===6?'5+':n}</button>`).join('')}
@@ -585,7 +597,7 @@ function openZone(zi){
  const inZone=curGrade.map(r=>r.filter(st=>zoneOf(st,rows)===zi)).filter(r=>r.length);
  document.getElementById('sht').textContent=ZN[Math.floor(zi/3)][zi%3];
  document.getElementById('shd').textContent='Tap a seat to see the exact view from it';
- document.getElementById('shb').innerHTML=inZone.map(r=>`<div class="bsrow"><span class="bsrl">${r[0].row}</span>
+ document.getElementById('shb').innerHTML=inZone.map(r=>`<div class="bsrow"><span class="bsrl">${r[0].row}${curHall.price&&curHall.price[r[0].cls]?`<small class="bsp">₹${curHall.price[r[0].cls]}</small>`:''}</span>
   ${r.map(st=>`<button class="bseat" style="background:${TCOL[tier(st.sc)]}" onclick="fromSheet(${st.ri},${st.n})">${st.n}<small>${TNAME[tier(st.sc)].toUpperCase()}</small></button>`).join('')}</div>`).join('');
  document.getElementById('sheet').classList.add('open');
  document.getElementById('shade').classList.add('open');}
@@ -605,7 +617,9 @@ function openSeat(ri,n,glabel){
  const fxl=h.fx==='motion'?' · 🎢 Motion seats, the room moves like this':h.fx==='panels'?' · 💡 LED panels wrap the walls':'';
  document.getElementById('vd').textContent=(glabel?'Seats '+glabel:'Seat '+st.row+st.n)+(curMovie?' · Now showing: '+curMovie.t:'')+fxl;
  const t=tier(st.sc);
- const vs=document.getElementById('vscore');vs.textContent=(glabel||st.row+st.n)+' · '+st.sc+'/100 · '+TNAME[t].toUpperCase();
+ const vs=document.getElementById('vscore');
+ const spr=h.price&&h.price[st.cls]?' · ₹'+h.price[st.cls]+(h.psrc==='approx'?'~':''):'';
+ vs.textContent=(glabel||st.row+st.n)+' · '+st.sc+'/100 · '+TNAME[t].toUpperCase()+spr;
  vs.style.background='rgba(255,255,255,.08)';vs.style.color=TCOL[t];
  viewer.classList.add('open');
  if(!R3){R3=new THREE.WebGLRenderer({canvas:vc,antialias:true,powerPreference:'high-performance'});
