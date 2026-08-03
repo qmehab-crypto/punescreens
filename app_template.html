@@ -702,7 +702,7 @@ function applyPH(){const p=window._ph||{};const sty=window._sty;
   m.map=t;
   /* keep this hall's real upholstery color: lighten it so it survives the photo-texture multiply */
   const base=(m.userData&&m.userData.base!=null)?m.userData.base:(luxC?0x6b4a33:0x3a3a44);
-  m.color.setHex(base);m.color.lerp(new THREE.Color(0xffffff),luxC?0.1:0.38);
+  m.color.setHex(base);if(!luxC)m.color.lerp(new THREE.Color(0xffffff),0.3);
   if(!luxC&&p.velvetN)m.normalMap=p.velvetN;
   m.needsUpdate=true;});}
 function texFabric(){if(_mat.__fab)return _mat.__fab;
@@ -804,7 +804,7 @@ function buildScene(o,st){
    p.position.set(sg*(hallW/2-0.3),scrBase+H/2,3+i*6);
    p.rotation.y=sg<0?Math.PI/2:-Math.PI/2;
    scene.add(p);window._panels.push(pm);}});}
- const sl=new THREE.PointLight(0x9aa4e8,1.2,260);sl.position.set(0,scrBase+H/2,18);scene.add(sl);
+ const sl=new THREE.PointLight(0x9aa4e8,0.85,260);sl.position.set(0,scrBase+H/2,18);scene.add(sl);
  window._scrLight=sl; /* flickers naturally like a real projection */
  scene.add(new THREE.AmbientLight(0x9090b0,.16));
  scene.add(new THREE.HemisphereLight(0x2c3242,0x090809,.38));
@@ -844,7 +844,7 @@ function buildScene(o,st){
  _mat.wallT&&_mat.wallT.color.setHex(STY.wall);
  /* acoustic wall panels + accent LED cove, unless the hall is a pure black box (Dolby) */
  if(!STY.pure){
-  const panM=M3('pan_'+o.id,{color:shade(STY.wall,0.16),roughness:1});
+  const panM=M3('pan_'+o.id,{color:shade(STY.wall,0.05),roughness:1});
   for(let zz=6;zz<depth+6;zz+=7)[-1,1].forEach(sg=>{
    const pn=new THREE.Mesh(G3(0.35,H*0.55,4.4),panM);
    pn.position.set(sg*(hallW/2-0.25),H*0.42,zz);scene.add(pn);});
