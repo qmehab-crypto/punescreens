@@ -211,7 +211,12 @@ const CCOL={cl:'#3d3f52',cp:'#4a4e6a',pr:'#5a2c33','p+':'#7a3b45',pp:'#7a6cff',x
 function procLayout(s){const lay=[];const L='ABCDEFGHJKLMNPQRSTUV';
  /* luxury halls (Director's Cut, Insignia, Gold, VIP…) are ALL recliners */
  const sc=s.cls==='luxury'?'ry':s.cls==='single'?'cl':'pr';
- for(let r=0;r<s.rows;r++)lay.push([L[r]||('R'+r),[[s.pr,sc]]]);return lay;}
+ /* real halls have a walking aisle down the middle */
+ const left=Math.ceil(s.pr/2),right=s.pr-left;
+ for(let r=0;r<s.rows;r++)lay.push([L[r]||('R'+r),right>0?[[left,sc],[right,sc]]:[[left,sc]]]);
+ return lay;}
+const CNAME={cl:'Classic',cp:'Classic+',pr:'Prime','p+':'Prime+',pp:'Picture Perfect',xl:'XL',el:'Extra Legroom',rc:'Recliner',ry:'Recliner',sf:'Sofa',gd:'Gold',sv:'Silver'};
+function setMapMode(m){localStorage.setItem('ps_mapmode',m);render();}
 const norm=s=>(s||'').toLowerCase().replace(/nexus|mall/g,'').replace(/[^a-z0-9]/g,'').slice(0,16);
 T.forEach(t=>t.isTop=true);
 const HALLS=[...T];
@@ -474,18 +479,30 @@ function renderHall(h){
   <p class="sub" style="margin-bottom:4px">${dn(h)} · ${h.area}${h.tech?' · '+h.tech:''}</p>
  ${plainTech(h)?`<p class="sub" style="margin:0 0 8px;font-size:.85rem;color:#a8b2c6">🗣️ In plain words: ${plainTech(h)}.</p>`:''}
   <div class="chips">${h.isTop?'<span class="chip gold">✓ real seat layout</span>':''}<span class="chip">${h.seats} seats</span><span class="chip">${h.lay.length} rows</span>${buzzOf(h)!=null?`<span class="chip" style="color:#e8a2b8" onclick="showMeth()">🔥 Buzz ${buzzOf(h)}/100 · 24h</span>`:''}</div>
+  <div class="rmode" style="margin:12px 0 8px">
+   <button class="rbtn ${(localStorage.getItem('ps_mapmode')||'q')==='q'?'on':''}" onclick="setMapMode('q')">⭐ Seat quality</button>
+   <button class="rbtn ${(localStorage.getItem('ps_mapmode')||'q')==='c'?'on':''}" onclick="setMapMode('c')">🛋️ Seat categories</button>
+  </div>
   <div class="mapcard">
    <div class="screenbar" style="width:${Math.min(92,Math.round(h.w/62*100))}%"></div>
    <div class="screenlbl">SCREEN</div>
    <div class="maprel">
-    ${h.lay.map((r,ri)=>{let si=0;const seats=curGrade[ri]||[];
-     return `<div class="srow">${r[1].map(g=>g[1]==='g'
-      ?`<span style="display:inline-block;flex:none;width:${Math.max(2,g[0]*(dw+2.5)-2.5)}px"></span>`
-      :Array(g[0]).fill(0).map(()=>{const st=seats[si++];return st?`<span class="dot" style="width:${dw}px;height:${dw}px;background:${TCOL[tier(st.sc)]}"></span>`:''}).join('')).join('')}</div>`}).join('')}
+    ${h.lay.map((r,ri)=>{let si=0;const seats=curGrade[ri]||[];const mm=(localStorage.getItem('ps_mapmode')||'q');
+     let html='';r[1].forEach((g,gi2)=>{
+      if(g[1]==='g'){html+=`<span style="display:inline-block;flex:none;width:${Math.max(2,g[0]*(dw+2.5)-2.5)}px"></span>`;return;}
+      html+=Array(g[0]).fill(0).map(()=>{const st=seats[si++];if(!st)return '';
+       const col=mm==='c'?(CCOL[st.cls]||'#5a2c33'):TCOL[tier(st.sc)];
+       return `<span class="dot" style="width:${dw}px;height:${dw}px;background:${col}"></span>`;}).join('');
+      /* visible walking aisle between seat blocks */
+      if(gi2<r[1].length-1&&r[1][gi2+1][1]!=='g')html+=`<span style="display:inline-block;flex:none;width:${Math.round(dw*1.9)}px"></span>`;});
+     return `<div class="srow">${html}</div>`}).join('')}
     <div class="zoverlay">${Array.from({length:9},(_,i)=>`<button class="zcell" onclick="openZone(${i})" aria-label="${ZN[Math.floor(i/3)][i%3]}"></button>`).join('')}</div>
    </div>
+   <div style="text-align:right;font-size:.62rem;color:#5a647a;margin-top:6px;letter-spacing:.12em">ENTRANCE ⟶</div>
    <div class="hint">👆 Tap the map right where you want to sit</div>
-   <div class="maplegend"><span style="font-size:.68rem;color:#5a647a">Seat colours:</span>${[[5,'BEST'],[4,'GOOD'],[3,'OKAY'],[1,'AVOID']].map(([t,w])=>`<span class="lgword">${[...w].map(ch=>`<span class="lt" style="background:${TCOL[t]}">${ch}</span>`).join('')}</span>`).join('')}</div>
+   ${(localStorage.getItem('ps_mapmode')||'q')==='c'
+    ?`<div class="maplegend">${[...new Set(curGrade.flat().map(s2=>s2.cls))].map(c=>`<span class="lg"><span class="sw" style="background:${CCOL[c]||'#5a2c33'}"></span>${CNAME[c]||c}</span>`).join('')}</div>`
+    :`<div class="maplegend"><span style="font-size:.68rem;color:#5a647a">Seat colours:</span>${[[5,'BEST'],[4,'GOOD'],[3,'OKAY'],[1,'AVOID']].map(([t,w])=>`<span class="lgword">${[...w].map(ch=>`<span class="lt" style="background:${TCOL[t]}">${ch}</span>`).join('')}</span>`).join('')}</div>`}
   </div>
   <div class="party">Going as
    ${[1,2,3,4,6].map(n=>`<button class="pbtn ${party===n?'on':''}" onclick="setParty(${n})">${n===1?'Just me':n===2?'Couple':n===6?'5+':n}</button>`).join('')}
@@ -563,8 +580,11 @@ function openSeat(ri,n,glabel){
   vc.addEventListener('webglcontextlost',e=>{e.preventDefault();R3=null;},{once:true});}
  loadPH();
  buildScene(h,st);setMode(mode==='hall'?'hall':'seat');animate();
- /* arriving from a 3D movie: glasses go on automatically */
- if(curMovie&&/3d/i.test(curMovie.g||'')&&!mode3d)toggle3d();}
+ /* 3D is only offered when THIS movie actually screens in 3D */
+ const is3d=!!(curMovie&&/3d/i.test((curMovie.g||'')+' '+(curMovie.t||'')));
+ const b3=document.getElementById('b3d');if(b3)b3.style.display=is3d?'':'none';
+ if(!is3d&&mode3d)toggle3d();
+ if(is3d&&!mode3d)toggle3d();}
 /* shared geometry + material caches — stops GPU memory leaks (the black-screen bug) */
 const _geo={},G3=(w,h,d)=>{const k='b'+w.toFixed(2)+'_'+h.toFixed(2)+'_'+d.toFixed(2);return _geo[k]||(_geo[k]=new THREE.BoxGeometry(w,h,d));};
 const _mat={},M3=(key,opts)=>_mat[key]||(_mat[key]=new THREE.MeshStandardMaterial(opts));
@@ -783,7 +803,7 @@ function buildScene(o,st){
   const firstSeat=r[1].find(g2=>g2[1]!=='g')||r[1][0];
   const cls0=firstSeat[1],pitch=pitchOf(cls0);
   const hasGap=r[1].some(g2=>g2[1]==='g');
-  const aisle=hasGap?0:3;
+  const aisle=hasGap?0:3.8; /* wide enough to read as a real walkway */
   const fullW=r[1].reduce((a,g)=>a+g[0]*(g[1]==='g'?1.75:seatDims(g[1])[0]),0)+(hasGap?0:(r[1].length-1)*aisle);
   const ris=new THREE.Mesh(new THREE.BoxGeometry(Math.min(hallW-2,fullW+3),Math.max(0.2,y),pitch),M3('riser',{color:0x141520,roughness:1}));
   ris.position.set(0,Math.max(0.1,y/2),z);scene.add(ris);
@@ -918,6 +938,6 @@ window.openLogin=openLogin;window.doLogin=doLogin;window.cityMenu=cityMenu;
 window.openZone=openZone;window.closeSheet=closeSheet;window.fromSheet=fromSheet;
 window.openBest=openBest;window.cycleSeat=cycleSeat;window.HALLS=HALLS;window.byId=byId;
 window.setParty=setParty;window.openGroup=openGroup;
-window.showMeth=showMeth;window.setRank=setRank;window.setHeight=setHeight;window.toggle3d=toggle3d;
+window.showMeth=showMeth;window.setRank=setRank;window.setHeight=setHeight;window.toggle3d=toggle3d;window.setMapMode=setMapMode;
 render();loadMovies();loadSheet();loadBuzz();loadPlaces();
 </script></body></html>
