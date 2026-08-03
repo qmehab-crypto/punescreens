@@ -824,7 +824,7 @@ function buildScene(o,st){
  const lens=new THREE.Mesh(TG(new THREE.PlaneGeometry(2.4,1.2)),new THREE.MeshBasicMaterial({color:0xdfe6ff}));
  lens.position.set(0,H+9,depth+10.7);lens.rotation.y=Math.PI;scene.add(lens);
  const lensGlow=new THREE.PointLight(0xcfd8ff,.8,32);lensGlow.position.set(0,H+8.6,depth+9.4);scene.add(lensGlow);
- const wash=new THREE.SpotLight(0xaeb8ea,0.32,depth*1.7,0.85,0.6,1.2);
+ const wash=new THREE.SpotLight(0xaeb8ea,0.22,depth*1.7,0.85,0.6,1.2);
  wash.position.set(0,scrBase+H/2,1);wash.target.position.set(0,4,depth*0.7);
  scene.add(wash);scene.add(wash.target);
  /* real EXIT signs — glowing green text boxes, like actual theaters */
@@ -844,7 +844,7 @@ function buildScene(o,st){
  _mat.wallT&&_mat.wallT.color.setHex(STY.wall);
  /* acoustic wall panels + accent LED cove, unless the hall is a pure black box (Dolby) */
  if(!STY.pure){
-  const panM=M3('pan_'+o.id,{color:shade(STY.wall,0.05),roughness:1});
+  const panM=M3('pan_'+o.id,{color:0x0e0d10,roughness:1});
   for(let zz=6;zz<depth+6;zz+=7)[-1,1].forEach(sg=>{
    const pn=new THREE.Mesh(G3(0.35,H*0.55,4.4),panM);
    pn.position.set(sg*(hallW/2-0.25),H*0.42,zz);scene.add(pn);});
