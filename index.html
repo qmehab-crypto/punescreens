@@ -516,11 +516,11 @@ function loadPH(){if(window._phStarted)return;window._phStarted=1;
   window._ph=window._ph||{};window._ph[key]=t;applyPH();});};
  set('velvet',PHT.velvet,1,1);set('velvetN',PHT.velvetN,1,1);
  set('carpet',PHT.carpet,8,14);set('carpetN',PHT.carpetN,8,14);
- set('wall',PHT.wall,6,2);set('leather',PHT.leather,1,1);}
+ set('wall',PHT.wall,22,7);set('leather',PHT.leather,1,1);}
 function applyPH(){const p=window._ph||{};
  if(p.carpet&&_mat.floorT){_mat.floorT.map=p.carpet;_mat.floorT.color.set(0x5c4a44);
   if(p.carpetN)_mat.floorT.normalMap=p.carpetN;_mat.floorT.needsUpdate=true;}
- if(p.wall&&_mat.wallT){_mat.wallT.map=p.wall;_mat.wallT.color.set(0x33363f);_mat.wallT.needsUpdate=true;}
+ if(p.wall&&_mat.wallT){_mat.wallT.map=p.wall;_mat.wallT.color.set(0x121318);_mat.wallT.needsUpdate=true;}
  Object.keys(_mat).forEach(k=>{if(!k.startsWith('f2_'))return;
   const m=_mat[k],cls=k.slice(3),luxC=cls==='rc'||cls==='ry'||cls==='sf';
   const t=luxC?p.leather:p.velvet;if(!t)return;
