@@ -6,6 +6,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
 <style>
 :root{--bg:#0d0f14;--card:#161a22;--card2:#1e2430;--line:#252c3a;--ink:#f0f2f7;--mut:#8a93a6;--acc:#f5b942;
 --s5:#22c07a;--s4:#8fce5f;--s3:#e3c14f;--s2:#e0854a;--s1:#d84f4f}
@@ -583,6 +585,23 @@ const PHT={
  carpetN:PH_BASE+'dirty_carpet/dirty_carpet_nor_gl_1k.jpg',
  wall:PH_BASE+'wool_boucle/wool_boucle_diff_1k.jpg',
  leather:PH_BASE+'leather_white/leather_white_diff_1k.jpg'};
+/* REAL 3D assets: scanned armchair model for nearby seats + photographed HDRI light */
+async function loadHallAssets(){if(window._assetsStart)return;window._assetsStart=1;
+ try{const hj=await fetch('https://api.polyhaven.com/files/ballroom').then(r=>r.json());
+  const hu=hj.hdri&&hj.hdri['1k']&&hj.hdri['1k'].hdr&&hj.hdri['1k'].hdr.url;
+  if(hu&&THREE.RGBELoader)new THREE.RGBELoader().load(hu,t=>{
+   t.mapping=THREE.EquirectangularReflectionMapping;window._hdri=t;
+   if(R3){const pm=new THREE.PMREMGenerator(R3);window._env=pm.fromEquirectangular(t).texture;pm.dispose();
+    if(scene)scene.environment=window._env;}});}catch(e){}
+ try{const mj=await fetch('https://api.polyhaven.com/files/ArmChair_01').then(r=>r.json());
+  const gu=mj.gltf&&mj.gltf['1k']&&mj.gltf['1k'].gltf&&mj.gltf['1k'].gltf.url;
+  if(gu&&THREE.GLTFLoader)new THREE.GLTFLoader().load(gu,g=>{
+   const root=g.scene;const bb=new THREE.Box3().setFromObject(root);
+   const sz=new THREE.Vector3();bb.getSize(sz);
+   window._chair=root;window._chairScale=3.4/Math.max(0.1,sz.y);
+   window._chairYOff=-bb.min.y*window._chairScale;
+   /* rebuild the open hall so the real chairs appear */
+   if(raf&&window._lastOpen)buildScene(window._lastOpen.h,window._lastOpen.st);});}catch(e){}}
 function loadPH(){if(window._phStarted)return;window._phStarted=1;
  const L=new THREE.TextureLoader();L.setCrossOrigin('anonymous');
  const set=(key,url,rx,ry2)=>{L.load(url,t=>{t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry2);
@@ -648,6 +667,8 @@ function buildScene(o,st){
  if(window._movTex){window._movTex.dispose();window._movTex=null;}
  if(window._cnvTex){window._cnvTex.dispose();window._cnvTex=null;}
  scene=new THREE.Scene();scene.background=new THREE.Color(0x05060a);scene.fog=new THREE.Fog(0x05060a,160,420);
+ window._lastOpen={h:o,st};loadHallAssets();
+ if(window._env)scene.environment=window._env;
  const W=o.w,H=o.h,firstD=0.42*W,scrBase=3.2,rowRise=1.05;
  const pitchOf=c=>(c==='rc'||c==='ry'||c==='sf')?4.6:3.7;
  let depth=firstD;o.lay.forEach(r=>depth+=pitchOf(r[1][0][1]));
@@ -761,7 +782,18 @@ function buildScene(o,st){
     const rot=-Math.atan2(cx,zc+20)*0.55;
     const inG=gset.has(ri+'-'+idx),isRep=(ri===st.ri&&idx===st.n);
     const mOv=inG?(isRep?M3('goldRep',{color:0xf5b942,emissive:0x664411,roughness:.4}):M3('goldGrp',{color:0xf5b942,emissive:0x2e1f05,roughness:.4})):null;
-    mkSeat(cx,y,zc,gw,gd,gp[1],mOv,rot);
+    /* real scanned chairs for the rows around you */
+    const near=window._chair&&Math.abs(ri-st.ri)<=2&&Math.abs(idx-st.n)<=8;
+    if(near){const ch=window._chair.clone(true);
+     const cs=window._chairScale*(lux(gp[1])?1.18:1);
+     ch.scale.setScalar(cs);
+     ch.position.set(cx,y+(window._chairYOff||0),zc);
+     ch.rotation.y=rot+Math.PI;
+     const tint=inG?new THREE.Color(0xf5b942):new THREE.Color(FABRIC[gp[1]]||0x2a1216).lerp(new THREE.Color(0xffffff),0.55);
+     ch.traverse(oo=>{if(oo.isMesh){oo.material=oo.material.clone();oo.material.color.multiply(tint);
+      if(inG&&isRep)oo.material.emissive=new THREE.Color(0x553d0a);}});
+     scene.add(ch);}
+    else mkSeat(cx,y,zc,gw,gd,gp[1],mOv,rot);
     if(!inG&&((idx*7+ri*13)%6===0)){ /* scattered moviegoers */
      const hd=new THREE.Mesh(_geo.hd||(_geo.hd=new THREE.SphereGeometry(0.55,8,6)),M3('head',{color:0x0b0b0f,roughness:1}));
      hd.position.set(cx,y+3.35,zc+gd*0.28);scene.add(hd);}
