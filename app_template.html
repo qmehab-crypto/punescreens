@@ -72,6 +72,8 @@ h1{font-size:1.7rem;line-height:1.15;margin:22px 0 6px}
 .gpill:active{transform:scale(.93)}
 .sofanote{margin-top:10px;text-align:center;color:#e08fb2;font-size:.85rem}
 .nowlbl{margin:20px 0 8px;color:var(--mut);font-size:.9rem}
+.secrow{display:flex;justify-content:space-between;align-items:baseline}
+.seeall{color:var(--acc);font-size:.8rem;cursor:pointer;font-weight:600}
 .postrip{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 10px;-webkit-overflow-scrolling:touch}
 .pcard{flex:0 0 94px;cursor:pointer}
 .pcard img{width:94px;height:134px;border-radius:10px;object-fit:cover;display:block}
@@ -405,13 +407,12 @@ function render(){
  if(view.p==='home')app.innerHTML=`
   <h1>${u?`Hey ${u} 👋`:'Watch it right.'}</h1>
   <p class="sub">The right movie, the right hall, the right seat. Two taps.</p>
-  <button class="bigbtn" onclick="go('movies')"><span class="e">🎬</span><span class="t">Movies in Pune</span><div class="d">What's playing & where it hits hardest</div></button>
-  <button class="bigbtn" onclick="go('theaters')"><span class="e">🏆</span><span class="t">Best theaters in Pune</span><div class="d">Every hall ranked · see the view from any seat</div></button>
-  ${MOVIES.some(m=>m.poster)?`<div class="nowlbl">🎬 In cinemas right now</div><div class="postrip">${MOVIES.slice(0,10).map((m,i)=>`<div class="pcard" onclick="go('movie',${i})">${m.poster?`<img src="${m.poster}" alt="" loading="lazy">`:`<div class="pemoji">${m.e||'🎬'}</div>`}<span>${m.t}</span></div>`).join('')}</div>`:''}
-  <div class="nowlbl">🏆 Best theaters, live ranked</div>
+  <div id="nextshow"></div>
+  <div class="secrow"><span class="nowlbl">🎬 In cinemas right now</span><span class="seeall" onclick="go('movies')">See all →</span></div>
+  <div class="postrip">${MOVIES.slice(0,10).map((m,i)=>`<div class="pcard" onclick="go('movie',${i})">${m.poster?`<img src="${m.poster}" alt="" loading="lazy">`:`<div class="pemoji">${m.e||'🎬'}</div>`}<span>${m.t}</span></div>`).join('')}</div>
+  <div class="secrow"><span class="nowlbl">🏆 Best theaters <span class="livec">LIVE</span></span><span class="seeall" onclick="go('theaters')">See all →</span></div>
   <div class="postrip">${[...HALLS].sort((a,b)=>shown(b)-shown(a)).slice(0,8).map(h=>{const gi=HALLS.indexOf(h);
-   return `<div class="pcard" onclick="go('hall',${gi})">${h.photo?`<img src="${h.photo}" alt="" loading="lazy">`:`<div class="pemoji" style="font-size:.82rem;font-weight:700;color:var(--acc);padding:10px;text-align:center;line-height:1.25">${h.v.split(',')[0]}</div>`}<span>${shown(h)}/100 · ${h.area}</span></div>`}).join('')}</div>
-  <div id="nextshow"></div>`;
+   return `<div class="pcard" onclick="go('hall',${gi})">${h.photo?`<img src="${h.photo}" alt="" loading="lazy">`:`<div class="pemoji" style="font-size:.82rem;font-weight:700;color:var(--acc);padding:10px;text-align:center;line-height:1.25">${h.v.split(',')[0]}</div>`}<span>${shown(h)}/100 · ${h.area}</span></div>`}).join('')}</div>`;
  if(view.p==='home')renderNext();
  if(view.p==='movies')app.innerHTML=`
   <button class="back" onclick="go('home')">← Home</button>
