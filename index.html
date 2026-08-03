@@ -81,9 +81,16 @@ h1{font-size:1.7rem;line-height:1.15;margin:22px 0 6px}
 .zoverlay{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr 1fr}
 .zcell{background:transparent;border:0;cursor:pointer;border-radius:10px}
 .zcell:active{background:rgba(245,185,66,.16)}
-.rmode{display:flex;gap:8px;margin-bottom:14px}
-.rbtn{flex:1;background:var(--card);border:1px solid var(--line);color:var(--mut);border-radius:12px;padding:10px;font-family:inherit;font-size:.85rem;cursor:pointer}
-.rbtn.on{background:rgba(245,185,66,.12);border-color:var(--acc);color:var(--acc);font-weight:700}
+.livec{display:inline-block;background:rgba(216,79,79,.15);color:#ff7b7b;font-size:.6rem;font-weight:800;padding:3px 8px;border-radius:6px;letter-spacing:.1em;vertical-align:middle;animation:lp 1.6s infinite}
+@keyframes lp{50%{opacity:.4}}
+.card{animation:up .45s both}
+@keyframes up{from{opacity:0;transform:translateY(14px)}}
+.shrow{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px dashed var(--line);flex-wrap:wrap}
+.shm{font-size:.88rem;font-weight:600;flex:1;min-width:110px}
+.sht{display:flex;gap:5px;flex-wrap:wrap}
+.shchip{background:var(--card2);border-radius:6px;padding:3px 9px;font-size:.72rem;color:#cdd4e4}
+.shchip.past{opacity:.35;text-decoration:line-through}
+.bookbtn{display:block;text-align:center;margin-top:12px;background:rgba(245,185,66,.12);border:1px solid var(--acc);color:var(--acc);border-radius:10px;padding:10px;text-decoration:none;font-size:.85rem;font-weight:700}
 .medal{font-size:1.5rem;width:32px;flex:none;text-align:center}
 .whychips{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
 .wchip{background:var(--card2);border-radius:6px;padding:2px 8px;font-size:.7rem;color:#b8c0d2}
@@ -178,6 +185,7 @@ footer{max-width:520px;margin:26px auto 0;padding:16px;color:#4a5468;font-size:.
  <h2>Hey there 👋</h2><p>Your name, so we can remember your seats.</p>
  <input id="lname" placeholder="Your name" maxlength="30">
  <input id="lkey" placeholder="TMDB API key (optional)" maxlength="60">
+ <input id="lplaces" placeholder="Google Places API key (optional, real theater photos)" maxlength="60">
  <button class="go" onclick="doLogin()">Let's go</button>
  <div class="note">Add a free <a href="https://www.themoviedb.org/settings/api" target="_blank">TMDB key</a> to get live movies &amp; posters automatically.</div>
 </div></div>
@@ -311,6 +319,69 @@ function whyTags(h){const t=[];const tech=(h.tech||'').toLowerCase();
  if(h.fx==='panels')t.push('💡 LED panels');
  if(t.length<2&&/64-ch|atmos/.test(tech))t.push('🔊 Atmos sound');
  return t.slice(0,2);}
+/* ---------- LIVE SHOWTIMES from District (server-parsed, 30-min refresh) ---------- */
+const SLUGS={
+ inoxmegaplexphoe:'inox-megaplex-phoenix-mall-of-the-millennium-wakad-pune-in-pune-CD1023543',
+ pvriconthepavill:'pvr-icon-pavillion-mall-shivajinagar-pune-in-pune-CD1019924',
+ pvrgrandhighstre:'pvr-grand-highstreet-mall-hinjawadi-pune-in-pune-CD1019928',
+ pvrdirectorscutk:'pvr-directors-cut-kopa-kopa-mall-pune-in-pune-CD1027604',
+ cinepoliswestend:'cinepolis-nexus-westend-aundh-pune-in-pune-CD127',
+ cinepolisseasons:'cinepolis-seasons-mall-hadapsar-pune-in-pune-CD153',
+ inoxelprocitysqu:'inox-elpro-city-square-chinchwad-pune-in-pune-CD1019931',
+ inoxbundgarden:'inox-bund-garden-bund-garden-road-pune-in-pune-CD1019930',
+ pvrkumarpacific:'pvr-kumar-pacific-mall-swar-gate-pune-in-pune-CD1019925',
+ moviemaxamanora:'moviemax-amanora-town-centre-pune-now-renovated-in-pune-CD1025280',
+ mirajspinecitymo:'miraj-cinemas-spine-city-mall-pune-in-pune-CD1017287',
+ moviemaxgoldmari:'moviemax-gold-mariplex-mall-kalyani-nagar-pune-in-pune-CD1027599',
+ rajhans93avenue:'rajhans-cinemas-93-avenue-mall-fatima-nagar-pune-in-pune-CD24973',
+ alakatalkies:'alaka-talkies-sadashiv-peth-pune-in-pune-CD2676',
+ viluxtalkieskhad:'vilux-talkies-khadki-bazar-pune-in-pune-CD3494',
+ inoxjaiganeshvis:'inox-jai-ganesh-vision-mall-akurdi-pune-in-pune-CD1019927',
+ inoxroyaleherita:'inox-royal-heritage-mall-nibm-ext-pune-in-pune-CD1019929',
+ pvrphoenixmarket:'pvr-phoenix-market-city-nagar-road-pune-in-pune-CD1022265'};
+const _shows={};
+async function loadShows(h){const s=SLUGS[norm(h.v)];if(!s)return null;
+ if(_shows[s])return _shows[s];
+ try{const j=await fetch('/.netlify/functions/shows?p='+s).then(r=>r.json());_shows[s]=j;return j;}catch(e){return null;}}
+function istNow(){const d=new Date();return new Date(d.getTime()+(330+d.getTimezoneOffset())*60000);}
+function toMin(t){const m=String(t).match(/(\d{1,2}):(\d{2})\s?(AM|PM)/i);if(!m)return null;
+ let h=+m[1]%12;if(/pm/i.test(m[3]))h+=12;return h*60+ +m[2];}
+async function renderShows(h){const box=document.getElementById('showbox');if(!box)return;
+ const j=await loadShows(h);
+ if(!j||!j.ok||!document.getElementById('showbox')){if(box)box.innerHTML='';return;}
+ const n2=istNow(),nowM=n2.getHours()*60+n2.getMinutes();
+ box.innerHTML=`<div class="card" style="cursor:default"><div style="font-weight:700;margin-bottom:6px">🎟️ Today at this cinema <span class="livec">LIVE</span></div>
+ ${j.movies.slice(0,5).map(mv=>`<div class="shrow"><span class="shm">${mv.movie}</span>
+  <span class="sht">${mv.shows.slice(0,4).map(s=>`<span class="shchip ${toMin(s.t)!=null&&toMin(s.t)<nowM?'past':''}">${s.t}${s.tag?' · '+s.tag:''}</span>`).join('')}</span></div>`).join('')}
+ <a class="bookbtn" href="${j.url}" target="_blank" rel="noopener">Book on District →</a></div>`;}
+async function renderNext(){const el=document.getElementById('nextshow');if(!el)return;
+ const picks=['inoxmegaplexphoe','pvriconthepavill','pvrdirectorscutk','pvrgrandhighstre'];
+ const n2=istNow(),nowM=n2.getHours()*60+n2.getMinutes();
+ let best=null;
+ for(const k of picks){const h=HALLS.find(x=>norm(x.v)===k);if(!h)continue;
+  const j=await loadShows(h);if(!j||!j.ok)continue;
+  j.movies.forEach(mv=>mv.shows.forEach(s=>{const m2=toMin(s.t);if(m2==null||m2<nowM)return;
+   const prem=/IMAX|INSIGNIA|EPIQ|ICE|4D|PXL/i.test(s.tag||'');
+   const sc2=(m2-nowM)+(prem?0:240);
+   if(!best||sc2<best.sc)best={sc:sc2,mv:mv.movie,t:s.t,tag:s.tag,v:h.v,url:j.url};}));}
+ if(best&&document.getElementById('nextshow'))el.innerHTML=`<div class="nowlbl">⚡ Next big show tonight</div>
+  <a class="card" style="display:flex;text-decoration:none;color:inherit" href="${best.url}" target="_blank" rel="noopener">
+  <div class="row1" style="width:100%"><div class="poster sq" style="background:#2a1c10">🎟️</div>
+  <div class="ct"><div class="t">${best.mv}${best.tag?' · '+best.tag:''}</div>
+  <div class="d">${best.t} · ${best.v}</div></div><div class="chev">›</div></div></a>`;}
+/* ---------- Google Places: real theater photos (paste key via 👤) ---------- */
+async function loadPlaces(){const key=localStorage.getItem('ps_places');if(!key)return;
+ const cache=JSON.parse(localStorage.getItem('ps_photos')||'{}');
+ const tops=[...HALLS].sort((a,b)=>shown(b)-shown(a)).slice(0,12);let changed=false;
+ for(const h of tops){const k=norm(h.v);
+  if(cache[k]){h.photo=cache[k];continue;}
+  try{const j=await fetch('https://places.googleapis.com/v1/places:searchText',{method:'POST',
+   headers:{'Content-Type':'application/json','X-Goog-Api-Key':key,'X-Goog-FieldMask':'places.photos'},
+   body:JSON.stringify({textQuery:h.v+' cinema Pune'})}).then(r=>r.json());
+  const ph=j.places&&j.places[0]&&j.places[0].photos&&j.places[0].photos[0];
+  if(ph){cache[k]='https://places.googleapis.com/v1/'+ph.name+'/media?maxWidthPx=640&key='+key;h.photo=cache[k];changed=true;}}catch(e){}}
+ localStorage.setItem('ps_photos',JSON.stringify(cache));
+ if(changed&&(view.p==='home'||view.p==='theaters'||view.p==='hall'))render();}
 async function loadSheet(){try{
  const t=await fetch(SHEET+'&_='+Date.now(),{cache:'no-store'}).then(r=>r.text());
  const lines=t.trim().split('\n').map(pcsv);
@@ -336,7 +407,12 @@ function render(){
   <p class="sub">The right movie, the right hall, the right seat. Two taps.</p>
   <button class="bigbtn" onclick="go('movies')"><span class="e">🎬</span><span class="t">Movies in Pune</span><div class="d">What's playing & where it hits hardest</div></button>
   <button class="bigbtn" onclick="go('theaters')"><span class="e">🏆</span><span class="t">Best theaters in Pune</span><div class="d">Every hall ranked · see the view from any seat</div></button>
-  ${MOVIES.some(m=>m.poster)?`<div class="nowlbl">🎬 In cinemas right now</div><div class="postrip">${MOVIES.slice(0,10).map((m,i)=>`<div class="pcard" onclick="go('movie',${i})">${m.poster?`<img src="${m.poster}" alt="" loading="lazy">`:`<div class="pemoji">${m.e||'🎬'}</div>`}<span>${m.t}</span></div>`).join('')}</div>`:''}`;
+  ${MOVIES.some(m=>m.poster)?`<div class="nowlbl">🎬 In cinemas right now</div><div class="postrip">${MOVIES.slice(0,10).map((m,i)=>`<div class="pcard" onclick="go('movie',${i})">${m.poster?`<img src="${m.poster}" alt="" loading="lazy">`:`<div class="pemoji">${m.e||'🎬'}</div>`}<span>${m.t}</span></div>`).join('')}</div>`:''}
+  <div class="nowlbl">🏆 Best theaters, live ranked</div>
+  <div class="postrip">${[...HALLS].sort((a,b)=>shown(b)-shown(a)).slice(0,8).map(h=>{const gi=HALLS.indexOf(h);
+   return `<div class="pcard" onclick="go('hall',${gi})">${h.photo?`<img src="${h.photo}" alt="" loading="lazy">`:`<div class="pemoji" style="font-size:.82rem;font-weight:700;color:var(--acc);padding:10px;text-align:center;line-height:1.25">${h.v.split(',')[0]}</div>`}<span>${shown(h)}/100 · ${h.area}</span></div>`}).join('')}</div>
+  <div id="nextshow"></div>`;
+ if(view.p==='home')renderNext();
  if(view.p==='movies')app.innerHTML=`
   <button class="back" onclick="go('home')">← Home</button>
   <h1>Movies in Pune</h1><p class="sub">Now playing. Best hall for each comes first.</p>
@@ -353,21 +429,16 @@ function render(){
    <div class="badge b${tier(s)}">${s}</div><div class="chev">›</div></div>
    <div class="whybox"><b>Why:</b> ${noDash(hp[1])}</div></div>`}).join('')}`;}
  if(view.p==='theaters'){computeDeltas();
-  const rmode=localStorage.getItem('ps_rankmode')||'live';
-  const val=h=>rmode==='tech'?Math.round(h.score||60):shown(h);
-  const ranked=[...HALLS].sort((a,b)=>val(b)-val(a));
+  const ranked=[...HALLS].sort((a,b)=>shown(b)-shown(a));
   const MEDAL=['🥇','🥈','🥉'];
   app.innerHTML=`
   <button class="back" onclick="go('home')">← Home</button>
-  <h1>Best theaters in Pune</h1>
-  <p class="sub">Refreshed every 24 hours. <span style="color:var(--acc);cursor:pointer" onclick="showMeth()">How it works</span></p>
-  <div class="rmode">
-   <button class="rbtn ${rmode==='live'?'on':''}" onclick="setRank('live')">⚡ Live ranking</button>
-   <button class="rbtn ${rmode==='tech'?'on':''}" onclick="setRank('tech')">🔧 Engineering only</button>
-  </div>
-  ${ranked.slice(0,25).map((h,i)=>{const s=val(h),d=rmode==='live'?seatDelta(h):0;
-   return `<div class="card" onclick="go('hall',${HALLS.indexOf(h)})"><div class="row1">
+  <h1>Best theaters in Pune <span class="livec">LIVE</span></h1>
+  <p class="sub">Rankings move with the buzz, arrows show what changed since your last visit. <span style="color:var(--acc);cursor:pointer" onclick="showMeth()">How it works</span></p>
+  ${ranked.slice(0,25).map((h,i)=>{const s=shown(h),d=seatDelta(h);
+   return `<div class="card" style="animation-delay:${Math.min(i*45,600)}ms" onclick="go('hall',${HALLS.indexOf(h)})"><div class="row1">
    ${i<3?`<div class="medal">${MEDAL[i]}</div>`:`<div class="rankn">${i+1}</div>`}
+   ${h.photo?`<img src="${h.photo}" style="width:52px;height:52px;border-radius:12px;object-fit:cover;flex:none" loading="lazy">`:''}
    <div class="ct"><div class="t">${h.v}</div><div class="d">${dn(h)} · ${h.area} · ${h.seats} seats</div>
    <div class="whychips">${whyTags(h).map(w=>`<span class="wchip">${w}</span>`).join('')}</div></div>
    <div style="text-align:center"><div class="badge b${tier(s)}">${s}</div>${d?`<div style="font-size:.68rem;font-weight:700;color:${d>0?'var(--s5)':'var(--s1)'}">${d>0?'▲':'▼'}${Math.abs(d)}</div>`:''}</div>
@@ -418,7 +489,9 @@ function renderHall(h){
   <button class="cta" onclick="openBest()">⭐ ${party===1?'Take me to the best seat':party===2?'Show us the best pair':party===6?'Best seats for the whole gang':'Best '+party+' seats together'}</button>
   <div class="pillrow">${bestList.slice(0,5).map((g,i)=>`<button class="gpill" onclick="openGroup(${i})">${g.label}</button>`).join('')}</div>
   ${party===2&&hasSofa?'<div class="sofanote">💑 This hall has sofa loveseats in the back row, literally made for two.</div>':''}
-  ${h.best&&h.best.label?`<div class="card" style="cursor:default;margin-top:14px"><div class="whybox" style="border:0;padding:0;margin:0">💡 <b>Local intel:</b> ${noDash(h.best.label)}${h.avoid?'<br>⚠ '+noDash(h.avoid):''}</div></div>`:''}`;
+  <div id="showbox" style="margin-top:14px"></div>
+  ${h.best&&h.best.label?`<div class="card" style="cursor:default;margin-top:6px"><div class="whybox" style="border:0;padding:0;margin:0">💡 <b>Local intel:</b> ${noDash(h.best.label)}${h.avoid?'<br>⚠ '+noDash(h.avoid):''}</div></div>`:''}`;
+ renderShows(h);
 }
 function setParty(n){localStorage.setItem('ps_party',n);render();}
 function setHeight(k){localStorage.setItem('ps_height',k);render();}
@@ -605,7 +678,16 @@ function buildScene(o,st){
    mt.wrapS=mt.wrapT=THREE.ClampToEdgeWrapping;
    if(ia>sa){mt.repeat.set(sa/ia,1);mt.offset.set((1-sa/ia)/2,0);}
    else{mt.repeat.set(1,ia/sa);mt.offset.set(0,(1-ia/sa)/2);}
-   window._movTex=mt;scrMat.map=mt;scrMat.needsUpdate=true;});}
+   window._movTex=mt;window._movBase={rx:mt.repeat.x,ry:mt.repeat.y,ox:mt.offset.x,oy:mt.offset.y};
+   scrMat.map=mt;scrMat.needsUpdate=true;});}
+ /* soft vignette so the picture glows like projection, not a poster */
+ if(!_mat.vig){const cv2=document.createElement('canvas');cv2.width=cv2.height=256;const g4=cv2.getContext('2d');
+  const gr4=g4.createRadialGradient(128,128,70,128,128,182);
+  gr4.addColorStop(0,'rgba(0,0,0,0)');gr4.addColorStop(1,'rgba(0,0,0,0.5)');
+  g4.fillStyle=gr4;g4.fillRect(0,0,256,256);
+  _mat.vig=new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(cv2),transparent:true,depthWrite:false});}
+ const vig=new THREE.Mesh(TG(new THREE.PlaneGeometry(W,H)),_mat.vig);
+ vig.position.set(0,scrBase+H/2,0.12);scene.add(vig);
  /* ICE: animated LED panels flanking the screen */
  window._panels=[];
  if(o.fx==='panels'){
@@ -723,6 +805,11 @@ function animate(){raf=requestAnimationFrame(animate);
  const tnow=performance.now()/1000;
  if(window._panels&&window._panels.length)window._panels.forEach((pm,i)=>pm.opacity=.4+.35*Math.sin(tnow*2.2+i*1.3));
  if(window._scrLight)window._scrLight.intensity=1.15+0.14*Math.sin(tnow*1.3)+0.07*Math.sin(tnow*7.7)+0.04*Math.sin(tnow*13.1);
+ /* the picture drifts slowly, like footage playing, not a frozen poster */
+ if(window._movTex&&window._movBase){const b2=window._movBase;
+  const z3=0.955+0.045*Math.sin(tnow*0.11);
+  window._movTex.repeat.set(b2.rx*z3,b2.ry*z3);
+  window._movTex.offset.set(b2.ox+(b2.rx-b2.rx*z3)/2+0.008*Math.sin(tnow*0.07),b2.oy+(b2.ry-b2.ry*z3)/2+0.004*Math.sin(tnow*0.05));}
  if(mode3d&&window._fx3d&&seatPos){const f=window._fx3d,d2=window._scrDims;
   const mp=window._scrMat&&window._scrMat.map;
   [...f.ghosts,f.pop].forEach(o=>{if(mp&&o.material.map!==mp){o.material.map=mp;o.material.needsUpdate=true;}});
@@ -772,8 +859,10 @@ function openLogin(){
 function doLogin(){
  const v=document.getElementById('lname').value.trim();
  const k=document.getElementById('lkey').value.trim();
+ const pk=document.getElementById('lplaces').value.trim();
  if(v)localStorage.setItem('ps_name',v);
  if(k){localStorage.setItem('ps_tmdb',k);loadMovies();}
+ if(pk){localStorage.setItem('ps_places',pk);loadPlaces();}
  document.getElementById('login').classList.remove('open');render();}
 document.getElementById('login').addEventListener('click',e=>{if(e.target.id==='login')e.target.classList.remove('open');});
 function cityMenu(){alert('Pune is live.\nMumbai & Chennai — coming soon.');}
@@ -783,5 +872,5 @@ window.openZone=openZone;window.closeSheet=closeSheet;window.fromSheet=fromSheet
 window.openBest=openBest;window.cycleSeat=cycleSeat;window.HALLS=HALLS;window.byId=byId;
 window.setParty=setParty;window.openGroup=openGroup;
 window.showMeth=showMeth;window.setRank=setRank;window.setHeight=setHeight;window.toggle3d=toggle3d;
-render();loadMovies();loadSheet();loadBuzz();
+render();loadMovies();loadSheet();loadBuzz();loadPlaces();
 </script></body></html>
