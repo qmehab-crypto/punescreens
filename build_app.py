@@ -75,13 +75,16 @@ data = json.dumps(screens, separators=(",", ":"))
 #          xl XL, el extra-legroom, rc recliner, ry royal recliner, sf sofa, gd gold, sv silver
 def R(l, segs): return [l, segs]
 TOP10 = [
- dict(id="wakad_imax", v="INOX Megaplex, Phoenix Mall of the Millennium", s="IMAX", area="Wakad",
-  tech="IMAX XT 4K Laser · Dolby Atmos · 1.90:1", w=60,h=33,conf="verified (KDCloudy)", seats=262,
-  lay=[R("L",[[17,"cl"]]),R("K",[[21,"cl"]]),R("J",[[4,"cp"],[17,"cp"],[4,"cp"]]),R("I",[[4,"cp"],[17,"cp"],[4,"cp"]]),
-       R("H",[[4,"pr"],[17,"pr"],[4,"pr"]]),R("G",[[4,"pr"],[17,"pr"],[4,"pr"]]),
-       R("F",[[4,"pr"],[17,"pp"],[4,"pr"]]),R("E",[[4,"pr"],[17,"pp"],[4,"pr"]]),
-       R("D",[[4,"pr"],[17,"pp"],[4,"pr"]]),R("C",[[4,"pr"],[17,"pp"],[4,"pr"]]),
-       R("B",[[16,"rc"]]),R("A",[[2,"rc"],[6,"rc"]])],
+ dict(id="wakad_imax", v="INOX Megaplex, Phoenix Mall of the Millennium", s="IMAX", audi="Audi 7", area="Wakad",
+  tech="IMAX XT 4K Laser · Dolby Atmos · 1.90:1", w=60,h=33,conf="exact District seat grid (verified live in browser, Aug 2026)", seats=262,
+  lay=[R("L",[[5,"g"],[17,"cl"],[5,"g"]]),
+       R("K",[[2,"g"],[2,"cl"],[1,"g"],[17,"cl"],[1,"g"],[2,"cl"],[2,"g"]]),
+       R("J",[[4,"cp"],[1,"g"],[17,"cp"],[1,"g"],[4,"cp"]]),R("I",[[4,"cp"],[1,"g"],[17,"cp"],[1,"g"],[4,"cp"]]),
+       R("H",[[4,"pr"],[1,"g"],[17,"pr"],[1,"g"],[4,"pr"]]),R("G",[[4,"pr"],[1,"g"],[17,"pr"],[1,"g"],[4,"pr"]]),
+       R("F",[[4,"pr"],[1,"g"],[17,"pp"],[1,"g"],[4,"pr"]]),R("E",[[4,"pr"],[1,"g"],[17,"pp"],[1,"g"],[4,"pr"]]),
+       R("D",[[4,"pr"],[1,"g"],[17,"pp"],[1,"g"],[4,"pr"]]),R("C",[[4,"pr"],[1,"g"],[17,"pp"],[1,"g"],[4,"pr"]]),
+       R("B",[[2,"g"],[2,"rc"],[1,"g"],[12,"rc"],[8,"g"],[2,"rc"]]),
+       R("A",[[5,"g"],[2,"rc"],[14,"g"],[6,"rc"]])],
   best=dict(row="D",seat=13,label="Row D · Seat 13 — dead centre of the Picture Perfect block"),
   avoid="Recliner rows A–B sit too deep for the 1.90:1 frame; row L is neck-crane territory.",
   playing=[["The Odyssey (IMAX 2D)","Shot 100% on IMAX film cameras — this screen is its home turf"]]),
@@ -105,7 +108,7 @@ TOP10 = [
   avoid="Row O recliners: a divider rod sits in your sightline (real complaint). 'LieMAX' rep — Wakad beats it.",
   playing=[["The Odyssey (IMAX 2D)","Same film as Wakad but on 2K xenon — go Wakad if you can"]]),
  dict(id="pxl", v="PVR Grand Highstreet, Hinjawadi", s="P[XL]", area="Hinjawadi",
-  tech="4K Laser · Dolby Atmos · flat wall-to-wall", w=50,h=27,conf="recalculated from real seat map", seats=401,
+  tech="4K Laser · Dolby Atmos · flat wall-to-wall", w=50,h=27,conf="District exact counts", seats=388,
   lay=[R("A",[[25,"cl"]]),R("B",[[6,"cl"],[14,"cl"],[6,"cl"]])]+
       [R(c,[[6,"pr"],[14,"pr"],[6,"pr"]]) for c in "CDEFGHJK"]+
       [R("L",[[6,"el"],[14,"el"],[6,"el"]]),R("M",[[6,"p+"],[15,"p+"],[6,"p+"]]),R("N",[[6,"p+"],[15,"p+"],[6,"p+"]]),
@@ -126,13 +129,18 @@ TOP10 = [
   best=dict(row="M",seat=17,label="Row M · Seat 17 — Gold centre with 583 other people roaring"),
   avoid="2003-era hall: sit Gold centre or don't bother.",
   playing=[["Mass entertainers","584 seats of single-screen energy in a multiplex shell"]]),
- dict(id="icon", v="PVR ICON, The Pavillion Mall", s="Flagship Audi (263)", area="SB Road",
-  tech="4K · Dolby Atmos · ICON premium", w=40,h=18,conf="recalculated from real seat map", seats=263,
-  lay=[R("A",[[10,"cl"],[10,"cl"]]),R("B",[[10,"cl"],[10,"cl"]])]+
-      [R(c,[[10,"pr"],[10,"pr"]]) for c in "CDEFGHJ"]+
-      [R("K",[[10,"p+"],[10,"p+"]]),R("L",[[10,"p+"],[10,"p+"]]),R("M",[[9,"p+"],[10,"p+"]]),R("N",[[10,"p+"]]),R("P",[[14,"rc"]])],
-  best=dict(row="J",seat=10,label="Row J · Seat 10 — centre aisle-side of the Prime block"),
-  avoid="Row N is half-width beside the entrance vomitory — light spill on late arrivals.",
+ dict(id="icon", v="PVR ICON, The Pavillion Mall", s="Audi 04", audi="Audi 04", area="SB Road",
+  tech="4K · Dolby Atmos · ICON premium", w=36,h=16,conf="exact District seat grid", seats=184,
+  lay=[R("A",[[1,"g"],[5,"cl"],[1,"g"],[9,"cl"]]),R("B",[[1,"g"],[5,"cl"],[1,"g"],[9,"cl"]]),
+       R("C",[[1,"g"],[5,"pr"],[1,"g"],[9,"pr"]]),R("D",[[1,"g"],[5,"pr"],[1,"g"],[9,"pr"]]),
+       R("E",[[1,"g"],[5,"pr"],[1,"g"],[9,"pr"]]),R("F",[[1,"g"],[5,"pr"],[1,"g"],[9,"pr"]]),
+       R("G",[[1,"g"],[5,"pr"],[1,"g"],[9,"pr"]]),R("H",[[1,"g"],[5,"pr"],[1,"g"],[9,"pr"]]),
+       R("J",[[1,"g"],[5,"pr"],[1,"g"],[9,"pr"]]),
+       R("K",[[1,"g"],[5,"p+"],[1,"g"],[9,"p+"]]),R("L",[[1,"g"],[5,"p+"],[1,"g"],[9,"p+"]]),
+       R("M",[[1,"g"],[5,"p+"],[1,"g"],[9,"p+"]]),R("N",[[7,"g"],[8,"p+"],[1,"g"]]),
+       R("P",[[3,"g"],[8,"rc"],[5,"g"]])],
+  best=dict(row="H",seat=9,label="Row H · Seat 9, centre of the main prime block"),
+  avoid="Row N sits beside the entrance; back recliners are pricey for this hall size.",
   playing=[["Spider-Man 3D","Prime-time 3D shows run here"],["Dhamaal 4","Comfort pick"]]),
  dict(id="ice", v="PVR Director's Cut, KOPA Mall", s="ICE Theatre", area="Koregaon Park",
   tech="4K Laser · Dolby Atmos · LED side panels · scope screen", w=33,h=14,conf="recalculated from real seat map", seats=184,
@@ -142,7 +150,7 @@ TOP10 = [
   avoid="Last row L: the side-panel effect fades at the back.",
   playing=[["Spider-Man (ICE 2D)","5 shows a day — the panels sell the swing shots"]]),
  dict(id="insignia", v="INOX Megaplex, Phoenix MoM", s="Insignia", area="Wakad",
-  tech="4K Laser · Dolby Atmos · every seat a Royal Recliner", w=30,h=16,conf="recalculated from real seat map", seats=49,
+  tech="4K Laser · Dolby Atmos · every seat a Royal Recliner", w=30,h=16,conf="District exact counts", seats=43,
   lay=[R("E",[[9,"ry"]]),R("D",[[9,"ry"]]),R("C",[[9,"ry"]]),R("B",[[11,"ry"]]),R("A",[[11,"ry"]])],
   best=dict(row="B",seat=6,label="Row B · Seat 6 — but honestly, all 49 are recliners"),
   avoid="Nothing. That's the point of paying for Insignia.",
@@ -163,6 +171,8 @@ html = open("app_template.html").read()
 os.makedirs("punescreens", exist_ok=True)
 out = html.replace("__DATA__", data).replace("__TOP10__", top10).replace("__PAIR__", PAIR)
 open("punescreens/index.html","w").write(out)
-open("punescreens/netlify.toml","w").write('[build]\n  publish = "."\n')
+open("punescreens/netlify.toml","w").write('[build]\n  publish = "."\n\n[functions]\n  directory = "netlify/functions"\n')
+import shutil
+shutil.copy("buzz.js","punescreens/buzz.js")
 open("punescreens/README.md","w").write("# PuneScreens\n\nKnow your screen. Pune's halls, ranked - with the best seat in every one.\n\nStatic single-file app. Deploy: drag folder to https://app.netlify.com/drop or import repo in Netlify (no build command, publish dir `.`).\n")
 print("built v4:", os.path.getsize("punescreens/index.html")//1024, "KB")
