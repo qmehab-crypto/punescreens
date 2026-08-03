@@ -228,9 +228,10 @@ function gradeHall(hall){
  const optF=W>=50?0.95:1.2; /* PLF screens: sit closer — fill your vision */
  hall.lay.forEach((r,ri)=>{
   const total=r[1].reduce((a,g)=>a+g[0],0);const d=firstD+ri*pitch;
-  const rowSeats=[];let idx=0;
-  r[1].forEach(g=>{for(let k=0;k<g[0];k++){idx++;
-   const x=(idx-(total+1)/2)*1.75;
+  const rowSeats=[];let idx=0,col=0;
+  r[1].forEach(g=>{if(g[1]==='g'){col+=g[0];return;}
+   for(let k=0;k<g[0];k++){idx++;col++;
+   const x=(col-(total+1)/2)*1.75;
    const rr=d/(optF*W);
    const pd=Math.min(1,Math.abs(Math.log(rr))/0.75);
    const pl=Math.min(1,Math.atan(Math.abs(x)/d)/0.5);
@@ -477,7 +478,10 @@ function renderHall(h){
    <div class="screenbar" style="width:${Math.min(92,Math.round(h.w/62*100))}%"></div>
    <div class="screenlbl">SCREEN</div>
    <div class="maprel">
-    ${curGrade.map(r=>`<div class="srow">${r.map(st=>`<span class="dot" style="width:${dw}px;height:${dw}px;background:${TCOL[tier(st.sc)]}"></span>`).join('')}</div>`).join('')}
+    ${h.lay.map((r,ri)=>{let si=0;const seats=curGrade[ri]||[];
+     return `<div class="srow">${r[1].map(g=>g[1]==='g'
+      ?`<span style="display:inline-block;flex:none;width:${Math.max(2,g[0]*(dw+2.5)-2.5)}px"></span>`
+      :Array(g[0]).fill(0).map(()=>{const st=seats[si++];return st?`<span class="dot" style="width:${dw}px;height:${dw}px;background:${TCOL[tier(st.sc)]}"></span>`:''}).join('')).join('')}</div>`}).join('')}
     <div class="zoverlay">${Array.from({length:9},(_,i)=>`<button class="zcell" onclick="openZone(${i})" aria-label="${ZN[Math.floor(i/3)][i%3]}"></button>`).join('')}</div>
    </div>
    <div class="hint">👆 Tap the map right where you want to sit</div>
@@ -510,6 +514,7 @@ function bestGroups(n){
  const groups=[];
  curGrade.forEach(r=>{for(let i=0;i+n<=r.length;i++){const run=r.slice(i,i+n);
   if(run[n-1].n-run[0].n!==n-1)continue;
+  if(run.some((s2,i2)=>i2&&run[i2].x-run[i2-1].x>2.4))continue; /* a gap or aisle splits them */
   const sc=Math.min(...run.map(s=>s.sc));
   groups.push({seats:run,sc,label:n>1?run[0].row+run[0].n+'–'+run[n-1].n:run[0].row+run[0].n});}});
  groups.sort((a,b)=>b.sc-a.sc);
@@ -775,12 +780,17 @@ function buildScene(o,st){
  const gset=new Set((window._grp&&window._grp.length?window._grp:[st]).map(s=>s.ri+'-'+s.n));
  let z=firstD,y=0;seatPos=null;
  o.lay.forEach((r,ri)=>{
-  const cls0=r[1][0][1],pitch=pitchOf(cls0);
-  const aisle=3,fullW=r[1].reduce((a,g)=>a+g[0]*seatDims(g[1])[0],0)+(r[1].length-1)*aisle;
+  const firstSeat=r[1].find(g2=>g2[1]!=='g')||r[1][0];
+  const cls0=firstSeat[1],pitch=pitchOf(cls0);
+  const hasGap=r[1].some(g2=>g2[1]==='g');
+  const aisle=hasGap?0:3;
+  const fullW=r[1].reduce((a,g)=>a+g[0]*(g[1]==='g'?1.75:seatDims(g[1])[0]),0)+(hasGap?0:(r[1].length-1)*aisle);
   const ris=new THREE.Mesh(new THREE.BoxGeometry(Math.min(hallW-2,fullW+3),Math.max(0.2,y),pitch),M3('riser',{color:0x141520,roughness:1}));
   ris.position.set(0,Math.max(0.1,y/2),z);scene.add(ris);
   let x=-fullW/2,idx=0;
-  r[1].forEach((gp,gi)=>{const [gw,gd]=seatDims(gp[1]);
+  r[1].forEach((gp,gi)=>{
+   if(gp[1]==='g'){x+=gp[0]*1.75;return;}
+   const [gw,gd]=seatDims(gp[1]);
    for(let k=0;k<gp[0];k++){idx++;const cx=x+gw/2;
     const zc=z+(cx*cx)/(2*(z+34)); /* rows curve toward the screen, like real halls */
     const rot=-Math.atan2(cx,zc+20)*0.55;
