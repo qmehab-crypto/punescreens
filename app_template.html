@@ -880,7 +880,7 @@ function animate(){raf=requestAnimationFrame(animate);
  camera.updateProjectionMatrix();
  R3.render(scene,camera);}
 let drag=false,px=0,py=0;
-vc.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY;vc.setPointerCapture(e.pointerId);});
+vc.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY;try{vc.setPointerCapture(e.pointerId);}catch(err){}});
 vc.addEventListener('pointermove',e=>{if(!drag)return;
  if(mode==='seat'){yaw+=(e.clientX-px)*0.004;pitchA+=(e.clientY-py)*0.003;}
  else{theta-=(e.clientX-px)*0.005;phi=Math.min(1.5,Math.max(0.25,phi-(e.clientY-py)*0.004));}
