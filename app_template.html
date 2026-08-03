@@ -480,6 +480,7 @@ function openSeat(ri,n,glabel){
   R3.outputEncoding=THREE.sRGBEncoding;
   R3.toneMapping=THREE.ACESFilmicToneMapping;R3.toneMappingExposure=0.82;
   vc.addEventListener('webglcontextlost',e=>{e.preventDefault();R3=null;},{once:true});}
+ loadPH();
  buildScene(h,st);setMode(mode==='hall'?'hall':'seat');animate();
  /* arriving from a 3D movie: glasses go on automatically */
  if(curMovie&&/3d/i.test(curMovie.g||'')&&!mode3d)toggle3d();}
@@ -499,6 +500,34 @@ function texWall(){if(_mat.__wall)return _mat.__wall;
  g.fillStyle='#06060b';g.fillRect(0,0,128,64);
  for(let i=0;i<128;i+=32){g.fillStyle='#090910';g.fillRect(i+2,2,28,60);}
  const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(8,2);return _mat.__wall=t;}
+/* REAL photo textures from Poly Haven (CC0): velvet seats, worn carpet, wool walls, leather recliners */
+const PH_BASE='https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/';
+const PHT={
+ velvet:PH_BASE+'velour_velvet/velour_velvet_diff_1k.jpg',
+ velvetN:PH_BASE+'velour_velvet/velour_velvet_nor_gl_1k.jpg',
+ carpet:PH_BASE+'dirty_carpet/dirty_carpet_diff_1k.jpg',
+ carpetN:PH_BASE+'dirty_carpet/dirty_carpet_nor_gl_1k.jpg',
+ wall:PH_BASE+'wool_boucle/wool_boucle_diff_1k.jpg',
+ leather:PH_BASE+'leather_white/leather_white_diff_1k.jpg'};
+function loadPH(){if(window._phStarted)return;window._phStarted=1;
+ const L=new THREE.TextureLoader();L.setCrossOrigin('anonymous');
+ const set=(key,url,rx,ry2)=>{L.load(url,t=>{t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry2);
+  if(!/nor/.test(url))t.encoding=THREE.sRGBEncoding;
+  window._ph=window._ph||{};window._ph[key]=t;applyPH();});};
+ set('velvet',PHT.velvet,1,1);set('velvetN',PHT.velvetN,1,1);
+ set('carpet',PHT.carpet,8,14);set('carpetN',PHT.carpetN,8,14);
+ set('wall',PHT.wall,6,2);set('leather',PHT.leather,1,1);}
+function applyPH(){const p=window._ph||{};
+ if(p.carpet&&_mat.floorT){_mat.floorT.map=p.carpet;_mat.floorT.color.set(0x5c4a44);
+  if(p.carpetN)_mat.floorT.normalMap=p.carpetN;_mat.floorT.needsUpdate=true;}
+ if(p.wall&&_mat.wallT){_mat.wallT.map=p.wall;_mat.wallT.color.set(0x33363f);_mat.wallT.needsUpdate=true;}
+ Object.keys(_mat).forEach(k=>{if(!k.startsWith('f2_'))return;
+  const m=_mat[k],cls=k.slice(3),luxC=cls==='rc'||cls==='ry'||cls==='sf';
+  const t=luxC?p.leather:p.velvet;if(!t)return;
+  m.map=t;
+  m.color.set(luxC?(cls==='sf'?0xa9714f:0xcdb391):0xb35660);
+  if(!luxC&&p.velvetN)m.normalMap=p.velvetN;
+  m.needsUpdate=true;});}
 function texFabric(){if(_mat.__fab)return _mat.__fab;
  const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');
  g.fillStyle='#909090';g.fillRect(0,0,64,64);
@@ -598,7 +627,7 @@ function buildScene(o,st){
  const from=new THREE.Vector3(0,H+9,depth+6),to=new THREE.Vector3(0,scrBase+H/2,0.5);
  const dirV=new THREE.Vector3().subVectors(to,from),blen=dirV.length();
  const beam=new THREE.Mesh(TG(new THREE.CylinderGeometry(W*0.44,0.8,blen,16,1,true)),
-  new THREE.MeshBasicMaterial({color:0x9fb0ff,transparent:true,opacity:0.085,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,depthWrite:false}));
+  new THREE.MeshBasicMaterial({color:0x9fb0ff,transparent:true,opacity:0.055,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,depthWrite:false}));
  beam.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),dirV.clone().normalize());
  beam.position.copy(from).addScaledVector(dirV,0.5);scene.add(beam);
  /* the projector booth: turn around in your seat and you can see where the picture comes from */
