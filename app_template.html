@@ -629,8 +629,8 @@ async function loadHallAssets(){if(window._assetsStart)return;window._assetsStar
    const sz=new THREE.Vector3();bb.getSize(sz);
    window._chair=root;window._chairScale=3.4/Math.max(0.1,sz.y);
    window._chairYOff=-bb.min.y*window._chairScale;
-   /* rebuild the open hall so the real chairs appear */
-   if(raf&&window._lastOpen)buildScene(window._lastOpen.h,window._lastOpen.st);});}catch(e){}}
+   /* rebuild the open hall so the real chairs appear, and KEEP the render loop alive */
+   if(raf&&window._lastOpen){buildScene(window._lastOpen.h,window._lastOpen.st);animate();}});}catch(e){}}
 function loadPH(){if(window._phStarted)return;window._phStarted=1;
  const L=new THREE.TextureLoader();L.setCrossOrigin('anonymous');
  const set=(key,url,rx,ry2)=>{L.load(url,t=>{t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry2);
