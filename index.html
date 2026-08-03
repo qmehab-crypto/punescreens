@@ -96,7 +96,7 @@ h1{font-size:1.7rem;line-height:1.15;margin:22px 0 6px}
 .shchip.past{opacity:.35;text-decoration:line-through}
 .bookbtn{display:block;text-align:center;margin-top:12px;background:rgba(245,185,66,.12);border:1px solid var(--acc);color:var(--acc);border-radius:10px;padding:10px;text-decoration:none;font-size:.85rem;font-weight:700}
 .approx{display:inline-block;background:rgba(122,140,255,.15);color:#9fb0ff;font-size:.6rem;font-weight:800;padding:3px 8px;border-radius:6px;letter-spacing:.1em;vertical-align:middle}
-.dot.lux{border-radius:4px;box-shadow:inset 0 -1.5px 0 rgba(0,0,0,.45)}
+.dot.lux{border-radius:50%;box-shadow:0 0 0 1.5px rgba(245,185,66,.75)}
 .swlux{border-radius:4px !important;width:16px !important}
 .pricenote{font-size:.64rem;color:#6e7690;margin-top:6px}
 .bsp{display:block;font-size:.55rem;color:#8e96ab;font-weight:600}
@@ -537,7 +537,7 @@ function renderHall(h){
       html+=Array(g[0]).fill(0).map(()=>{const st=seats[si++];if(!st)return '';
        const col=mm==='c'?(CCOL[st.cls]||'#5a2c33'):TCOL[tier(st.sc)];
        const luxc=st.cls==='rc'||st.cls==='ry'||st.cls==='sf'||st.cls==='gd';
-       return `<span class="dot${luxc?' lux':''}" style="width:${luxc?Math.round(dw*1.5):dw}px;height:${dw}px;background:${col}"></span>`;}).join('');
+       return `<span class="dot${luxc?' lux':''}" style="width:${dw}px;height:${dw}px;background:${col}"></span>`;}).join('');
       /* visible walking aisle between seat blocks */
       if(gi2<r[1].length-1&&r[1][gi2+1][1]!=='g')html+=`<span style="display:inline-block;flex:none;width:${Math.round(dw*1.9)}px"></span>`;});
      return `<div class="srow">${html}</div>`}).join('')}
