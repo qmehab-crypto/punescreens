@@ -622,7 +622,7 @@ function openSeat(ri,n,glabel){
  if(is3d&&!mode3d)toggle3d();}
 /* shared geometry + material caches — stops GPU memory leaks (the black-screen bug) */
 const _geo={},G3=(w,h,d)=>{const k='b'+w.toFixed(2)+'_'+h.toFixed(2)+'_'+d.toFixed(2);return _geo[k]||(_geo[k]=new THREE.BoxGeometry(w,h,d));};
-const _mat={},M3=(key,opts)=>_mat[key]||(_mat[key]=new THREE.MeshStandardMaterial(opts));
+const _mat={},M3=(key,opts)=>{if(_mat[key])return _mat[key];const m=new THREE.MeshStandardMaterial(opts);m.envMapIntensity=0.3;return _mat[key]=m;};
 /* procedural real-world textures: carpet, wall panels, seat fabric */
 function texCarpet(){if(_mat.__carpet)return _mat.__carpet;
  const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');
@@ -691,7 +691,7 @@ function loadPH(){if(window._phStarted)return;window._phStarted=1;
   window._ph=window._ph||{};window._ph[key]=t;applyPH();});};
  set('velvet',PHT.velvet,1,1);set('velvetN',PHT.velvetN,1,1);
  set('carpet',PHT.carpet,8,14);set('carpetN',PHT.carpetN,8,14);
- set('wall',PHT.wall,22,7);set('leather',PHT.leather,1,1);}
+ set('wall',PHT.wall,64,20);set('leather',PHT.leather,1,1);}
 function applyPH(){const p=window._ph||{};const sty=window._sty;
  if(p.carpet&&_mat.floorT){_mat.floorT.map=p.carpet;_mat.floorT.color.setHex(sty?sty.carpet:0x5c4a44);
   if(p.carpetN)_mat.floorT.normalMap=p.carpetN;_mat.floorT.needsUpdate=true;}
@@ -702,7 +702,7 @@ function applyPH(){const p=window._ph||{};const sty=window._sty;
   m.map=t;
   /* keep this hall's real upholstery color: lighten it so it survives the photo-texture multiply */
   const base=(m.userData&&m.userData.base!=null)?m.userData.base:(luxC?0x6b4a33:0x3a3a44);
-  m.color.setHex(base);m.color.lerp(new THREE.Color(0xffffff),luxC?0.22:0.48);
+  m.color.setHex(base);m.color.lerp(new THREE.Color(0xffffff),luxC?0.1:0.38);
   if(!luxC&&p.velvetN)m.normalMap=p.velvetN;
   m.needsUpdate=true;});}
 function texFabric(){if(_mat.__fab)return _mat.__fab;
